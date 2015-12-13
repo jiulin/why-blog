@@ -1,0 +1,870 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Yeoman," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="一个戴帽子的老男人，请带我飞！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Yeoman + AngularJS + Gulp 搭建 Web 应用">
+<meta property="og:url" content="http://blog.callmewhy.com/2015/09/18/use-yeoman-with-angular-and-gulp/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="一个戴帽子的老男人，请带我飞！">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/61d238c7gw1ew6t3ecbaaj21kw0gzwjs.jpg">
+<meta property="og:updated_time" content="2015-09-20T00:17:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 Yeoman + AngularJS + Gulp 搭建 Web 应用">
+<meta name="twitter:description" content="一个戴帽子的老男人，请带我飞！">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 使用 Yeoman + AngularJS + Gulp 搭建 Web 应用 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用 Yeoman + AngularJS + Gulp 搭建 Web 应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-09-18T09:28:43+08:00" content="2015-09-18">
+              2015-09-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/开发笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">开发笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/09/18/use-yeoman-with-angular-and-gulp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/18/use-yeoman-with-angular-and-gulp/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>最近在做一个简单的资源管理系统，以前都是 PHP+jQuery+Bootstrap 的组合，这一次想尝试一些没接触过的东西。在这里简单的总结一下在开发过程中用到的框架和工具。</p>
+<p>总结的比较简单，新手上路，多多指教！各位如果感兴趣可以进入各个项目的主页深入了解。</p>
+<p>另外，由于我曾经是一名 iOS 程序员（啊现在也是），在文章中可能会情不自禁地乱入一些 iOS 开发相关的东西，可以直接无视我。。。</p>
+<h2 id="npm"><a href="https://www.npmjs.com/" target="_blank" rel="external">npm</a></h2><p>npm 是 NodeJS 的包管理工具，建议使用 <a href="https://github.com/tj/n" target="_blank" rel="external">n</a> 管理 NodeJS 版本，无痛体验 NodeJS 4.0 和 0.12 版本。</p>
+<p>同时考虑到国内的网络环境，可以考虑使用 taobao 的 <a href="https://npm.taobao.org/" target="_blank" rel="external">npm 镜像</a>。</p>
+<p>虽然 homebrew 是神器，但是还是不推荐使用 homebrew 安装 npm ，原因可见：<a href="https://gist.github.com/DanHerbert/9520689" target="_blank" rel="external">Fixing npm On Mac OS X for Homebrew Users</a>。用 npm 去管理 npm 再好不过了。</p>
+<h2 id="Yeoman"><a href="http://yeoman.io/" target="_blank" rel="external">Yeoman</a></h2><p>在做开发的时候，各种文件的归类和摆放是一个很常见的问题，例如业务逻辑文件放在 app 文件夹，模板文件放在 template 文件夹，每次新建项目都要做一些重复的工作。</p>
+<p>Yeoman 是一款脚手架工具，可以轻松地为你搭建一个项目的大体框架。可以通过 npm 安装：</p>
+<pre><code>npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> yo bower grunt-cli gulp</span>
+</code></pre><p>安装完成之后，输入 <code>yo</code> 就可以开始搭建一个项目啦。不过似乎用了 taobao 的 npm 镜像之后，用 yo 安装 generator 会出现一些问题，可以直接用 npm 安装，例如安装 webapp 模板：</p>
+<pre><code>npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> generator-webapp</span>
+</code></pre><p>接下来可以试着用 <code>yo webapp</code> 创建一个新项目，生成的目录结构是这样的：</p>
+<pre><code>├── <span class="class">.bowerrc</span>
+...
+├── <span class="class">.editorconfig</span>
+├── app
+    ...
+    ├── fonts
+    ├── images
+    ├── scripts
+    │   └── main<span class="class">.js</span>
+    └── styles
+        └── main<span class="class">.css</span>
+├── bower<span class="class">.json</span>
+└── test
+</code></pre><p>可以看到，不仅是 styles 和 scripts 这样的目录结构，包括 .editorconfig 和 .bowerrc 也是自动生成了。</p>
+<p>在 iOS 里也有类似的脚手架：<a href="https://github.com/thoughtbot/liftoff" target="_blank" rel="external">liftoff</a>，不过似乎 Xcode7 遇到一些问题，等日后摸索一番再来汇报。</p>
+<h2 id="Bower"><a href="http://bower.io/" target="_blank" rel="external">Bower</a></h2><p>两年前有幸看到了一系列很有意思的文章：<a href="http://segmentfault.com/a/1190000000349384" target="_blank" rel="external">30 天学习 30 种新技术系列</a>，当时跟着玩了一圈感觉十分好玩。就像是《七天七语言》和《七天七并发模型》一样，世界那么大，一起去看看。</p>
+<p>第一次接触 Bower 就是缘于这其中的第一篇：<a href="http://segmentfault.com/a/1190000000349555" target="_blank" rel="external">Day 1: Bower —— 管理你的客户端依赖关系</a>。</p>
+<p>使用方法很简单，首先通过 npm 安装 bower (前面安装 yo 的时候其实已经安装了)：</p>
+<pre><code>npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> bower</span>
+</code></pre><p>然后就是无脑的 install 了，比如我要装个 Bootstrap ：</p>
+<pre><code>bower <span class="operator"><span class="keyword">install</span> <span class="comment">--save bootstrap</span></span>
+</code></pre><p>嗯就是这么简单。</p>
+<p>在 iOS 中类似的依赖管理工具有 <a href="https://cocoapods.org/" target="_blank" rel="external">Cocoapods</a> 和 <a href="https://github.com/Carthage/Carthage" target="_blank" rel="external">Carthage</a> 。</p>
+<h2 id="Angular"><a href="https://angularjs.org/" target="_blank" rel="external">Angular</a></h2><p>Angular 的种种好处就不多说了，双向绑定、依赖注入、指令系统、模板、路由，各种各种。再配合上 <a href="http://angular-ui.github.io/" target="_blank" rel="external">angular-ui</a>，写起项目来十分酸爽。</p>
+<p>简单的演示一个小例子，通过 <a href="https://leancloud.cn/" target="_blank" rel="external">LeanCloud</a> 的 JS SDK 加载并显示数据：</p>
+<p><img src="http://ww3.sinaimg.cn/large/61d238c7gw1ew6t3ecbaaj21kw0gzwjs.jpg" alt=""></p>
+<p>首先定义一个 Provider ，添加获取数据的方法：</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">getItems</span>(<span class="params">className, completion</span>) </span>{
+    <span class="keyword">var</span> query = <span class="keyword">new</span> AV.Query(AV.Object.extend(<span class="string">'Article'</span>));
+    query.find({
+        success: <span class="function"><span class="keyword">function</span>(<span class="params">results</span>) </span>{
+            <span class="keyword">var</span> r = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(results));
+            completion(r);
+        }
+    })
+}
+</code></pre><p>然后定义界面：</p>
+<pre><code>&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"text-center"</span>&gt;
+    &lt;<span class="keyword">div</span> ui-grid=<span class="string">"article.gridOptions"</span> ui-grid-edit <span class="type">class</span>=<span class="string">"grid"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+</code></pre><p>再通过 Controller 加载数据：</p>
+<pre><code>/** @ngInject */
+<span class="keyword">function</span> ArticleController(<span class="variable">$scope</span>, AVOS) {
+    var vm = this;
+
+    vm.gridOptions = {
+        data: []
+    };
+
+    AVOS.getItems(<span class="string">'Article'</span>, function(result) {
+        <span class="variable">$scope</span>.<span class="variable">$apply</span>(function(){
+            vm.gridOptions.data = result.map(function(item) {
+                return {
+                    <span class="string">'index'</span>: item.index,
+                    <span class="string">'content'</span>: item.content
+                };
+            });
+        });
+    });
+}
+</code></pre><p>和以前用 JS 直接操作 DOM 相比，ViewModel 的逻辑更加友好，做起数据加载刷新的时候尤其顺手。</p>
+<h2 id="Gulp"><a href="http://gulpjs.com/" target="_blank" rel="external">Gulp</a></h2><p>前端项目经常需要进行许多次的类似任务，例如编译 Less ，压缩代码等等。这样单调而重复的任务，我们可以通过工具来完成。 gulp 就是一个不错的选择。</p>
+<p>gulp 是一个基于流的构建工具，个人感觉比 grunt 更简单清晰，也解决了 grunt 插件职责不明的问题。</p>
+<p>什么是『基于流』呢？可以看下一个简单示例：</p>
+<pre><code>gulp.src(<span class="symbol">'client</span>/templates/*.jade')
+    .pipe(jade<span class="literal">()</span>)
+    .pipe(minify<span class="literal">()</span>)
+    .pipe(gulp.dest(<span class="symbol">'build</span>/minified_templates'));
+</code></pre><p>可以看到这样一个链式调用的结构，除了开头和结尾，每一个命令的输出都是下一个命令的输入。先把任务分解成一个一个的小模块，然后再各取所需，组装起来。</p>
+<p>具体的教程可以参考官方文档，只需要了解 <code>gulp.src</code> 、 <code>gulp.dest</code> 、 <code>gulp.task</code> 、 <code>gulp.watch</code> 这几个基础 API 即可。</p>
+<h2 id="DaoCloud"><a href="https://daocloud.io/" target="_blank" rel="external">DaoCloud </a></h2><p>为了避免每次都重复的部署新服务器，我们可以把项目通过 Docker 打包成应用，然后直接部署。DaoCloud 提供了一个容器云平台，可以直接部署 Docker 应用。</p>
+<p>在我的新项目 Lastone 里，只要在根目录加上 Dockerfile 即可：</p>
+<pre><code><span class="built_in">FROM</span> ubuntu:<span class="number">14.04</span>
+<span class="built_in">MAINTAINER</span> callmewhy whywanghai@gmail.com
+
+<span class="built_in">RUN</span> <span class="bash">apt-get update
+</span><span class="built_in">RUN</span> <span class="bash">apt-get install -y nginx
+</span>
+<span class="built_in">ADD</span> <span class="bash">./www/lastone/dist /usr/share/nginx/html/lastone
+</span>
+<span class="built_in">EXPOSE</span> <span class="number">80</span>
+CMD [<span class="string">"nginx"</span>, <span class="string">"-g"</span>, <span class="string">"daemon off;"</span>]
+</code></pre><p>Dockerfile 的命令可以阅读 <a href="https://docs.docker.com/reference/builder/" target="_blank" rel="external">Dockerfile reference</a>。</p>
+<p>Daocloud 默认是每次在代码库中 push 一个 tag 就会自动构建一次，所以基本不用操什么心，而且有一个永久免费的份额，基本够玩耍使用了。</p>
+<h2 id="Next">Next</h2><p>以上就是这次折腾的一些笔记啦。下一个小项目准备试一下 <a href="https://facebook.github.io/react/" target="_blank" rel="external">React</a>。</p>
+<p>最近准备做一些小项目，到处玩一玩，如果大家有什么有趣的东西欢迎分享给我。（纯洁的微笑：]</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Yeoman/" rel="tag">#Yeoman</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/09/how-to-make-uther/" rel="next" title="Uther 小记 - 一个简单地蠢萌机器人">
+                <i class="fa fa-chevron-left"></i> Uther 小记 - 一个简单地蠢萌机器人
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/21/rxswift-getting-started-0/" rel="prev" title="RxSwift 入坑手册 Part0 - 基础概念">
+                RxSwift 入坑手册 Part0 - 基础概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/09/18/use-yeoman-with-angular-and-gulp/"
+           data-title="使用 Yeoman + AngularJS + Gulp 搭建 Web 应用" data-url="http://blog.callmewhy.com/2015/09/18/use-yeoman-with-angular-and-gulp/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#npm"><span class="nav-number">1.</span> <span class="nav-text">npm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Yeoman"><span class="nav-number">2.</span> <span class="nav-text">Yeoman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bower"><span class="nav-number">3.</span> <span class="nav-text">Bower</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Angular"><span class="nav-number">4.</span> <span class="nav-text">Angular</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gulp"><span class="nav-number">5.</span> <span class="nav-text">Gulp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DaoCloud"><span class="nav-number">6.</span> <span class="nav-text">DaoCloud </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next"><span class="nav-number">7.</span> <span class="nav-text">Next</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

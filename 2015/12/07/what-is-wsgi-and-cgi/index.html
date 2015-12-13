@@ -1,0 +1,864 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Web," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="充分了解当年原始社会的举步维艰，才能体会如今小康阶段的来之不易。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CGI FastCGI WSGI 学习笔记">
+<meta property="og:url" content="http://blog.callmewhy.com/2015/12/07/what-is-wsgi-and-cgi/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="充分了解当年原始社会的举步维艰，才能体会如今小康阶段的来之不易。">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/61d238c7jw1eyr31id7kqj20z40cwjtn.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/61d238c7jw1eyr2zrcgzrj218e0c4ju1.jpg">
+<meta property="og:updated_time" content="2015-12-07T10:00:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CGI FastCGI WSGI 学习笔记">
+<meta name="twitter:description" content="充分了解当年原始社会的举步维艰，才能体会如今小康阶段的来之不易。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> CGI FastCGI WSGI 学习笔记 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CGI FastCGI WSGI 学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-07T10:11:50+08:00" content="2015-12-07">
+              2015-12-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/07/what-is-wsgi-and-cgi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/07/what-is-wsgi-and-cgi/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>最近用 Flask 给以前写的 OpenCV 代码配置一个入口供前端调用，翻文档的时候发现部署服务器和在本地运行与我一开始想的并不太一样。于是花点时间了解并整理了一下，补补基础课。</p>
+<h2 id="CGI">CGI</h2><h3 id="概念">概念</h3><p>CGI 是一种服务器和后端可执行程序之间的交互标准，它描述了『如何通过环境变量来传递请求信息』。</p>
+<h3 id="原理">原理</h3><p>最原始的服务器，简单到就是访问文件目录，每次的请求都是请求加载目录下的文件。比如文档放在 <code>/usr/local/apache/htdocs</code> 目录下，访问 <a href="http://example.com/index.html" target="_blank" rel="external">http://example.com/index.html</a> 其实就是请求 <code>/usr/local/apache/htdocs/index.html</code> 文件。</p>
+<p>CGI 通过服务器脚本（或者二进制文件），扩展了这个基础的『访问过程』。它利用程序的标准输入输出流，完成 HTTP 通信。每次请求的文本以标准输入流的形式进入服务器端的 CGI 程序，创建进程并执行，然后将运行结果通过进程的标准输出流输出作为响应。</p>
+<p>比如 <code>/usr/local/apache/htdocs/cgi-bin</code> 是我们的 CGI 目录，当请求了 CGI 目录里的文件的时候（比如访问 <a href="http://example.com/cgi-bin/printenv.pl" target="_blank" rel="external">http://example.com/cgi-bin/printenv.pl</a> ），服务器并不会返回这个文件，而会运行这个程序，然后将生成的内容返回给客户端。所以理论上，任何有输入输出能力的语言都可以用来写 CGI。</p>
+<p>CGI 的工作原理如图：</p>
+<p><img src="http://ww1.sinaimg.cn/large/61d238c7jw1eyr31id7kqj20z40cwjtn.jpg" alt=""></p>
+<p>解释一下，上面图中的 CGI 指的是 CGI 程序。CGI 是一种协议标准，CGI 程序是实现了 CGI 标准的程序，确保输入输出合法，这是两个相关但不同的概念。</p>
+<h3 id="优点">优点</h3><p>CGI 的优点也就是它的作用了。CGI 程序提供了很多静态网页无法实现的功能，比如加载数据、数据运算等等。早期的动态网页基本都是基于 CGI 实现的。</p>
+<h3 id="缺点">缺点</h3><p>在 CGI 协议下，解析器的反复加载是性能低下的主要原因。每个发送到服务器的请求，都需要经过『启动进程、处理请求、结束进程』三个步骤，所以当访问量增大时，系统资源的开销也会增大，导致服务器性能下降甚至服务中断。</p>
+<p>更惨的是，这种『一个请求一个进程』的模式意味着没有『状态』可言，导致很多资源无法复用，比如连接数据库、内存缓存等等。</p>
+<h2 id="FastCGI">FastCGI</h2><h3 id="概念-1">概念</h3><p>FastCGI 是 CGI 的增强版本，用于减少 Server 与 CGI 应用之间的交互开销，从而使 Server 可以同时处理更多的请求。</p>
+<h3 id="原理-1">原理</h3><p>和 CGI 的 <code>fork-and-execute</code> 模式不同的是，FastCGI 以 <code>Daemon</code> 的形式运行，在初始化的时候会启动一个 <code>FastCGI Server</code> 然后长驻内存，处理一系列的请求。</p>
+<p>Nginx+FastCGI 的工作流程是这样的：</p>
+<ul>
+<li>初始化 FastCGI 进程管理器，启动主进程和多个 CGI 子进程。主进程主要是管理子进程，同时还需要监听端口（例如9000端口）；子进程则是处于等待连接的状态。</li>
+<li>当请求到达服务器时，Nginx 通过 location 指令，将请求（例如以 <code>php</code> 为后缀的文件）分配到指定端口（例如9000端口）来处理。</li>
+<li>FastCGI 进程管理器选择并连接到一个子进程，服务器将环境变量和标准输入发送给子进程。</li>
+<li>子进程接受请求并完成处理后，将标准输出和错误信息从同一连接返回给服务器。</li>
+<li>子进程关闭连接，继续等待下一个请求。</li>
+</ul>
+<p>工作原理如图：</p>
+<p><img src="http://ww4.sinaimg.cn/large/61d238c7jw1eyr2zrcgzrj218e0c4ju1.jpg" alt=""></p>
+<p>上图中的 <code>wrapper</code> 可以理解为用于启动另一个程序的程序，因为 Nginx 本身不支持对外部程序的直接调用或者解析，所以外部程序必须通过 FastCGI 接口来调用。</p>
+<h3 id="优点-1">优点</h3><p>除了继承 CGI 原有的优点之外， FastCGI 还有以下特点：</p>
+<ul>
+<li>业务分离：FastCGI 后端和 Web Server 运行在不同的进程中，后端的故障不会导致 Web Server 停止服务。</li>
+<li>分布式计算：由于 FastCGI 服务器是可以独立运行的，所以 FastCGI 程序可以在服务器以外的主机上执行，并且接受来自其它服务器的请求。</li>
+<li>多个可扩展角色：在 FastCGI 中，程序被赋予明确的角色，例如响应器角色、认证器角色、过滤器角色等等。</li>
+</ul>
+<h2 id="WSGI">WSGI</h2><h3 id="概念-2">概念</h3><p>WSGI 是 Web 服务器和 Web 应用程序之间的一种简单而通用的接口，最初是为 Python 量身定做。</p>
+<h3 id="原理-2">原理</h3><p>WSGI 属于接口规范，从层级上来讲要比 CGI/FastCGI 高级。</p>
+<p>WSGI 中存在两种角色：接受请求的 Server 和处理请求的 Application，它们底层是通过 FastCGI 沟通的。</p>
+<p>WSGI 的工作流程如下：</p>
+<ul>
+<li>客户端发起 HTTP 请求到 Nginx</li>
+<li>Nginx 转成 FastCGI 请求发送到 WSGI 的 Server（例如 flup）</li>
+<li>WSGI 的 Server 通过 app(environ, start_response) 函数调用 Application</li>
+<li>Application 再根据 environ 里的内容，对用户代码中注册的路由和响应函数进行调用。</li>
+</ul>
+<h4 id="Server">Server</h4><p>Server 端从规定的输入中获取 Request 数据，然后把环境变量（environ）和回调函数（start_response）传给 Application 。</p>
+<h4 id="Application">Application</h4><p>Application 会处理请求并通过回调函数将结果返回给 Server。</p>
+<p>和 Serve 对应，一个标准的 Application 接受两个参数：</p>
+<ul>
+<li>environ：一个包含所有 HTTP 请求信息的 dict 对象</li>
+<li>start_response：一个发送 HTTP 响应的函数</li>
+</ul>
+<h4 id="Middleware">Middleware</h4><p>Middleware 是一个比较特殊的存在，它是夹在二者之间的，对于 Server 端而言它是个 Application ，而对于 Application 而言它就是 Server 端。</p>
+<p>它可以实现以下功能：</p>
+<ul>
+<li>重写环境变量，根据目标 URL，将请求消息路由到不同的应用对象。</li>
+<li>允许在一个进程中同时运行多个应用程序或应用框架。</li>
+<li>负载均衡和远程处理，通过在网络上转发请求和响应消息。</li>
+<li>进行内容后处理，例如应用 XSLT 样式表。</li>
+</ul>
+<h3 id="优点-2">优点</h3><p>WSGI 将请求的工作通过异步回调进行拆解，可以很方便的在一个线程空间里同时处理多个请求。</p>
+<p>另外，方便进行负载均衡和请求转发，不会造成后端应用阻塞。</p>
+<h2 id="其他">其他</h2><p>其他一些相关的名词一起梳理一下：</p>
+<ul>
+<li>uWSGI：一个应用服务器，实现了 uwsgi 、FastCGI 和 HTTP 等协议。</li>
+<li>uwsgi：uWSGI 服务器的自有协议，用于定义传输信息的类型。</li>
+<li>flup：WSGI 中的 Server 的一种实现</li>
+<li>Spawn-FCGI：Python 中的管理 FastCGI 进程管理器。</li>
+<li>PHP-CGI： PHP 自带的 FastCGI 管理器。</li>
+<li>PHP-FPM：PHP 的 Fastcgi 进程管理器。</li>
+</ul>
+<p>OK 就是这样。对这方面不是很了解，如果有错误还望及时指出，不胜感激：）</p>
+<hr>
+<p>参考文献：</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface" target="_blank" rel="external">Common Gateway Interface</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Simple_Common_Gateway_Interface" target="_blank" rel="external">Simple Common Gateway Interface</a></li>
+<li><a href="https://en.wikipedia.org/wiki/FastCGI" target="_blank" rel="external">FastCGI</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface" target="_blank" rel="external">Web Server Gateway Interface</a></li>
+<li><a href="http://taobaofed.org/blog/2015/11/24/nodejs-php-process-manager/" target="_blank" rel="external">浅谈 Node.js 和 PHP 进程管理</a></li>
+<li><a href="http://www.2cto.com/os/201111/111318.html" target="_blank" rel="external">Linux PHP 的运行模式与其相关名词术语</a></li>
+<li><a href="http://stackoverflow.com/questions/2089271/i-never-really-understood-what-is-cgi" target="_blank" rel="external">I never really understood: what is CGI?</a></li>
+<li><a href="http://www.fastcgi.com/drupal/" target="_blank" rel="external">FastCGI/drupal</a></li>
+<li><a href="http://zires.info/2011/01/fcgi-scgi-wsgi-cgi/" target="_blank" rel="external">fcgi，scgi，wsgi，cgi</a></li>
+<li><a href="http://www.zhihu.com/question/19998865" target="_blank" rel="external">如何理解 CGI WSGI</a></li>
+<li><a href="http://www.cgi101.com/learn/" target="_blank" rel="external">CGI Programming 101: Learn CGI Today!</a></li>
+<li><a href="http://tools.ietf.org/html/rfc3875" target="_blank" rel="external">RFC3875: The Common Gateway Interface (CGI) Version 1.1</a></li>
+<li><a href="http://www.fastcgi.com/devkit/doc/fcgi-spec.html" target="_blank" rel="external">FastCGI Specification</a></li>
+<li><a href="http://ifxoxo.com/cgi_fastcgi.html" target="_blank" rel="external">CGI、FastCGI 区别</a></li>
+<li><a href="http://book.51cto.com/art/201202/314840.htm" target="_blank" rel="external">Nginx+FastCGI 运行原理</a></li>
+<li><a href="http://yansu.org/2014/02/15/apache-and-nginx.html" target="_blank" rel="external">从运行原理及使用场景看 Apache 和 Nginx</a></li>
+<li><a href="http://blog.51reboot.com/cgi-fastcgi-wsgi/" target="_blank" rel="external">漫谈 CGI FastCGI WSGI</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0333/" target="_blank" rel="external">PEP 0333</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432012393132788f71e0edad4676a3f76ac7776f3a16000" target="_blank" rel="external">WSGI 接口</a></li>
+<li><a href="http://yansu.org/2013/05/19/what-is-wsgi.html" target="_blank" rel="external">WSGI 学习</a></li>
+<li><a href="http://nichol.as/benchmark-of-python-web-servers" target="_blank" rel="external">Benchmark of Python WSGI Servers</a></li>
+<li><a href="http://cramer.io/2013/06/27/serving-python-web-applications/" target="_blank" rel="external">You Should Be Using Nginx + UWSGI</a></li>
+<li><a href="http://stackoverflow.com/questions/1747266/is-there-a-speed-difference-between-wsgi-and-fcgi" target="_blank" rel="external">Is there a speed difference between WSGI and FCGI?</a></li>
+<li><a href="http://www.itopers.com/?p=586" target="_blank" rel="external">区分 wsgi、uWSGI、uwsgi、php-fpm、CGI、FastCGI 的概念</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Web/" rel="tag">#Web</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/28/a-note-a-day/" rel="next" title="阅读周记">
+                <i class="fa fa-chevron-left"></i> 阅读周记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/07/what-is-wsgi-and-cgi/"
+           data-title="CGI FastCGI WSGI 学习笔记" data-url="http://blog.callmewhy.com/2015/12/07/what-is-wsgi-and-cgi/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CGI"><span class="nav-number">1.</span> <span class="nav-text">CGI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">1.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.4.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastCGI"><span class="nav-number">2.</span> <span class="nav-text">FastCGI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念-1"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理-1"><span class="nav-number">2.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-1"><span class="nav-number">2.3.</span> <span class="nav-text">优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WSGI"><span class="nav-number">3.</span> <span class="nav-text">WSGI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念-2"><span class="nav-number">3.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理-2"><span class="nav-number">3.2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Server"><span class="nav-number">3.2.1.</span> <span class="nav-text">Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Application"><span class="nav-number">3.2.2.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Middleware"><span class="nav-number">3.2.3.</span> <span class="nav-text">Middleware</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-2"><span class="nav-number">3.3.</span> <span class="nav-text">优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

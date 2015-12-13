@@ -1,0 +1,943 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Bug," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="重返阔别已久的 PHP 大法，代码写的不好大家不要嘲笑我哈哈。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分分钟给你的应用做一个 Bug 上报小工具">
+<meta property="og:url" content="http://blog.callmewhy.com/2015/01/15/bug-report-for-ios-with-php/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="重返阔别已久的 PHP 大法，代码写的不好大家不要嘲笑我哈哈。">
+<meta property="og:image" content="https://github.com/etsy/BugHunt-iOS/raw/master/bughunt.gif">
+<meta property="og:updated_time" content="2015-04-25T10:03:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分分钟给你的应用做一个 Bug 上报小工具">
+<meta name="twitter:description" content="重返阔别已久的 PHP 大法，代码写的不好大家不要嘲笑我哈哈。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 分分钟给你的应用做一个 Bug 上报小工具 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                分分钟给你的应用做一个 Bug 上报小工具
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-01-15T23:14:28+08:00" content="2015-01-15">
+              2015-01-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/开发笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">开发笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/01/15/bug-report-for-ios-with-php/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/01/15/bug-report-for-ios-with-php/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="提示">提示</h2><p>发现其实上报的文件压缩一下再上传可以省掉很多事情，各位可以直接跳转到最后一段：<a href="#更新">更新</a>。</p>
+<h2 id="简介">简介</h2><p>前阵子在 Github 上看到一个挺有趣的小项目：<a href="https://github.com/etsy/BugHunt-iOS" target="_blank" rel="external">BugHunt-iOS</a>，可以在屏幕上召唤一个小 Bug 按钮，双击截屏，单击开始上传 Bug。动图如下：</p>
+<p><img src="https://github.com/etsy/BugHunt-iOS/raw/master/bughunt.gif" alt=""></p>
+<p>感觉这是个挺有趣的功能，而且放在内部测试的时候可以让同事方便的上传 Bug ，便于进一步改进。</p>
+<p>于是今天就试着用 PHP 搭建个本地服务器，试一下 Bug 上传功能。</p>
+<h2 id="客户端">客户端</h2><p>具体的 BugHunt 的使用方法可以看 README 说明，看完之后我们知道，需要一个实现了 <code>EBHNetworkCommunicator</code> 协议的网络连接类来进行网络管理。示例代码中给了我们一个简单的例子：</p>
+<pre><code><span class="preprocessor">#import <span class="title">"MyNetworkCommunicator.h"</span></span>
+
+<span class="comment">// Models</span>
+<span class="preprocessor">#import <span class="title">"EBHBugReport.h"</span></span>
+<span class="preprocessor">#import <span class="title">"EBHTask.h"</span></span>
+<span class="preprocessor">#import <span class="title">"EBHLeaderboardUser.h"</span></span>
+
+<span class="class"><span class="keyword">@implementation</span> <span class="title">MyNetworkCommunicator</span></span>
+
+- (<span class="built_in">BOOL</span>)createBugHuntIssue:(EBHBugReport *)bugReport
+                  completion:(EBHCreateNewIssueCompletionBlock)completionBlock
+{
+    ... 
+}
+
+- (<span class="built_in">BOOL</span>)fetchBugHuntTasks:(EBHFetchTasksCompletionBlock)completionBlock
+{
+   ...
+}
+
+- (<span class="built_in">BOOL</span>)fetchBugHuntLeaderboard:(EBHFetchLeaderboardCompletionBlock)completionBlock
+{
+    ...
+}
+
+<span class="keyword">@end</span>
+</code></pre><p>在使用的时候我们只需要给 BugHunt 指定对应的 <code>NetworkCommunicator</code> 即可：</p>
+<pre><code>MyNetworkCommunicator *networkCommunicator = <span class="comment">[<span class="comment">[MyNetworkCommunicator alloc]</span> init]</span>;
+<span class="comment">[BugHunt setNetworkCommunicator:networkCommunicator]</span>;
+</code></pre><p>在 <code>- (BOOL)createBugHuntIssue: completion:</code> 这个方法里，我们可以进行 Bug 的具体上传设置。</p>
+<p>根据我的需求，先生成了一个文件名用来存储在服务器端，首先它要好认！</p>
+<p>所以文件名的格式是：用户名+三位随机数+当前日期的时间戳+索引值</p>
+<p>示例：nouser292-2015-01-15-20-36-18-0</p>
+<p>嗯，这个示例中没有用户名，随机数是292，日期是2015年01月15日20时36分18秒，是上传的第0份文件，很好！</p>
+<p>这样我在上传的时候只需要统一安排这样的参数名，不管有多少文件都可以上传，顺便再把文件名和文件数目传过去，这样服务器就可以根据这两个值生成文件列表，从而获取 POST 请求中的所有文件。</p>
+<p>先看下 iOS 端的上传代码：</p>
+<pre><code>- (<span class="built_in">BOOL</span>)createBugHuntIssue:(EBHBugReport *)bugReport
+                completion:(EBHCreateNewIssueCompletionBlock)completionBlock
+{
+    <span class="comment">// 生成用户名</span>
+    <span class="built_in">NSString</span> *username = bugReport<span class="variable">.username</span>;
+    <span class="keyword">if</span> (!username) {
+        username = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"nouser%d"</span>,arc4random() % <span class="number">1000</span>];
+    }
+
+    <span class="comment">// 生成一个临时的文件名</span>
+    <span class="built_in">NSDateFormatter</span> *dateFormatter = [[<span class="built_in">NSDateFormatter</span> alloc] init];
+    [dateFormatter setDateFormat:<span class="string">@"yyyy-MM-dd-HH-mm-ss"</span>];
+    <span class="built_in">NSString</span> *strDate = [dateFormatter stringFromDate:[<span class="built_in">NSDate</span> date]];
+    <span class="built_in">NSString</span> *fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@-%@-"</span>, username, strDate];
+
+
+    <span class="built_in">NSArray</span> *screenshots = bugReport<span class="variable">.screenshots</span>;
+
+    [_manager POST:<span class="string">@"http://192.168.31.97:8888/index.php/bug/do_upload"</span> parameters:@{<span class="string">@"count"</span>:@(screenshots<span class="variable">.count</span>),<span class="string">@"filename"</span>:fileName} constructingBodyWithBlock:^(<span class="keyword">id</span>&lt;AFMultipartFormData&gt; formData) {
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; screenshots<span class="variable">.count</span>; i ++) {
+            <span class="built_in">UIImage</span> *shot1 = screenshots[i];
+            <span class="built_in">NSData</span> *imageData = <span class="built_in">UIImageJPEGRepresentation</span>(shot1, <span class="number">0.5</span>);
+            <span class="built_in">NSString</span> *imageName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@%d"</span>,fileName,i];
+            [formData appendPartWithFileData:imageData name:imageName fileName:imageName mimeType:<span class="string">@"image/jpeg"</span>];
+        }
+    }
+           success:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject) {
+               <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,responseObject);
+               completionBlock(<span class="literal">nil</span>);
+           }
+           failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error) {
+               completionBlock(error);
+           }];
+    <span class="keyword">return</span> <span class="literal">YES</span>;
+}
+</code></pre><p>确实挺简单的，主要就是把截屏的 <code>UIImage</code> 转换成 <code>NSData</code> 然后上传就 OK 了。接下来看下服务器端的实现。</p>
+<h2 id="服务器端">服务器端</h2><p>由于只是个简单的小功能，所以 PHP 端我选择了轻量级的 CodeIgniter 框架 (其实选择 CI 的原因是其他几个好久不玩基本都忘了，但是 CI 只要看着文档就能搞，基本没有学习成本)。</p>
+<p>简单的部署好了之后，我们先添加一个 <code>bug_controller</code> 作为 Bug 上报事件的控制器。</p>
+<p>关键的代码就这么几行：</p>
+<pre><code><span class="keyword">function</span> do_upload()
+{
+    // 获取上传的文件数目
+    <span class="variable">$count</span> = <span class="variable">$this-</span>&gt;input-&gt;post(<span class="string">'count'</span>);
+
+    // 获取上传的文件名称
+    <span class="variable">$filename</span> = <span class="variable">$this-</span>&gt;input-&gt;post(<span class="string">'filename'</span>);
+
+    // 初始化上传工具类
+    <span class="variable">$config</span>[<span class="string">'upload_path'</span>] = <span class="string">'./uploads/'</span>;
+    <span class="variable">$config</span>[<span class="string">'allowed_types'</span>] = <span class="string">'*'</span>;
+    <span class="variable">$this-</span>&gt;load-&gt;library(<span class="string">'upload'</span>, <span class="variable">$config</span>);
+    <span class="variable">$this-</span>&gt;upload-&gt;initialize(<span class="variable">$config</span>);
+
+    for (<span class="variable">$x</span> = <span class="number">0</span>; <span class="variable">$x</span> &lt; <span class="variable">$count</span>; <span class="variable">$x</span>++) {
+        <span class="variable">$this-</span>&gt;upload-&gt;do_upload(<span class="variable">$filename</span>.strval(<span class="variable">$x</span>));
+    }
+
+    <span class="variable">$arr</span> = array (<span class="string">'count'</span> =&gt; <span class="variable">$count</span>, <span class="string">'filename'</span> =&gt; <span class="variable">$filename</span>.strval(<span class="number">1</span>), <span class="string">'error'</span> =&gt; <span class="variable">$this-</span>&gt;upload-&gt;display_errors());
+    <span class="variable">$this-</span>&gt;output-&gt;set_content_type(<span class="string">'application/json'</span>)-&gt;set_output(json_encode(<span class="variable">$arr</span>));
+
+    return;
+
+
+}
+</code></pre><p>不到十行的代码就完成了上传文件的处理，由于有 CodeIgniter 的工具类，所以上传只需要 <code>$this-&gt;upload-&gt;do_upload($filename);</code> 这么一行代码就可以了。</p>
+<p>我们的主要工作就是对文件名的解析，因为上传的文件都在 <code>$_FILES</code> 这个变量里。其实也可以遍历所有的 key 值然后挨个上传，但是我当时就是秀逗了然后用了个比较简单粗暴的方法实现了 (其实根本原因就是对 PHP 不熟悉嗯)。</p>
+<h2 id="小结">小结</h2><p>目前只是完成了文件的上传，其实还剩下了一些工作要做，比如搞个数据库存储用户名、存储问题描述，再拿 BootStrap 或者 Foundation 搭个好看的页面用来展示数据等等。</p>
+<p>不过由于当初的目的只是为了上传 Log 文件，所以就先做到这里了。等完善了 Web 端的展示再来更新。</p>
+<h2 id="更新">更新</h2><p>首先对于前面的种种繁琐，原因在于服务器不知道客户端上传了多少文件 (其实感觉用 <code>$_FILE</code> 这个字典应该能获取的但是就是懒)。其实有个更简单的处理方案：压缩之后再上传。</p>
+<p>我们首先需要一个压缩工具对数据进行压缩，于是找到了 <a href="https://github.com/flyingdolphinstudio/Objective-Zip" target="_blank" rel="external">Objective-Zip</a> 。接下来就是修改一下我们的代码，把本来放在 <code>Form</code> 表单里的内容放到 <code>ZIP</code> 文件中，然后把压缩之后的 <code>ZIP</code> 文件上传服务器。</p>
+<p>既然一起打包，那我们可以把问题描述写到一个文件里然后一起上传。修改之后的部分代码如下：</p>
+<pre><code>- (<span class="built_in">BOOL</span>)createBugHuntIssue:(EBHBugReport *)bugReport
+                completion:(EBHCreateNewIssueCompletionBlock)completionBlock
+{
+    <span class="comment">// 生成用户名</span>
+    <span class="built_in">NSString</span> *username = bugReport<span class="variable">.username</span>;
+    <span class="keyword">if</span> (!username) {
+        username = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"nouser%d"</span>,arc4random() % <span class="number">1000</span>];
+    }
+
+    <span class="comment">// 生成一个临时的文件名</span>
+    <span class="built_in">NSDateFormatter</span> *dateFormatter = [[<span class="built_in">NSDateFormatter</span> alloc] init];
+    [dateFormatter setDateFormat:<span class="string">@"yyyy-MM-dd-HH-mm-ss"</span>];
+    <span class="built_in">NSString</span> *strDate = [dateFormatter stringFromDate:[<span class="built_in">NSDate</span> date]];
+    <span class="built_in">NSString</span> *fileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@_%@"</span>, username, strDate];
+    <span class="built_in">NSArray</span> *screenshots = bugReport<span class="variable">.screenshots</span>;
+
+    <span class="comment">// 设置超时</span>
+    [_manager<span class="variable">.requestSerializer</span> setTimeoutInterval:<span class="number">10</span>];
+
+    [_manager POST:<span class="string">@"http://xxx.xxx/xxx"</span> parameters:<span class="literal">nil</span> constructingBodyWithBlock:^(<span class="keyword">id</span>&lt;AFMultipartFormData&gt; formData) {
+
+        <span class="built_in">NSString</span> *documentsDir= [<span class="built_in">NSHomeDirectory</span>() stringByAppendingPathComponent:<span class="string">@"Documents"</span>];
+        <span class="built_in">NSString</span> *filePath= [documentsDir stringByAppendingPathComponent:fileName];
+
+        ZipFile *zipFile= [[ZipFile alloc] initWithFileName:filePath mode:ZipFileModeCreate];
+
+        <span class="comment">// 把问题描述写到文件里一起压缩</span>
+        ZipWriteStream *stream= [zipFile writeFileInZipWithName:<span class="string">@"debug_description.log"</span> compressionLevel:ZipCompressionLevelBest];
+        [stream writeData:[bugReport<span class="variable">.bugDescription</span> dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>]];
+        [stream finishedWriting];
+
+        <span class="comment">// 把缩略图放进压缩文件</span>
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; screenshots<span class="variable">.count</span>; i ++) {
+            <span class="built_in">UIImage</span> *shot1 = screenshots[i];
+            <span class="built_in">NSData</span> *imageData = <span class="built_in">UIImageJPEGRepresentation</span>(shot1, <span class="number">0.5</span>);
+            <span class="built_in">NSString</span> *imageName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@_%d.jpg"</span>,fileName,i];
+            ZipWriteStream *stream= [zipFile writeFileInZipWithName:imageName compressionLevel:ZipCompressionLevelBest];
+            [stream writeData:imageData];
+            [stream finishedWriting];
+        }
+        [zipFile close];
+
+        <span class="comment">// 取出压缩文件加到表单中</span>
+        <span class="built_in">NSData</span> *reader = [<span class="built_in">NSData</span> dataWithContentsOfFile:filePath];
+        <span class="built_in">NSString</span> *upFileName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"iOS_%@.zip"</span>, fileName];
+        [formData appendPartWithFileData:reader name:<span class="string">@"bugfile"</span> fileName:upFileName mimeType:<span class="string">@"application/zip"</span>];
+    }
+           success:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject) {
+               <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,responseObject);
+               completionBlock(<span class="literal">nil</span>);
+           }
+           failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error) {
+               completionBlock(error);
+           }];
+    <span class="keyword">return</span> <span class="literal">YES</span>;
+}
+</code></pre><p>压缩之后，上传的文件大小只有平时的十分之一，效率提升十分可观。解压的时候需要使用 <a href="https://itunes.apple.com/cn/app/the-unarchiver/id425424353?mt=12" target="_blank" rel="external"><code>Unarchiver</code></a> 进行解压，系统自带的解压会有问题。</p>
+<p>时间仓促，先这样啦，过年会去咯~</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Bug/" rel="tag">#Bug</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/11/arc-best-practice/" rel="next" title="ARC 最佳实践">
+                <i class="fa fa-chevron-left"></i> ARC 最佳实践
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/01/20/wtf-in-old-code/" rel="prev" title="要你命三千：老代码中的那些坑">
+                要你命三千：老代码中的那些坑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/01/15/bug-report-for-ios-with-php/"
+           data-title="分分钟给你的应用做一个 Bug 上报小工具" data-url="http://blog.callmewhy.com/2015/01/15/bug-report-for-ios-with-php/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#提示"><span class="nav-number">1.</span> <span class="nav-text">提示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端"><span class="nav-number">3.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器端"><span class="nav-number">4.</span> <span class="nav-text">服务器端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新"><span class="nav-number">6.</span> <span class="nav-text">更新</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

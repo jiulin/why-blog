@@ -1,0 +1,816 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="用扩展给你的代码们装备上铠甲吧！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yoapp 小记 - 简单方便的扩展们">
+<meta property="og:url" content="http://blog.callmewhy.com/2015/10/21/extension-in-yoapp/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="用扩展给你的代码们装备上铠甲吧！">
+<meta property="og:updated_time" content="2015-10-24T08:12:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Yoapp 小记 - 简单方便的扩展们">
+<meta name="twitter:description" content="用扩展给你的代码们装备上铠甲吧！">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Yoapp 小记 - 简单方便的扩展们 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Yoapp 小记 - 简单方便的扩展们
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-10-21T12:03:32+08:00" content="2015-10-21">
+              2015-10-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/开发笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">开发笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/21/extension-in-yoapp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/21/extension-in-yoapp/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h3 id="SppedUp">SppedUp</h3><p>我们团队每隔两周会有一次 SppedUp ，两天时间开发一款全新的应用。从前天凌晨到昨天深夜整整48小时，第一次 SpeedUp 理论上应该已经结束，但是事实上并没有想象中那么理想，一直拖到今天还在继续，而且还存在诸如『登录时键盘遮挡输入框』这种低级错误。今天花了一天时间完善了细节，并且整理一下代码，整理一些 Swift 中的代码优化细节。</p>
+<h3 id="UIStoryboardSegue">UIStoryboardSegue</h3><p>作为一名纯粹的 IB 党，少不了和 <code>UIStoryboardSegue</code> 打交道。主要的使用场景是以下两个方法：</p>
+<ul>
+<li><code>performSegueWithIdentifier(_:sender:)</code></li>
+<li><code>prepareForSegue(_:sender:)</code></li>
+</ul>
+<p>一开始我们是这么写的：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">performSegueWithIdentifier(<span class="string">"show_detail"</span>, sender: <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+<p>后来发觉这种 <code>hard code</code> 并不科学，于是用 struct 封装了一下定义成常量，这样合理多了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SegueIdentifier</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> showDetail = <span class="string">"show_detail"</span></span><br><span class="line">&#125;</span><br><span class="line">performSegueWithIdentifier(<span class="type">SegueIdentifier</span>.showDetail, sender: dataSource[indexPath.row])</span><br></pre></td></tr></table></figure>
+<p>再后来感觉 <code>prepareForSegue</code> 里不能 <code>switch</code> 不开心啊！于是改成用 <code>enum</code> 封装：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">SegueIdentifier</span>: <span class="title">String</span> </span>&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="type">Detail</span> = <span class="string">"show_detail"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">prepareForSegue</span><span class="params">(segue: UIStoryboardSegue, sender: AnyObject?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">guard</span></span><br><span class="line">            <span class="keyword">let</span> identifier = segue.identifier,</span><br><span class="line">            <span class="keyword">let</span> segueIdentifier = <span class="type">SegueIdentifier</span>(rawValue: identifier) <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">fatalError</span>(<span class="string">"INVALID SEGUE IDENTIFIER <span class="subst">\(segue.identifier)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> segueIdentifier &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Detail</span>:</span><br><span class="line">            <span class="comment">// DO SOMETHING</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>但是在调用 <code>performSegue</code> 的时候还是有点难受，不能直接传 <code>enum</code> 进去，必须要 <code>rawValue</code> 才行：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">performSegueWithIdentifier(<span class="type">SegueIdentifier</span>.<span class="type">Detail</span>.rawValue, sender: <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+<p>后来昨天看 <a href="https://developer.apple.com/videos/play/wwdc2015-411/" target="_blank" rel="external">Swift in Practice</a> 的时候发现，其实可以利用 <code>protocol extension</code> 把通用的部分封装起来：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SegueHandlerType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">typealias</span> <span class="type">SegueIdentifier</span>: <span class="type">RawRepresentable</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">SegueHandlerType</span> <span class="title">where</span> <span class="title">Self</span>: <span class="title">UIViewController</span>, <span class="title">SegueIdentifier</span>.<span class="title">RawValue</span> == <span class="title">String</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">performSegueWithIdentifier</span><span class="params">(identifier: SegueIdentifier, sender: AnyObject?)</span></span> &#123;</span><br><span class="line">        performSegueWithIdentifier(identifier.rawValue, sender: sender)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">segueIdentifierForSegue</span><span class="params">(segue: UIStoryboardSegue)</span></span> -&gt; <span class="type">SegueIdentifier</span> &#123;</span><br><span class="line">        <span class="keyword">guard</span></span><br><span class="line">            <span class="keyword">let</span> identifier = segue.identifier,</span><br><span class="line">            <span class="keyword">let</span> segueIdentifier = <span class="type">SegueIdentifier</span>(rawValue: identifier) <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">fatalError</span>(<span class="string">"INVALID SEGUE IDENTIFIER <span class="subst">\(segue.identifier)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> segueIdentifier</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样只要 <code>UIViewController</code> 实现 <code>SegueHandlerType</code> 协议便可获得封装好的方法，比如更好用的 <code>performSegueWithIdentifier</code> ：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">performSegueWithIdentifier(.<span class="type">LoginViewController</span>, sender: <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+<p>而且 <code>prepareForSegue</code> 可以直接通过 <code>switch segueIdentifierForSegue(segue)</code> 对不同 <code>segue</code> 做处理：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">RankingViewController</span>: <span class="title">SegueHandlerType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">prepareForSegue</span><span class="params">(segue: UIStoryboardSegue, sender: AnyObject?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> segueIdentifierForSegue(segue) &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Detail</span>:</span><br><span class="line">            <span class="keyword">guard</span></span><br><span class="line">                <span class="keyword">let</span> controller = segue.destinationViewController <span class="keyword">as</span>? <span class="type">DetailViewController</span>,</span><br><span class="line">                <span class="keyword">let</span> cell = sender <span class="keyword">as</span>? <span class="type">RankingCell</span>,</span><br><span class="line">                <span class="keyword">let</span> app = cell.appDetail <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line">            &#125;</span><br><span class="line">            controller.appDetail = app</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="dequeueReusableCellWithIdentifier">dequeueReusableCellWithIdentifier</h3><p>在写 <code>UITableView</code> 的时候总会有一段很难记但是又不得不记的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> cell = tableView.dequeueReusableCellWithIdentifier(<span class="string">"XxxxxCell"</span>) <span class="keyword">as</span>! <span class="type">XxxxxCell</span></span><br></pre></td></tr></table></figure>
+<p>注意这里又出现了 <code>&quot;XxxxxCell&quot;</code> 这样的 <code>hard code</code> ，我们可以用 <code>Class</code> 的名称作为它的 <code>identifier</code> ，这样只要能获取到 <code>className</code> 就行了。在 Swift 里可以这样获取 <code>className</code> ：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> className: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">self</span>.description().componentsSeparatedByString(<span class="string">"."</span>).last!</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>于是乎我们的代码变成了这样：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> cell = tableView.dequeueReusableCellWithIdentifier(<span class="type">XxxxxCell</span>.className) <span class="keyword">as</span>! <span class="type">XxxxxCell</span></span><br></pre></td></tr></table></figure>
+<p>接下来我们可以给 <code>UITableView</code> 添加个扩展，封装一下上面的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UITableView</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">dequeueCell</span><span class="generics">&lt;T: UITableViewCell&gt;</span><span class="params">(cell: T.<span class="keyword">Type</span>)</span></span> -&gt; <span class="type">T</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> dequeueReusableCellWithIdentifier(<span class="type">T</span>.className) <span class="keyword">as</span>! <span class="type">T</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就可以这样生成 <code>cell</code> 了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> cell = tableView.dequeueCell(<span class="type">RankingCell</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="AVObject">AVObject</h3><p>由于在使用 <code>LeanCloud</code> 做后台服务，所以不可避免要和 <code>AVObject</code> 打交道，<code>AVObject</code> 基本和 <code>NSDictionary</code> 接口一致，所以做了如下封装：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> AVOSCloud</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">AVObject</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">stringForKey</span><span class="params">(key: String)</span></span> -&gt; <span class="type">String</span>? &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.objectForKey(key) <span class="keyword">as</span>? <span class="type">String</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">doubleForKey</span><span class="params">(key: String)</span></span> -&gt; <span class="type">Double</span>? &#123;</span><br><span class="line">        <span class="keyword">let</span> o = <span class="keyword">self</span>.objectForKey(key)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> r = o <span class="keyword">as</span>? <span class="type">Double</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> r</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> <span class="keyword">let</span> r = o <span class="keyword">as</span>? <span class="type">String</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="type">Double</span>(r)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="setToRouded">setToRouded</h3><p>将图片设为圆角是一个比较常见的操作，可以通过 <code>extension</code> 简单封装一下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIView</span> </span>&#123;</span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">setToRounded</span><span class="params">(radius: CGFloat? = <span class="literal">nil</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">let</span> r = radius ?? <span class="built_in">min</span>(<span class="keyword">self</span>.frame.size.width, <span class="keyword">self</span>.frame.size.height) / <span class="number">2</span></span><br><span class="line">        <span class="keyword">self</span>.layer.cornerRadius = r</span><br><span class="line">        <span class="keyword">self</span>.clipsToBounds = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果指定半径就设置圆角半径，如果没有值则取高和宽的最小值，实现『半圆』效果。</p>
+<h3 id="QUESTION">QUESTION</h3><p>这里有个问题没太理解。请看下面两段代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UITableView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">dequeueCell1</span><span class="generics">&lt;T: UITableViewCell&gt;</span><span class="params">(name: String, cell: T.<span class="keyword">Type</span>)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(cell)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="func"><span class="keyword">func</span> <span class="title">dequeueCell2</span><span class="generics">&lt;T: UITableViewCell&gt;</span><span class="params">(cell: T.<span class="keyword">Type</span>)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(cell)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>唯一的区别就是参数数目不同，但是调用的时候：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="type">UITableView</span>.dequeueCell1(<span class="string">""</span>, cell: <span class="type">UITableViewCell</span>.<span class="keyword">self</span>)</span><br><span class="line"><span class="type">UITableView</span>.dequeueCell2(<span class="type">UITableViewCell</span>)</span><br></pre></td></tr></table></figure>
+<p>两个参数的需要 <code>.self</code> 而另一个则不需要。=。=没太搞懂这是哪出，还望赐教！</p>
+<hr>
+<p>参考文献：</p>
+<ul>
+<li><a href="https://developer.apple.com/videos/play/wwdc2015-411/" target="_blank" rel="external">Swift in Practice</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/23/rxswift-getting-started-1/" rel="next" title="RxSwift 入坑手册 Part1 - 示例实战">
+                <i class="fa fa-chevron-left"></i> RxSwift 入坑手册 Part1 - 示例实战
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/01/moya-rxswift-argo-lets-go/" rel="prev" title="通过 Moya+RxSwift+Argo 完成网络请求">
+                通过 Moya+RxSwift+Argo 完成网络请求 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/10/21/extension-in-yoapp/"
+           data-title="Yoapp 小记 - 简单方便的扩展们" data-url="http://blog.callmewhy.com/2015/10/21/extension-in-yoapp/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SppedUp"><span class="nav-number">1.</span> <span class="nav-text">SppedUp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIStoryboardSegue"><span class="nav-number">2.</span> <span class="nav-text">UIStoryboardSegue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dequeueReusableCellWithIdentifier"><span class="nav-number">3.</span> <span class="nav-text">dequeueReusableCellWithIdentifier</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AVObject"><span class="nav-number">4.</span> <span class="nav-text">AVObject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setToRouded"><span class="nav-number">5.</span> <span class="nav-text">setToRouded</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QUESTION"><span class="nav-number">6.</span> <span class="nav-text">QUESTION</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

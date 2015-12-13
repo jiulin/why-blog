@@ -1,0 +1,864 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Clojure," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="函数式的启迪，小括号的逆袭。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Clojure 每日练习">
+<meta property="og:url" content="http://blog.callmewhy.com/2015/06/29/4clojure-everyday/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="函数式的启迪，小括号的逆袭。">
+<meta property="og:updated_time" content="2015-12-07T02:15:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Clojure 每日练习">
+<meta name="twitter:description" content="函数式的启迪，小括号的逆袭。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> Clojure 每日练习 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Clojure 每日练习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-06-29T19:59:42+08:00" content="2015-06-29">
+              2015-06-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/记录笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">记录笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/29/4clojure-everyday/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/29/4clojure-everyday/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>最近公司的 iOS 项目进入 Debug 阶段，有些沉闷。于是乎从今天开始，尝试每天做一些 Clojure 的练习，找找刺激。<a href="http://www.4clojure.com/" target="_blank" rel="external">4clojure</a> 是个不错的网站，上面有很多 Clojure 的小题目，可以学习并巩固 Clojure 的知识。在每一题后面都附上了一段代码，包含：注释了的题目、我的答案和其他人的参考答案，欢迎一起讨论~</p>
+<h3 id="#001:_Nothing_but_the_Truth"><a href="http://www.4clojure.com/problem/1" target="_blank" rel="external">#001: Nothing but the Truth</a></h3><pre><code><span class="comment">;; This is a clojure form.</span>
+<span class="comment">;; Enter a value which will make the form evaluate to true.</span>
+<span class="comment">;; Don't over think it!</span>
+<span class="comment">;; Hint: true is equal to true.</span>
+<span class="comment">;; (= __ true)</span>
+
+<span class="list">(<span class="keyword"><span class="built_in">=</span></span> <span class="list">(<span class="keyword"><span class="built_in">+</span></span> <span class="number">1</span> <span class="number">1</span>)</span> <span class="number">2</span>)</span>
+
+<span class="list">(<span class="keyword"><span class="built_in">not</span></span> <span class="literal">false</span>)</span>
+</code></pre><h3 id="#002:_Simple_Math"><a href="http://www.4clojure.com/problem/2" target="_blank" rel="external">#002: Simple Math</a></h3><pre><code>;; If you are<span class="instruction"> not </span>familiar with polish notation
+;; , simple arithmetic might seem confusing.
+;; Note: Enter only enough to<span class="instruction"> fill </span>in the blank
+;; In this case, a single number.
+;;<span class="function"> (</span>=<span class="function"> (</span>- 10<span class="function"> (</span>* 2 3<span class="function">)</span><span class="function">)</span> __<span class="function">)</span>
+
+4
+</code></pre><h3 id="#003:_Intro_to_Strings"><a href="http://www.4clojure.com/problem/3" target="_blank" rel="external">#003: Intro to Strings</a></h3><pre><code><span class="comment">;; Clojure strings are Java strings.  </span>
+<span class="comment">;; This means that you can use any of the Java string methods on Clojure strings.</span>
+<span class="comment">;; (= __ (.toUpperCase "hello world"))</span>
+
+<span class="string">"HELLO WORLD"</span>
+
+<span class="list">(<span class="keyword"><span class="built_in">reify</span></span> Object <span class="list">(<span class="keyword">equals</span> <span class="collection">[_ _]</span> <span class="list">(<span class="keyword"><span class="built_in">=</span></span> _)</span>)</span>)</span> <span class="comment">;; 花样炫技</span>
+</code></pre><h3 id="#004:_Intro_to_Lists"><a href="http://www.4clojure.com/problem/4" target="_blank" rel="external">#004: Intro to Lists</a></h3><pre><code>;; Lists can be constructed with either a function or a quoted form.
+;; (= (list _<span class="emphasis">_) '(:a :b :c))
+
+</span><span class="attribute">:a :b</span> :c
+</code></pre><h3 id="#005:_Lists:_conj"><a href="http://www.4clojure.com/problem/5" target="_blank" rel="external">#005: Lists: conj</a></h3><pre><code>;; <span class="keyword">When</span> operating <span class="keyword">on</span> a list, the conj <span class="keyword">function</span> will <span class="keyword">return</span>
+;; a <span class="keyword">new</span> list <span class="keyword">with</span> one <span class="keyword">or</span> more items <span class="string">"added"</span> <span class="keyword">to</span> the front.
+;; (= __ (conj <span class="comment">'(2 3 4) 1))</span>
+
+<span class="comment">'(1 2 3 4)</span>
+</code></pre><h3 id="#006:_Intro_to_Vectors"><a href="http://www.4clojure.com/problem/6" target="_blank" rel="external">#006: Intro to Vectors</a></h3><pre><code>;; Vectors can be constructed several ways.  You can compare them with lists.
+;; (= [_<span class="emphasis">_] (list :a :b :c) (vec '(:a :b :c)) (vector :a :b :c))
+
+</span><span class="attribute">:a :b</span> :c
+</code></pre><h3 id="#007:_Vectors:_conj"><a href="http://www.4clojure.com/problem/7" target="_blank" rel="external">#007: Vectors: conj</a></h3><pre><code>;; When operating on a Vector, the conj function will <span class="keyword">return</span> a <span class="keyword">new</span> <span class="built_in">vector</span> with one or
+;; more items <span class="string">"added"</span> to the end.
+;; (= __ (conj [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>] <span class="number">4</span>))
+
+[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>]
+</code></pre><h3 id="#008:_Intro_to_Sets"><a href="http://www.4clojure.com/problem/8" target="_blank" rel="external">#008: Intro to Sets</a></h3><pre><code><span class="comment">;; Sets are collections of unique values.</span>
+<span class="comment">;; (= __ (set '(:a :a :b :c :c :c :c :d :d)))</span>
+
+<span class="comment">#{:a :b :c :d}</span>
+</code></pre><h3 id="#009:_Sets:_conj"><a href="http://www.4clojure.com/problem/9" target="_blank" rel="external">#009: Sets: conj</a></h3><pre><code>;; When operating on a <span class="built_in">set</span>, the conj function returns a <span class="keyword">new</span> <span class="built_in">set</span> with one or more keys
+;; <span class="string">"added"</span>.
+;; (= <span class="preprocessor">#{<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>} (conj #{<span class="number">1</span> <span class="number">4</span> <span class="number">3</span>} __))</span>
+
+<span class="number">2</span>
+</code></pre><h3 id="#010:_Intro_to_Maps"><a href="http://www.4clojure.com/problem/10" target="_blank" rel="external">#010: Intro to Maps</a></h3><pre><code><span class="comment">;; Maps store key-value pairs.  Both maps and keywords can be used as lookup functions.</span>
+<span class="comment">;; Commas can be used to make maps more readable, but they are not required.</span>
+<span class="comment">;; (= __ ((hash-map :a 10, :b 20, :c 30) :b))</span>
+
+20
+</code></pre><h3 id="#011:_Maps:_conj"><a href="http://www.4clojure.com/problem/11" target="_blank" rel="external">#011: Maps: conj</a></h3><pre><code>;; When operating on a <span class="built_in">map</span>, the conj function returns a <span class="keyword">new</span> <span class="built_in">map</span> with one or more
+;; key-value pairs <span class="string">"added"</span>.
+;; (= {:a <span class="number">1</span>, :b <span class="number">2</span>, :c <span class="number">3</span>} (conj {:a <span class="number">1</span>} __ [:c <span class="number">3</span>]))
+
+{:b <span class="number">2</span>}
+
+[:b <span class="number">2</span>]
+</code></pre><h3 id="#012:_Intro_to_Sequences"><a href="http://www.4clojure.com/problem/12" target="_blank" rel="external">#012: Intro to Sequences</a></h3><pre><code>;; All Clojure collections support sequencing.  You can operate <span class="function_start"><span class="keyword">on</span></span> sequences <span class="keyword">with</span>
+;; functions like <span class="keyword">first</span>, <span class="keyword">second</span>, <span class="keyword">and</span> <span class="keyword">last</span>.
+;; (= __ (<span class="keyword">first</span> '(<span class="number">3</span> <span class="number">2</span> <span class="number">1</span>)))
+
+<span class="number">3</span>
+</code></pre><h3 id="#013:_Intro_to_Sequences"><a href="http://www.4clojure.com/problem/13" target="_blank" rel="external">#013: Intro to Sequences</a></h3><pre><code>;; The rest function will <span class="keyword">return</span> all the items of a sequence except the first.
+;; (= __ (rest [<span class="number">10</span> <span class="number">20</span> <span class="number">30</span> <span class="number">40</span>]))
+(= [<span class="number">20</span> <span class="number">30</span> <span class="number">40</span>] (rest [<span class="number">10</span> <span class="number">20</span> <span class="number">30</span> <span class="number">40</span>]))
+
+[<span class="number">20</span> <span class="number">30</span> <span class="number">40</span>]
+</code></pre><h3 id="#014:_Intro_to_Functions"><a href="http://www.4clojure.com/problem/14" target="_blank" rel="external">#014: Intro to Functions</a></h3><pre><code>;; Clojure has many different ways to create functions.
+;;<span class="function"> (</span>= __<span class="function"> (</span>(fn<span class="instruction"> add-five </span><span class="keyword">[</span>x]<span class="function"> (</span>+ x 5<span class="function">)</span><span class="function">)</span> 3<span class="function">)</span><span class="function">)</span>
+
+8
+</code></pre><h3 id="#015:_Double_Down"><a href="http://www.4clojure.com/problem/15" target="_blank" rel="external">#015: Double Down</a></h3><pre><code><span class="comment">;; Write a function which doubles a number.</span>
+<span class="comment">;; (= (__ 2) 4)</span>
+
+#<span class="list">(<span class="keyword">*</span> <span class="number">2</span> %)</span>
+
+* <span class="number">2</span>
+<span class="list">(<span class="keyword">fn</span> [x] <span class="list">(<span class="keyword">*</span> x <span class="number">2</span>)</span>)</span>
+<span class="list">(<span class="keyword">partial</span> <span class="variable">* 2)
+#(+ % %)</span></span>
+</code></pre><h3 id="#016:_Hello_World"><a href="http://www.4clojure.com/problem/16" target="_blank" rel="external">#016: Hello World</a></h3><pre><code><span class="comment">;; Write a function which returns a personalized greeting.</span>
+<span class="comment">;; (= (__ "Dave") "Hello, Dave!")</span>
+
+#<span class="list">(<span class="keyword">str</span> <span class="string">"Hello, "</span> % <span class="string">"!"</span>)</span>
+
+<span class="list">(<span class="keyword">fn</span> [n] <span class="list">(<span class="keyword">str</span> <span class="string">"Hello, "</span> n <span class="string">"!"</span>)</span>)</span>
+#<span class="list">(<span class="keyword">str</span> <span class="string">"Hello, "</span> % \!)</span>
+</code></pre></span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Clojure/" rel="tag">#Clojure</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/07/creating-ascii-art-in-functional-swift/" rel="next" title="用函数式的 Swift 实现图片转字符画的功能">
+                <i class="fa fa-chevron-left"></i> 用函数式的 Swift 实现图片转字符画的功能
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/06/weak-timer-in-ios/" rel="prev" title="iOS 中的 NSTimer">
+                iOS 中的 NSTimer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/29/4clojure-everyday/"
+           data-title="Clojure 每日练习" data-url="http://blog.callmewhy.com/2015/06/29/4clojure-everyday/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="##001:_Nothing_but_the_Truth"><span class="nav-number">1.</span> <span class="nav-text">#001: Nothing but the Truth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##002:_Simple_Math"><span class="nav-number">2.</span> <span class="nav-text">#002: Simple Math</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##003:_Intro_to_Strings"><span class="nav-number">3.</span> <span class="nav-text">#003: Intro to Strings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##004:_Intro_to_Lists"><span class="nav-number">4.</span> <span class="nav-text">#004: Intro to Lists</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##005:_Lists:_conj"><span class="nav-number">5.</span> <span class="nav-text">#005: Lists: conj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##006:_Intro_to_Vectors"><span class="nav-number">6.</span> <span class="nav-text">#006: Intro to Vectors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##007:_Vectors:_conj"><span class="nav-number">7.</span> <span class="nav-text">#007: Vectors: conj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##008:_Intro_to_Sets"><span class="nav-number">8.</span> <span class="nav-text">#008: Intro to Sets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##009:_Sets:_conj"><span class="nav-number">9.</span> <span class="nav-text">#009: Sets: conj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##010:_Intro_to_Maps"><span class="nav-number">10.</span> <span class="nav-text">#010: Intro to Maps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##011:_Maps:_conj"><span class="nav-number">11.</span> <span class="nav-text">#011: Maps: conj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##012:_Intro_to_Sequences"><span class="nav-number">12.</span> <span class="nav-text">#012: Intro to Sequences</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##013:_Intro_to_Sequences"><span class="nav-number">13.</span> <span class="nav-text">#013: Intro to Sequences</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##014:_Intro_to_Functions"><span class="nav-number">14.</span> <span class="nav-text">#014: Intro to Functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##015:_Double_Down"><span class="nav-number">15.</span> <span class="nav-text">#015: Double Down</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="##016:_Hello_World"><span class="nav-number">16.</span> <span class="nav-text">#016: Hello World</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

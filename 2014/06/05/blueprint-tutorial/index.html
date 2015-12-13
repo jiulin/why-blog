@@ -1,0 +1,905 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Blueprint," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="让写文档这种枯燥的事情变得无比舒畅。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="API Blueprint 指导手册">
+<meta property="og:url" content="http://blog.callmewhy.com/2014/06/05/blueprint-tutorial/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="让写文档这种枯燥的事情变得无比舒畅。">
+<meta property="og:updated_time" content="2015-04-25T10:03:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="API Blueprint 指导手册">
+<meta name="twitter:description" content="让写文档这种枯燥的事情变得无比舒畅。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> API Blueprint 指导手册 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                API Blueprint 指导手册
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-06-05T16:04:57+08:00" content="2014-06-05">
+              2014-06-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/翻译笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/05/blueprint-tutorial/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/05/blueprint-tutorial/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>欢迎来到<em>API Blueprint</em>指导手册！</p>
+<p><a href="http://apiary.io/" target="_blank" rel="external"><em>API Blueprint</em></a>是一套<em>API</em>描述标准，和<em>Markdown</em>一样，属于一种标记语言，可以把标记文稿转换成漂亮的接口文档。</p>
+<p>在这里我们假设开发一个关于<em>Gist</em>的接口文档：<strong><em>Gist Fox API</em></strong>，以此来学习<em>API Blueprint</em>的全部核心特性。</p>
+<p><em>Gist</em>是一个粘贴工具，用户把内容粘贴后会得到一个URL，通过这个URL可以访问先前粘帖的文本，方便地共享文本或者代码。具体可以参考<em>Github</em>提供的<a href="https://gist.github.com/" target="_blank" rel="external"><strong>GitHub Gists</strong></a>服务。</p>
+<p>我们将在我们的<em>API</em>中提供如下功能：</p>
+<ul>
+<li>列出所有的<em>Gist</em></li>
+<li>搜索一个<em>Gist</em></li>
+<li>创建一个<em>Gist</em></li>
+<li>编辑已有的<em>Gist</em></li>
+<li>给一个<em>Gist</em>星标</li>
+<li>给一个<em>Gist</em>取消星标</li>
+<li>检查一个<em>Gist</em>是否星标 </li>
+<li>删除一个<em>Gist</em></li>
+</ul>
+<h2 id="Gist_Fox_API">Gist Fox API</h2><p>刚开始的时候，我们的<em>Gist Fox API</em>是这样的：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FORMAT: 1A&#10;&#10;# Gist Fox API&#10;Gist Fox API is a **pastes service** similar to [GitHub&#39;s Gist][http://gist.github.com].</span><br></pre></td></tr></table></figure></p>
+<p>我们刚刚做了什么？接下来让我们一行一行的来分析一下。</p>
+<ul>
+<li>元数据<em>Metadata</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FORMAT: 1A</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>你需要使用一个元数据(<em>metadata</em>)，来明确指定<em>API Blueprint</em>的版本。<br>比如在上述文件中我们使用的版本号是<strong><em>1A</em></strong>。</p>
+<ul>
+<li>接口名称<em>API Name</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Gist Fox API</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>每一个好的<em>API</em>都应该有一个名字，我们的API也是这样：<strong><em>Gist Fox API</em></strong>，使用<em>Markdown</em>中的<code>#</code>标记表示<em>API</em>的名字。</p>
+<ul>
+<li>接口描述<em>API Description</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Gist Fox API is a **pastes service** similar to [GitHub&#39;s Gist][http://gist.github.com].</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在<em>API</em>的名字后面可以用<em>Markdown</em>的语法加上一些<em>API</em>的解释。</p>
+<h2 id="Markdown">Markdown</h2><p>如果要写一个<em>blueprint</em>文档，你唯一需要的就是一个文本编辑器，最好是一个<em>Markdown</em>的文本编辑器，<em>VI</em>和<em>Byword</em>都是不错的选择，在线的文本编辑器也没有任何问题。你甚至可以直接在<em>Github</em>的仓库里编辑<em>bluePrint</em>格式的文档。</p>
+<p>如果你完全不知道<em>Markdown</em>，现在是一个学习的好机会。只需要点击<a href="http://markdowntutorial.com/" target="_blank" rel="external"><em>Markdown Tutorial</em></a>就可以开始学习。学完了可别忘了回来看看，我们这里也很精彩！</p>
+<p>如果你需要查阅<em>Markdown</em>的语法可以直接点击<a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external"><em>Gruber’s Original</em></a>查看。</p>
+<h2 id="First_Resource">First Resource</h2><p>我们第一个要写的内容是根目录(<em>root</em>)，我们<em>API</em>的入口可以这样定义：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Gist Fox API Root [/]&#10;Gist Fox API entry point.&#10;&#10;This resource does not have any attributes. Instead it offers the initial API affordances in the form of the HTTP Link header and HAL links.&#10;&#10;## Retrieve Entry Point [GET]&#10;&#10;+ Response 200 (application/hal+json)&#10;    + Headers&#10;&#10;            Link: &#60;http:/api.gistfox.com/&#62;;rel=&#34;self&#34;,&#60;http:/api.gistfox.com/gists&#62;;rel=&#34;gists&#34;&#10;&#10;    + Body&#10;&#10;            &#123;&#10;                &#34;_links&#34;: &#123;&#10;                    &#34;self&#34;: &#123; &#34;href&#34;: &#34;/&#34; &#125;,&#10;                    &#34;gists&#34;: &#123; &#34;href&#34;: &#34;/gists?&#123;since&#125;&#34;, &#34;templated&#34;: true &#125;&#10;                &#125;&#10;            &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这些奇奇怪怪的内容是什么呢？让我们挨个来看一看。</p>
+<ul>
+<li>资源<em>Resource</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Gist Fox API Root [/]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在<em>Blueprint</em>里，所有的数据信息都是资源(<em>resource</em>)，比如用户、视频、文章。<br><em>resource</em>的定义以<code>#</code>开始，中间是<em>resource</em>的名称，最后是用中括号包围的路径(<em>URI</em>)，需要注意的是<em>URI</em>是放在<code>[</code> <code>]</code>中的。<em>URI</em>是相对路径，在这里它就是个<code>/</code>。</p>
+<ul>
+<li>资源描述<em>Resource Description</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Gist Fox API Root [/]&#10;Gist Fox API entry point.&#10;&#10;This resource does not have any attributes. Instead it offers the initial API affordances in the form of the HTTP Link header and haveL links.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们可以用<em>Markdown</em>的语法在<em>resource</em>名称的后面加上包含<em>API</em>名称的说明。<br>在这里<code>Gist Fox API</code>是<em>API</em>名称，<code>entry point</code>是说明。</p>
+<ul>
+<li>行为<em>Action</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## Retrieve Entry Point [GET]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>行为<em>action</em>是一个<em>HTTP</em>请求的属性之一，在发送请求的时候会随数据一起发送到服务器。<br>我们在这里定义了一个<em>action</em>叫做<em>Retrieve Entry Point (索引入口)</em>，它是一个<em>GET</em>类型的请求。我们可以在后面加上一些描述，但是因为这个<em>action</em>的名字(<em>Retrieve Entry Point</em>)已经把这个行为解释的很清楚了，所以我们就跳过了这一步。<br>一般来说常见的<em>action</em>，包括<em>GET</em>和<em>POST</em>两种。在Blueprint有以下四种<em>action</em>：</p>
+<pre><code>-<span class="ruby"> <span class="constant">GET</span> ： 获取数据
+</span>-<span class="ruby"> <span class="constant">POST</span> ： 添加数据
+</span>-<span class="ruby"> <span class="constant">PUT</span> ： 更新数据
+</span>-<span class="ruby"> <span class="constant">DELETE</span> ： 删除数据</span>
+</code></pre><ul>
+<li>回应<em>Response</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+ Response 200</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在<em>API Blueprint</em>中一个<em>action</em>应该至少包括一个回应(<em>response</em>)。<em>response</em>是指当服务器收到一个请求(request)时候的响应。<br>在<em>response</em>中应该有一个状态码<a href="https://github.com/for-GET/know-your-http-well/blob/master/status-codes.md" target="_blank" rel="external"><em>status code</em></a>和数据<a href="https://github.com/apiaryio/api-blueprint/blob/master/Glossary%20of%20Terms.md#payload" target="_blank" rel="external"><em>payload</em></a>。<br>在这里我们定义最常见的状态码：<em>200</em>，表示请求成功。</p>
+<ul>
+<li>响应负载<em>Response Payload</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+ Response 200 (application/hal+json)&#10;    + Headers&#10;&#10;            Link: &#60;http:/api.gistfox.com/&#62;;rel=&#34;self&#34;,&#60;http:/api.gistfox.com/gists&#62;;rel=&#34;gists&#34;&#10;&#10;    + Body&#10;&#10;            &#123;&#10;                &#34;_links&#34;: &#123;&#10;                    &#34;self&#34;: &#123; &#34;href&#34;: &#34;/&#34; &#125;,&#10;                    &#34;gists&#34;: &#123; &#34;href&#34;: &#34;/gists?&#123;since&#125;&#34;, &#34;templated&#34;: true &#125;&#10;                &#125;&#10;            &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>一个响应(response)经常包含一些负载(<em>payload</em>)。一个负载(<em>payload</em>)通常包含负载体(<em>body</em>)和负载头(<em>header</em>)两个部分。<br>在这个例子中，我们采用<a href="https://github.com/mikekelly/hal_specification" target="_blank" rel="external"><em>application/hal+json</em></a>类型作为返回数据的类型。</p>
+<h2 id="Complex_Resource">Complex Resource</h2><p>有了前面的根路径作为入口点，我们可以继续后面的内容。既然我们的<em>API</em>是围绕<em>Gist</em>展开的，那就让我们来给<em>Gist</em>一个明确的定义，以及一个用来获取它的<em>action</em>：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Group Gist&#10;Gist-related resources of *Gist Fox API*.&#10;&#10;## Gist [/gists/&#123;id&#125;]&#10;A single Gist object. &#10;The Gist resource is the central resource in the Gist Fox API. It represents one paste - a single text note.&#10;&#10;The Gist resource has the following attributes:&#10;&#10;- id&#10;- created_at&#10;- description&#10;- content&#10;&#10;The states *id* and *created_at* are assigned by the Gist Fox API at the moment of creation.&#10;&#10;&#10;+ Parameters&#10;    + id (string) ... ID of the Gist in the form of a hash.&#10;&#10;+ Model (application/hal+json)&#10;&#10;    HAL+JSON representation of Gist Resource. In addition to representing its state in the JSON form it offers affordances in the form of the HTTP Link header and HAL links.&#10;&#10;    + Headers&#10;&#10;            Link: &#60;http:/api.gistfox.com/gists/42&#62;;rel=&#34;self&#34;, &#60;http:/api.gistfox.com/gists/42/star&#62;;rel=&#34;star&#34;&#10;&#10;    + Body&#10;&#10;            &#123;&#10;                &#34;_links&#34;: &#123;&#10;                    &#34;self&#34;: &#123; &#34;href&#34;: &#34;/gists/42&#34; &#125;,&#10;                    &#34;star&#34;: &#123; &#34;href&#34;: &#34;/gists/42/star&#34; &#125;,&#10;                &#125;,&#10;                &#34;id&#34;: &#34;42&#34;,&#10;                &#34;created_at&#34;: &#34;2014-04-14T02:15:15Z&#34;,&#10;                &#34;description&#34;: &#34;Description of Gist&#34;,&#10;                &#34;content&#34;: &#34;String contents&#34;&#10;            &#125;&#10;&#10;### Retrieve a Single Gist [GET]&#10;+ Response 200&#10;&#10;    [Gist][]</span><br></pre></td></tr></table></figure></p>
+<p>我们定义了一个和<em>Gist</em>相关的组<em>Group</em>，我们也定义了一个<em>Gist resource</em>以及它的模型阐述，还有一个能够获取<em>Gist</em>的<em>action</em>。</p>
+<p>让我们来把它拆散了看一下。</p>
+<ul>
+<li>资源分组<em>Groups of Resources</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Group Gist&#10;Gist-related resources of *Gist Fox API*.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们的<em>API</em>最终会提供很多的资源，所以我们需要将相关的内容归类并分组。现在我们先简单的把所有的资源都归类在一个<em>Gist</em>组中。<br>不同的分组可以通过在开头的关键字<strong><em>Group</em></strong>区别。</p>
+<ul>
+<li>URI模板<em>URI Template</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## Gist [/gists/&#123;id&#125;]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在<em>URI</em>中的变量需要遵守<a href="https://github.com/apiaryio/api-blueprint/blob/master/Glossary%20of%20Terms.md#uri-template" target="_blank" rel="external"><em>URI</em>的模板格式</a>，在这个例子中，<em>Gist</em>的编号(<em>id</em>)在<em>URI</em>中就是<code>{id}</code>。</p>
+<ul>
+<li>URI参数<em>URI Parameters</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+ Parameters&#10;    + id (string) ... ID of the Gist in the form of a hash.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这个<em>id</em>变量是这个<em>resource</em>中的一个参数(<em>parameter</em>)，我们定义它的类型为<em>string</em>，并且在后面加上一些解释。</p>
+<ul>
+<li>资源模型<em>Resource Model</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+ Model (application/hal+json)&#10;&#10;    HAL+JSON representation of Gist Resource. In addition to representing its state in the JSON form it offers affordances in the form of the HTTP Link header and HAL links.&#10;&#10;    + Headers&#10;&#10;            Link: &#60;http:/api.gistfox.com/gists/42&#62;;rel=&#34;self&#34;, &#60;http:/api.gistfox.com/gists/42/star&#62;;rel=&#34;star&#34;&#10;&#10;    + Body&#10;&#10;            &#123;&#10;                &#34;_links&#34;: &#123;&#10;                    &#34;self&#34;: &#123; &#34;href&#34;: &#34;/gists/42&#34; &#125;,&#10;                    &#34;star&#34;: &#123; &#34;href&#34;: &#34;/gists/42/star&#34; &#125;,&#10;                &#125;,&#10;                &#34;id&#34;: &#34;42&#34;,&#10;                &#34;created_at&#34;: &#34;2014-04-14T02:15:15Z&#34;,&#10;                &#34;description&#34;: &#34;Description of Gist&#34;,&#10;                &#34;content&#34;: &#34;String contents&#34;&#10;            &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>资源模型<em>Resource Model</em>是前面定义的资源的一个样例，它可以在任何一个<em>request</em>或者<em>response</em>需要的位置引用，一个资源模型有着和前面所说的<em>payload</em>一模一样的结构。<br>在前面的例子中，还包含了一个额外的描述，也就是在<code>+ Model</code>和<code>+ Headers</code>中间的那部分内容。</p>
+<ul>
+<li>引用资源模型<em>Referring the Resource Model</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">### Retrieve a Single Gist [GET]&#10;+ Response 200&#10;&#10;    [Gist][]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>有了资源模型(<em>Gist Resource Model</em>)，定义一个获取<em>Gist</em>的<em>action</em>就很容易了，直接写上<code>[Gist][]</code>就可以返回一个<em>Gist</em>资源。</p>
+<h2 id="Modifying_a_Resource">Modifying a Resource</h2><p>接下来我们来写一个修改<em>Gist</em>的行为(<em>action</em>)：<em>Edit a Gist</em>，和删除<em>Gist</em>的行为(<em>action</em>)：<em>Delete a Gist</em>。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">### Edit a Gist [PATCH]&#10;To update a Gist send a JSON with updated value for one or more of the Gist resource attributes. All attributes values (states) from the previous version of this Gist are carried over by default if not included in the hash.&#10;&#10;+ Request (application/json)&#10;&#10;        &#123;&#10;            &#34;content&#34;: &#34;Updated file contents&#34;&#10;        &#125;&#10;&#10;+ Response 200&#10;&#10;    [Gist][]&#10;&#10;### Delete a Gist [DELETE]&#10;+ Response 204</span><br></pre></td></tr></table></figure></p>
+<p>我们来看一看这个<em>payload</em>中的新内容：</p>
+<ul>
+<li>请求中的负载<em>Request and its Payload</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+ Request (application/json)&#10;&#10;        &#123;&#10;            &#34;content&#34;: &#34;Updated file contents&#34;&#10;        &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们需要接受一些输入来修改资源(<em>Gist resource</em>)，这些输入是访问请求(<em>HTTP Request</em>)的一部分，在上面的例子中定义了这样的一个请求以及负载<em>payload</em>的内容。</p>
+<ul>
+<li>空负载<em>Empty Payload</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">### Delete a Gist [DELETE]&#10;+ Response 204</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在<em>Delete a Gist</em>这样一个删除的操作中，我们的返回内容只包含一个<em>204</em>的状态码而没有其他内容，这个<em>204</em>的状态码表示服务器成功执行了这个请求。</p>
+<h2 id="Collection_Resource">Collection Resource</h2><p>既然已经有了单个资源的接口，接下来我们来定义一个集合(<em>Gists Collection</em>)接口：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## Gists Collection [/gists&#123;?since&#125;]&#10;Collection of all Gists.&#10;&#10;The Gist Collection resource has the following attribute:&#10;&#10;- total&#10;&#10;In addition it **embeds** *Gist Resources* in the Gist Fox API.&#10;&#10;&#10;+ Model (application/hal+json)&#10;&#10;    HAL+JSON representation of Gist Collection Resource. The Gist resources in collections are embedded. Note the embedded Gists resource are incomplete representations of the Gist in question. Use the respective Gist link to retrieve its full representation.&#10;&#10;    + Headers&#10;&#10;            Link: &#60;http:/api.gistfox.com/gists&#62;;rel=&#34;self&#34;&#10;&#10;    + Body&#10;&#10;            &#123;&#10;                &#34;_links&#34;: &#123;&#10;                    &#34;self&#34;: &#123; &#34;href&#34;: &#34;/gists&#34; &#125;&#10;                &#125;,&#10;                &#34;_embedded&#34;: &#123;&#10;                    &#34;gists&#34;: [&#10;                        &#123;&#10;                            &#34;_links&#34; : &#123;&#10;                                &#34;self&#34;: &#123; &#34;href&#34;: &#34;/gists/42&#34; &#125;&#10;                            &#125;,&#10;                            &#34;id&#34;: &#34;42&#34;,&#10;                            &#34;created_at&#34;: &#34;2014-04-14T02:15:15Z&#34;,&#10;                            &#34;description&#34;: &#34;Description of Gist&#34;&#10;                        &#125;&#10;                    ]&#10;                &#125;,&#10;                &#34;total&#34;: 1&#10;            &#125;&#10;&#10;### List All Gists [GET]&#10;+ Parameters&#10;    + since (optional, string) ... Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` Only Gists updated at or after this time are returned.&#10;&#10;+ Response 200&#10;&#10;    [Gists Collection][]&#10;&#10;### Create a Gist [POST]&#10;To create a new Gist simply provide a JSON hash of the *description* and *content* attributes for the new Gist.&#10;&#10;+ Request (application/json)&#10;&#10;        &#123;&#10;            &#34;description&#34;: &#34;Description of Gist&#34;,&#10;            &#34;content&#34;: &#34;String content&#34;&#10;        &#125;&#10;&#10;+ Response 201 (application/hal+json)&#10;&#10;    [Gist][]</span><br></pre></td></tr></table></figure>
+<p>在这里你应该基本都熟悉这些接口了，除了其中的一个查询的参数：<em>since</em>。</p>
+<ul>
+<li>查询参数<em>Query Parameters</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## Gists Collection [/gists&#123;?since&#125;]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>作为<em>URI</em>的参数，查询参数的定义必须符合<a href="https://github.com/apiaryio/api-blueprint/blob/master/Glossary%20of%20Terms.md#uri-template" target="_blank" rel="external"><em>URI</em>模板格式</a>，而这里有所不同的是，查询参数里有一个问号，并且它总在<em>URI</em>的结尾处。</p>
+<ul>
+<li><em>Action-specific Query Parameters</em><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">### List All Gists [GET]&#10;+ Parameters&#10;    + since (optional, string) ... Timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ` Only Gists updated at or after this time are returned.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>通常查询的参数是针对诸多行为(<em>action</em>)中的某一个，所以我们只需要考虑和这个<em>action</em>相关的内容.</p>
+<h2 id="Subsequent_Resource">Subsequent Resource</h2><p>最后一个缺失的部分就是星标资源的功能了，利用前面所学的知识，我们可以这样定义：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">## Star [/gists/&#123;id&#125;/star]&#10;Star resource represents a Gist starred status.&#10;&#10;The Star resource has the following attribute:&#10;&#10;- starred&#10;&#10;&#10;+ Parameters&#10;&#10;    + id (string) ... ID of the gist in the form of a hash&#10;&#10;+ Model (application/hal+json)&#10;&#10;    HAL+JSON representation of Star Resource.&#10;&#10;    + Headers&#10;&#10;            Link: &#60;http:/api.gistfox.com/gists/42/star&#62;;rel=&#34;self&#34;&#10;&#10;    + Body&#10;&#10;            &#123;&#10;                &#34;_links&#34;: &#123;&#10;                    &#34;self&#34;: &#123; &#34;href&#34;: &#34;/gists/42/star&#34; &#125;,&#10;                &#125;,&#10;                &#34;starred&#34;: true&#10;            &#125;&#10;&#10;### Star a Gist [PUT]&#10;+ Response 204&#10;&#10;### Unstar a Gist [DELETE]&#10;+ Response 204&#10;&#10;### Check if a Gist is Starred [GET]&#10;+ Response 200&#10;&#10;    [Star][]</span><br></pre></td></tr></table></figure>
+<h2 id="Complete_Blueprint">Complete Blueprint</h2><p>你可以在<em>API Blueprint</em>的<a href="https://github.com/apiaryio/api-blueprint/tree/master/examples" target="_blank" rel="external">示例源码库</a>，找到完整的<a href="https://raw.githubusercontent.com/apiaryio/api-blueprint/master/examples/Gist%20Fox%20API.md" target="_blank" rel="external"><em>Gist Fox API</em></a>。</p>
+<h2 id="API_Blueprint_Tools">API Blueprint Tools</h2><p>随着<em>Gist Fox Blueprint</em>接口文档的完工，接下来就应该让它发挥作用了。可以在<em>Github</em>中查看<a href="https://github.com/apiaryio/api-blueprint/blob/master/examples/Gist%20Fox%20API.md" target="_blank" rel="external">渲染结果</a>或者在<em>Apiary</em>中查看<a href="http://docs.gistfoxapi.apiary.io/" target="_blank" rel="external">渲染结果</a>。可以前往<a href="http://apiblueprint.org/" target="_blank" rel="external"><em>apiblueprint.org</em></a>的<a href="http://apiblueprint.org/#tooling" target="_blank" rel="external"><em>Tooling Section</em></a>寻找更多的相关工具包。</p>
+<h2 id="Thanks">Thanks</h2><p>感谢董花花的勘误工作^_^</p>
+<hr>
+<p>附录：</p>
+<ul>
+<li><a href="http://apiary.io/blueprint" target="_blank" rel="external">英文原版</a></li>
+<li><a href="http://app.apiary.io/" target="_blank" rel="external">Apiary官网地址</a></li>
+<li><a href="http://apiblueprint.org/" target="_blank" rel="external">Blueprint官网地址</a></li>
+<li><a href="https://raw.githubusercontent.com/apiaryio/api-blueprint/master/examples/Gist%20Fox%20API.md" target="_blank" rel="external">案例<em>Gist Fox API</em>的源码</a></li>
+<li><a href="http://docs.gistfoxapi.apiary.io/" target="_blank" rel="external">案例<em>Gist Fox API</em>的文档</a></li>
+<li><a href="https://github.com/apiaryio/api-blueprint/tree/master/examples" target="_blank" rel="external">其他<em>API Blueprint的案例</em></a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Blueprint/" rel="tag">#Blueprint</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/03/07/to-my-love/" rel="next" title="祝花花女生节快乐">
+                <i class="fa fa-chevron-left"></i> 祝花花女生节快乐
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/07/something-about-rest/" rel="prev" title="关于REST和Blueprint">
+                关于REST和Blueprint <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/06/05/blueprint-tutorial/"
+           data-title="API Blueprint 指导手册" data-url="http://blog.callmewhy.com/2014/06/05/blueprint-tutorial/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gist_Fox_API"><span class="nav-number">1.</span> <span class="nav-text">Gist Fox API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown"><span class="nav-number">2.</span> <span class="nav-text">Markdown</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#First_Resource"><span class="nav-number">3.</span> <span class="nav-text">First Resource</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Complex_Resource"><span class="nav-number">4.</span> <span class="nav-text">Complex Resource</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modifying_a_Resource"><span class="nav-number">5.</span> <span class="nav-text">Modifying a Resource</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection_Resource"><span class="nav-number">6.</span> <span class="nav-text">Collection Resource</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subsequent_Resource"><span class="nav-number">7.</span> <span class="nav-text">Subsequent Resource</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Complete_Blueprint"><span class="nav-number">8.</span> <span class="nav-text">Complete Blueprint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API_Blueprint_Tools"><span class="nav-number">9.</span> <span class="nav-text">API Blueprint Tools</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thanks"><span class="nav-number">10.</span> <span class="nav-text">Thanks</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

@@ -1,0 +1,899 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AngularJS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="Mongo+Express+Angular+Node的超级大乱炖。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用NodeJS和AngularJS创建一个TODO的单页网站">
+<meta property="og:url" content="http://blog.callmewhy.com/2014/07/17/creating-a-single-page-todo-app-with-node-and-angular/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="Mongo+Express+Angular+Node的超级大乱炖。">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/todoaholic.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/mean.jpg">
+<meta property="og:updated_time" content="2015-04-25T10:03:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用NodeJS和AngularJS创建一个TODO的单页网站">
+<meta name="twitter:description" content="Mongo+Express+Angular+Node的超级大乱炖。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 使用NodeJS和AngularJS创建一个TODO的单页网站 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用NodeJS和AngularJS创建一个TODO的单页网站
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-07-17T15:11:00+08:00" content="2014-07-17">
+              2014-07-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/翻译笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/07/17/creating-a-single-page-todo-app-with-node-and-angular/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/07/17/creating-a-single-page-todo-app-with-node-and-angular/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>今天我们来用MEAN(Mongo,Express,Angular,Node)来搭建一个简单的TODO列表的网站应用。</p>
+<p>首先简单的列一下任务列表：</p>
+<ul>
+<li>创建和完成TODO列表的主页面</li>
+<li>通过Mongoose把TODO列表存到MongoDB数据库</li>
+<li>使用Express框架</li>
+<li>创建RESTful的接口</li>
+<li>使用Angular作为前端框架并连接API</li>
+</ul>
+<p>这个项目本身很简单，是为新手准备的中级进阶教程，其中的很多概念可以应用到其他项目中。通过这个项目我们可以学习到如何使用NodeJS作为接口然后使用Angular作为前端。如何把各个部分整合起来是一件比较头疼的事情，希望这个教程可以给你答案。</p>
+<p>准备好了吗少年们，我们要起航了！</p>
+<p><img src="http://callmewhy.qiniudn.com/todoaholic.png" alt=""></p>
+<h2 id="基础安装">基础安装</h2><h3 id="文件结构">文件结构</h3><p>我们让文件结构尽量简单，把大多数的代码放在NodeJS项目中的server.js文件中。在大型项目里，我们可以把代码按照功能细分，让各个部分各司其职。比如<a href="http://mean.io/" target="_blank" rel="external">Mean.io</a>就是这样一个样例项目，很好的演示了按照功能分工的文件结构。接下来我们创建一个简单的项目，文件结构如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- public        &#60;!-- holds all our files for our frontend angular application --&#62;&#10;    - core.js       &#60;!-- all angular code for our app --&#62;&#10;    - index.html    &#60;!-- main view --&#62;&#10;- package.json  &#60;!-- npm configuration to install dependencies/modules --&#62;&#10;- server.js     &#60;!-- Node configuration --&#62;</span><br></pre></td></tr></table></figure></p>
+<h3 id="安装模块">安装模块</h3><p>在NodeJS里，<code>package.json</code>文件包含了应用相关的设置，NodeJS的包管理工具会根据这个文件安装我们需要使用的依赖模块。在我们的项目里，我们将使用<a href="http://expressjs.com/" target="_blank" rel="external">Express</a>和<a href="http://mongoosejs.com/" target="_blank" rel="external">Mongoose</a>这两个依赖项。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// package.json&#10;&#123;&#10;    &#34;name&#34;         : &#34;node-todo&#34;,&#10;    &#34;version&#34;      : &#34;0.0.0&#34;,&#10;    &#34;description&#34;  : &#34;Simple todo application.&#34;,&#10;    &#34;main&#34;         : &#34;server.js&#34;,&#10;    &#34;author&#34;       : &#34;Scotch&#34;,&#10;    &#34;dependencies&#34; : &#10;    &#123;&#10;        &#34;express&#34;    : &#34;~3.4.4&#34;,&#10;        &#34;mongoose&#34;   : &#34;~3.6.2&#34;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在运行<code>npm install</code>，npm会自动安装依赖项目。</p>
+<h3 id="NodeJS设置">NodeJS设置</h3><p>在我们的<code>package.json</code>中，我们设置项目主文件为<code>server.js</code>，也就是说整个项目通过这个js文件启动。</p>
+<p>在这个文件里我们可以完成如下工作：</p>
+<ul>
+<li>设置项目</li>
+<li>连接数据库</li>
+<li>创建Mongoose模型</li>
+<li>定义RESTful API的路径</li>
+<li>定义Angular前端应用的路径</li>
+<li>设置监听的端口号</li>
+</ul>
+<p>现在，我们只需要初始化其中的Express和MongoDB数据库并且监听端口：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var express  = require(&#39;express&#39;);&#10;var app      = express();&#10;var mongoose = require(&#39;mongoose&#39;);&#10;&#10;mongoose.connect(&#39;mongodb://node:node@mongo.onmodulus.net:27017/uwO3mypu&#39;);&#10;&#10;app.configure(function() &#123;&#10;    // set the static files location /public/img will be /img for users&#10;    app.use(express.static(__dirname + &#39;/public&#39;));&#10;    // log every request to the console&#10;    app.use(express.logger(&#39;dev&#39;));&#10;    // pull information from html in POST&#10;    app.use(express.bodyParser());                  &#10;&#125;);&#10;&#10;app.listen(8080);&#10;console.log(&#34;App listening on port 8080&#34;);</span><br></pre></td></tr></table></figure></p>
+<p>这样，我们现在就有了一个HTTP的服务器，在<code>app.configure</code>里，我们使用express模块来添加功能模块。</p>
+<h3 id="数据库安装">数据库安装</h3><p>我们在<a href="https://modulus.io/" target="_blank" rel="external">Modulus.io</a>建立远程数据库，Modulus为新注册的用户提供15美元的试用资金，方便我们在云服务器上测试项目。</p>
+<p>Modulu也提供了一个数据库的URL地址，你只需要使用<code>mongoose.connet</code>连接数据库。就是这么简单。</p>
+<h3 id="运行应用">运行应用</h3><p>现在我们设置好了<code>package.json</code>和<code>server.js</code>文件，接下来我们可以通过如下命令运行服务器，看看效果如何：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">node sercer.js</span><br></pre></td></tr></table></figure></p>
+<p>现在我们的服务器就启动了，并且监听8080端口。现在打开浏览器你什么都看不见，但是它确实成功启动了！</p>
+<p>注意，运行会提示如下警告：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">connect.multipart() will be removed in connect 3.0&#10;visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives</span><br></pre></td></tr></table></figure></p>
+<p>如果在3.0中使用<code>connect.bodyParser()</code>会在程序启动时收到弃用警告,但并不影响程序的正常工作。由于Express使用了connect中间件，参照官网给的解决方案,用<code>json</code>和<code>urlencoded</code>替换<code>bodyParser</code>即可。</p>
+<p>找到如下的内容：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">app.use(express.bodyParser());</span><br></pre></td></tr></table></figure></p>
+<p>替换为：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">app.use(express.urlencoded());&#10;app.use(express.json());</span><br></pre></td></tr></table></figure></p>
+<p>这样再运行就没有警告了。</p>
+<p>另外，默认情况下NodeJS在服务器启动之后不会检测到文件修改，所以当你改了文件之后必须重启服务器。你可以装一个nodemon的模块：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nom install -g nodemon</span><br></pre></td></tr></table></figure></p>
+<p>这样使用nodemon的命令就可以启动服务器了：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nodemon server.js</span><br></pre></td></tr></table></figure></p>
+<h2 id="应用流程">应用流程</h2><p>现在整个项目的概要基本有了个雏形，接下来我们来看看各个部分是如何协同工作的。在这个项目里有很多不同的想法和技术，我们很容易把它们结合在一起。在下面的流程图中，可以看出任务的划分以及各部分是如何合作的：</p>
+<p><img src="http://callmewhy.qiniudn.com/mean.jpg" alt=""></p>
+<p>Angular在前端独当一面，它通过NodeJS的API获取所有它想要的数据。NodeJS访问数据库并且基于RESTful给Angular返回JSON格式的数据。</p>
+<p>这样我们就可以把前端应用和真实API分离。如果你想要扩展API只需要添加更多的路由和函数即可，不影响前端AngularJS的正常使用。这样我们可以基于不同平台开发不同应用，只需要访问API就可以了。</p>
+<h2 id="创建接口">创建接口</h2><p>我们的目标是完成一个TODO的网站，在写前端应用之前，我们需要先创建RESTful接口，提供获取TODO、创建TODO、完成TODO和删除TOTO的功能，并且会返回JSON格式的数据。</p>
+<h3 id="TODO模型">TODO模型</h3><p>我们尽量简单的建立TODO模型，在config和listen之间，我们添加模型相关代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// ----- define model&#10;var Todo = mongoose.model(&#39;Todo&#39;, &#123;&#10;    text : String&#10;&#125;);</span><br></pre></td></tr></table></figure>
+<p>没错就是这么简单，只需要TODO的任务内容就够了。MongoDB将会自动为每个TODO对象生成<code>_id</code>属性。</p>
+<h3 id="RESTful路由">RESTful路由</h3><p>我们用Express来实现API访问：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#10;// ----- define routes&#10;// get all todos&#10;app.get(&#39;/api/todos&#39;, function(req, res) &#123;&#10;    // use mongoose to get all todos in the database&#10;    Todo.find(function(err, todos) &#123;&#10;        // if there is an error retrieving, send the error. nothing after res.send(err) will execute&#10;        if (err) &#123;&#10;            res.send(err);&#10;        &#125;&#10;        res.json(todos); // return all todos in JSON format&#10;    &#125;);&#10;&#125;);&#10;&#10;// create Todo and send back all todos after creation&#10;app.post(&#39;/api/todos&#39;, function(req, res) &#123;&#10;    // create a Todo, information comes from AJAX request from Angular&#10;    Todo.create(&#123;&#10;        text : req.body.text,&#10;        done : false&#10;    &#125;, function(err, todo) &#123;&#10;        if (err) &#123;&#10;            res.send(err);&#10;        &#125;&#10;        // get and return all the todos after you create another&#10;        Todo.find(function(err, todos) &#123;&#10;            if (err) &#123;&#10;                res.send(err);&#10;            &#125;&#10;            res.json(todos);&#10;        &#125;);&#10;    &#125;);&#10;&#10;&#125;);&#10;&#10;// delete a todo&#10;app.delete(&#39;/api/todos/:todo_id&#39;, function(req, res) &#123;&#10;    Todo.remove(&#123;&#10;        _id : req.params.todo_id&#10;    &#125;, function(err, todo) &#123;&#10;        if (err)&#10;            res.send(err);&#10;        // get and return all the todos after you create another&#10;        Todo.find(function(err, todos) &#123;&#10;            if (err) &#123;&#10;                res.send(err);&#10;            &#125;&#10;            res.json(todos);&#10;        &#125;);&#10;    &#125;);&#10;&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>基于上面的路由，我们可以通过这个简单的表格来展示一下前端应用如何向服务器端请求数据：</p>
+<table>
+<thead>
+<tr>
+<th>HTTP动词</th>
+<th>URL地址</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/api/todos</td>
+<td>Get all of the todos</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/todos</td>
+<td>Create a single todo</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/api/todos/:todo_id</td>
+<td>Delete a single todo</td>
+</tr>
+</tbody>
+</table>
+<p>在每个API里，我们使用Mongoose来帮助我们和数据库交互。在前面的代码中，我们使用<code>var Todo = mongoose.model</code>创建了模型，并且可以通过它来实现<code>find</code>、<code>create</code>和<code>remove</code>功能。当然还有很多其他功能，建议查看<a href="http://mongoosejs.com/docs/guide.html" target="_blank" rel="external">官方文档</a>进一步学习。</p>
+<p>OK，那么我们的API就搞定了！如果你开启项目，你可以在<code>localhost:8080/api/todos/</code>里获取所有的todos，不过现在里面什么也没有因为我们还没有往里添加数据。</p>
+<h2 id="前端框架">前端框架</h2><p>现在我们搭建了NodeJS应用，设置了数据库，生成了API路径，并且还开了服务器，已经做了不少工作，目前完成的工作可以当做一个单独的项目，为应用提供API接口。</p>
+<p>接下来我们看看如何使用AngularJS搭建前端框架。</p>
+<p>我们先调用一下刚刚创建的API接口，用一个我这个月刚学会的谚语来说：<a href="http://zh.wikipedia.org/wiki/Eating_your_own_dog_food" target="_blank" rel="external">吃自家的狗粮</a>，中文译为自产自销可能比较合适。我们把自己当做自己的首批用户，调用我们自己开发的API。为了让项目尽量简单，我们只需要<code>index.html</code>和<code>core.js</code>这两个文件。</p>
+<h3 id="定义前端路由">定义前端路由</h3><p>我们刚刚定义了API的URL路径：<code>/api/todos</code>，但是前端呢？如何让服务器在首页显示index.html页面？</p>
+<p>我们在<code>server.js</code>中加一条路径：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// get the index.html&#10;app.get(&#39;*&#39;, function(req, res) &#123;&#10;    res.sendfile(&#39;./public/index.html&#39;); // load the single view file (angular will handle the page changes on the front-end)&#10;&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>现在再访问<code>localhost:8080</code>就可以访问index.html了。</p>
+<h3 id="设置AngularJS">设置AngularJS</h3><p>我们先来看一看AngularJS的安装，我们需要创建一个模块，一个控制器，然后定义处理TODO的函数。修改后的<code>core.js</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var scotchTodo = angular.module(&#39;scotchTodo&#39;, []);&#10;&#10;function mainController($scope, $http) &#123;&#10;    $scope.formData = &#123;&#125;;&#10;    // when landing on the page, get all todos and show them&#10;    $http.get(&#39;/api/todos&#39;)&#10;        .success(function (data) &#123;&#10;            $scope.todos = data;&#10;            console.log(data);&#10;        &#125;)&#10;        .error(function (data) &#123;&#10;            console.log(&#39;Error: &#39; + data);&#10;        &#125;);&#10;    // when submitting the add form, send the text to the node API&#10;    $scope.createTodo = function () &#123;&#10;        $http.post(&#39;/api/todos&#39;, $scope.formData)&#10;            .success(function (data) &#123;&#10;                $scope.formData = &#123;&#125;;&#10;                $scope.todos = data;&#10;                console.log(data);&#10;            &#125;)&#10;            .error(function (data) &#123;&#10;                console.log(&#39;Error: &#39; + data);&#10;            &#125;);&#10;    &#125;;&#10;    // delete a todo after checking it&#10;    $scope.deleteTodo = function (id) &#123;&#10;        $http.delete(&#39;/api/todos/&#39; + id)&#10;            .success(function (data) &#123;&#10;                $scope.todos = data;&#10;                console.log(data);&#10;            &#125;)&#10;            .error(function (data) &#123;&#10;                console.log(&#39;Error: &#39; + data);&#10;            &#125;);&#10;    &#125;;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>我们创建了一个模块（scotchApp）和一个控制器（mainController）。</p>
+<p>我们也创建了获取TODO、创建TODO、删除TODO的函数，这些都会访问我们前面创建的API接口。在页面加载的时候，我们通过GET访问了<code>/api/todos</code>并且将从服务器获取到的JSON数据绑定到了<code>$scope.todos</code>上，接下来就可以在视图中遍历生成TODO列表。</p>
+<h3 id="网站页面开发">网站页面开发</h3><p>我们依旧采用尽量简单的方法开发网站页面。主要分为以下几个步骤：</p>
+<ul>
+<li>注册Angular的模块和控制器</li>
+<li>获取所有的TODO列表并且初始化</li>
+<li>遍历所有的TODO列表</li>
+<li>有一个表单创建TODO</li>
+<li>当TODO被选中时执行删除操作</li>
+</ul>
+<p><code>index.html</code>中源码如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#60;!-- index.html --&#62;&#10;&#60;!doctype html&#62;&#10;&#60;!-- ASSIGN OUR ANGULAR MODULE --&#62;&#10;&#60;html ng-app=&#34;scotchTodo&#34;&#62;&#10;&#60;head&#62;&#10;    &#60;!-- META --&#62;&#10;    &#60;meta charset=&#34;utf-8&#34;&#62;&#10;    &#60;!-- Optimize mobile viewport --&#62;&#10;    &#60;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1&#34;&#62;&#10;    &#60;title&#62;Node/Angular Todo App&#60;/title&#62;&#10;    &#60;!-- SCROLLS --&#62;&#10;    &#60;link rel=&#34;stylesheet&#34; href=&#34;//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&#34;&#62;&#60;!-- load bootstrap --&#62;&#10;    &#60;style&#62;&#10;        html                    &#123; overflow-y:scroll; &#125;&#10;        body                    &#123; padding-top:50px; &#125;&#10;        #todo-list              &#123; margin-bottom:30px; &#125;&#10;    &#60;/style&#62;&#10;    &#60;!-- SPELLS --&#62;&#10;    &#60;script src=&#34;//cdn.staticfile.org/jquery/2.1.1/jquery.min.js&#34;&#62;&#60;/script&#62;&#60;!-- load jquery --&#62;&#10;    &#60;script src=&#34;//lib.sinaapp.com/js/angular.js/angular-1.2.19/angular.min.js&#34;&#62;&#60;/script&#62;&#60;!-- load angular --&#62;&#10;    &#60;script src=&#34;core.js&#34;&#62;&#60;/script&#62;&#10;&#60;/head&#62;&#10;&#60;!-- SET THE CONTROLLER AND GET ALL TODOS --&#62;&#10;&#60;body ng-controller=&#34;mainController&#34;&#62;&#10;&#60;div class=&#34;container&#34;&#62;&#10;    &#60;!-- HEADER AND TODO COUNT --&#62;&#10;    &#60;div class=&#34;jumbotron text-center&#34;&#62;&#10;        &#60;h1&#62;I&#39;m a Todo-aholic &#60;span class=&#34;label label-info&#34;&#62;&#123;&#123; todos.length &#125;&#125;&#60;/span&#62;&#60;/h1&#62;&#10;    &#60;/div&#62;&#10;    &#60;!-- TODO LIST --&#62;&#10;    &#60;div id=&#34;todo-list&#34; class=&#34;row&#34;&#62;&#10;        &#60;div class=&#34;col-sm-4 col-sm-offset-4&#34;&#62;&#10;            &#60;!-- LOOP OVER THE TODOS IN $scope.todos --&#62;&#10;            &#60;div class=&#34;checkbox&#34; ng-repeat=&#34;todo in todos&#34;&#62;&#10;                &#60;label&#62;&#10;                    &#60;input type=&#34;checkbox&#34; ng-click=&#34;deleteTodo(todo._id)&#34;&#62; &#123;&#123; todo.text &#125;&#125;&#10;                &#60;/label&#62;&#10;            &#60;/div&#62;&#10;        &#60;/div&#62;&#10;    &#60;/div&#62;&#10;    &#60;!-- FORM TO CREATE TODOS --&#62;&#10;    &#60;div id=&#34;todo-form&#34; class=&#34;row&#34;&#62;&#10;        &#60;div class=&#34;col-sm-8 col-sm-offset-2 text-center&#34;&#62;&#10;            &#60;form&#62;&#10;                &#60;div class=&#34;form-group&#34;&#62;&#10;                    &#60;!-- BIND THIS VALUE TO formData.text IN ANGULAR --&#62;&#10;                    &#60;input type=&#34;text&#34; class=&#34;form-control input-lg text-center&#34; placeholder=&#34;I want to buy a puppy that will love me forever&#34; ng-model=&#34;formData.text&#34;&#62;&#10;                &#60;/div&#62;&#10;                &#60;!-- createToDo() WILL CREATE NEW TODOS --&#62;&#10;                &#60;button type=&#34;submit&#34; class=&#34;btn btn-primary btn-lg&#34; ng-click=&#34;createTodo()&#34;&#62;Add&#60;/button&#62;&#10;            &#60;/form&#62;&#10;        &#60;/div&#62;&#10;    &#60;/div&#62;&#10;&#60;/div&#62;&#10;&#60;/body&#62;&#10;&#60;/html&#62;</span><br></pre></td></tr></table></figure></p>
+<h2 id="开发总结">开发总结</h2><p>现在我们完整的开发了一个应用，实现了通过API创建、展示和删除TODO列表的功能。简单的回顾一下我们完成的工作：</p>
+<ul>
+<li>使用Express搭建RESTful接口 </li>
+<li>使用mongoose连接MongoDB接口</li>
+<li>Angular中的AJAX调用<code>$http</code></li>
+<li>没有刷新的单页项目</li>
+<li>吃自家狗粮(抱歉我真是太爱这个词了)</li>
+</ul>
+<h3 id="测试应用细节">测试应用细节</h3><p>可以前往<a href="https://github.com/scotch-io/node-todo" target="_blank" rel="external">Github</a>下载完整的项目源码。为了保证它能运行需要：</p>
+<ul>
+<li>确定安装了Node和NPM</li>
+<li>复制仓库<code>git clone git@github.com:scotch-io/node-todo</code></li>
+<li>安装依赖<code>npm install</code></li>
+<li>启动服务<code>node server.js</code></li>
+<li>在浏览器中打开<code>http://localhost:8080</code></li>
+</ul>
+<p>希望这个教程能够帮助你理解如何将多个部分协同工作。在将来的教程中我们将会学习如何将<code>server.js</code>分解成多个文件。</p>
+<h3 id="后期学习">后期学习</h3><p>如果你对MEAN(Mongo,Express,Angular,Node)集成开发很感兴趣，可以看一看这篇关于如何创建属于自己的MEAN项目有的教程：</p>
+<p><a href="http://scotch.io/bar-talk/setting-up-a-mean-stack-single-page-application" target="_blank" rel="external">Setting Up a MEAN Stack Single Page Application</a></p>
+<p>这篇文章是<a href="http://scotch.io/series/node-and-angular-to-do-app" target="_blank" rel="external">Node and Angular TODO</a>系列教程中的一篇。</p>
+<p>整个系列如下：</p>
+<ol>
+<li><a href="http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular" target="_blank" rel="external">Creating a Single Page To-do App with Node and Angular</a></li>
+<li><a href="http://scotch.io/tutorials/javascript/node-and-angular-to-do-app-application-organization-and-structure" target="_blank" rel="external">Node Application Organization and Structure</a></li>
+<li><a href="http://scotch.io/tutorials/javascript/node-and-angular-to-do-app-application-organization-and-structure" target="_blank" rel="external">Angular Modules: Controllers and Services</a></li>
+</ol>
+<hr>
+<p>原文地址：</p>
+<ul>
+<li><a href="http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular" target="_blank" rel="external">Creating a Single Page Todo App with Node and Angular</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AngularJS/" rel="tag">#AngularJS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/07/15/a-ted-a-day/" rel="next" title="A TED A DAY">
+                <i class="fa fa-chevron-left"></i> A TED A DAY
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/08/31/ios7-background-fetch-programming/" rel="prev" title="iOS7中的后台传输服务：如何在后台获取数据">
+                iOS7中的后台传输服务：如何在后台获取数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/07/17/creating-a-single-page-todo-app-with-node-and-angular/"
+           data-title="使用NodeJS和AngularJS创建一个TODO的单页网站" data-url="http://blog.callmewhy.com/2014/07/17/creating-a-single-page-todo-app-with-node-and-angular/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础安装"><span class="nav-number">1.</span> <span class="nav-text">基础安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件结构"><span class="nav-number">1.1.</span> <span class="nav-text">文件结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装模块"><span class="nav-number">1.2.</span> <span class="nav-text">安装模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NodeJS设置"><span class="nav-number">1.3.</span> <span class="nav-text">NodeJS设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库安装"><span class="nav-number">1.4.</span> <span class="nav-text">数据库安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行应用"><span class="nav-number">1.5.</span> <span class="nav-text">运行应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用流程"><span class="nav-number">2.</span> <span class="nav-text">应用流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建接口"><span class="nav-number">3.</span> <span class="nav-text">创建接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TODO模型"><span class="nav-number">3.1.</span> <span class="nav-text">TODO模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RESTful路由"><span class="nav-number">3.2.</span> <span class="nav-text">RESTful路由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端框架"><span class="nav-number">4.</span> <span class="nav-text">前端框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义前端路由"><span class="nav-number">4.1.</span> <span class="nav-text">定义前端路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置AngularJS"><span class="nav-number">4.2.</span> <span class="nav-text">设置AngularJS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网站页面开发"><span class="nav-number">4.3.</span> <span class="nav-text">网站页面开发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发总结"><span class="nav-number">5.</span> <span class="nav-text">开发总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试应用细节"><span class="nav-number">5.1.</span> <span class="nav-text">测试应用细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后期学习"><span class="nav-number">5.2.</span> <span class="nav-text">后期学习</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

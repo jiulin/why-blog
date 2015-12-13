@@ -1,0 +1,847 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="UIAlertController," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="欢迎新来的小伙伴：UIAlertController。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIAlertController 以及 Swift 中的闭包和枚举">
+<meta property="og:url" content="http://blog.callmewhy.com/2014/10/08/uialertcontroller-swift-closures-enum/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="欢迎新来的小伙伴：UIAlertController。">
+<meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-featured.png">
+<meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-demo-storyboard.png">
+<meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-connect-actions.png">
+<meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-style.png">
+<meta property="og:image" content="http://www.appcoda.com/wp-content/uploads/2014/08/closure-in-swift.png">
+<meta property="og:updated_time" content="2015-04-25T10:03:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIAlertController 以及 Swift 中的闭包和枚举">
+<meta name="twitter:description" content="欢迎新来的小伙伴：UIAlertController。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> UIAlertController 以及 Swift 中的闭包和枚举 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                UIAlertController 以及 Swift 中的闭包和枚举
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-10-08T11:09:18+08:00" content="2014-10-08">
+              2014-10-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/翻译笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/08/uialertcontroller-swift-closures-enum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/08/uialertcontroller-swift-closures-enum/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>在 iOS8 的 SDK 中， UIKit 框架里两个常用的 API 有了比较大的改动。UIActionSheet 和 UIAlertView 都被 UIAlertController 替换了。</p>
+<p>在 iOS8 里，如果你想要弹出消息，你应该使用 UIAlertController 而不是那两个不建议使用的类了。 ActionSheet 和 AlertView 都变成了 UIAlertController 的风格。在创建 UIAlertController 的时候你可以选择不同的风格，按钮事件的处理方法也重新设计了，不再需要像以前那样使用 delegate 处理用户操作。当使用 UIAlertController 的时候，你可以把事件和控制器关联起来，事件在 Objective-C 中是一个 block 而在 Swift 中则是一个闭包 (closure)。</p>
+<p>在这篇教程里，我们将会介绍 UIAlertController 并且演示如何使用它来弹出消息和表单。借此机会，我刚好简单的讲解一些 Swift 中闭包和枚举的内容。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-featured.png" alt=""></p>
+<h2 id="创建_Xcode_项目">创建 Xcode 项目</h2><p>通过项目来学习是最好的方法，我们新建一个 Single View Application 的项目并将其命名为 UIAlertDemo 。记得选中 Swift 作为默认的开发语言。</p>
+<p>在 Xcode6 中， Size Class 是默认开启的状态，为了让代码尽量的简单易懂，在此教程中我们不会使用相关的新特性，选中 Main.storyboard 文件并且在属性中去掉 Use Size Classes 的勾选。取消勾选之后会提醒选择默认设备类型，选中 iPhone 并且点击 Disable Size Classes 即可。这样我们的 ViewController 看起来就是 iPhone 的尺寸了。</p>
+<p>拖拽一个按钮到视图中并且设置标题为 <code>Hello Alert</code> ，这样就完成了<del>前戏</del>准备工作。</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-demo-storyboard.png" alt=""></p>
+<h2 id="添加_Action_方法">添加 Action 方法</h2><p>在 <code>ViewController.swift</code> 里，为按钮添加一个方法，接下来我们会将它和 Storyboard 关联起来：</p>
+<pre><code><span class="constant">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">showAlert</span><span class="params">()</span> {</span>
+
+}
+</code></pre><p>Outlet 和 Action 让我们可以把源码和 UI 对象关联起来，在 Swift 里，我们在方法名前添加 <code>@IBAction</code> 关键字，表明这是一个 Action 方法。这个方法将会和 Storyboard 关联起来。</p>
+<p>接下来我们将会把按钮和方法关联起来。在左侧的缩略图中，按住 Control 键并从按钮拖拽到 ViewController 上，松开按钮，选择 <code>showAlert</code> 方法：</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-connect-actions.png" alt=""></p>
+<h2 id="使用_UIAlertViewController_弹框">使用 UIAlertViewController 弹框</h2><p>我们已经完成了基本的项目配置，现在可以开始学习 UIAlertController 类的使用了。大致来说，为了弹出提示信息，大致需要完成以下几个步骤：</p>
+<ul>
+<li>创建一个 UIAlertController ，设置它的标题、内容以及式样。</li>
+<li>定义 UIAlertAction 对象，并且把它加到 AlertController 中。</li>
+<li>通过调用 <code>presentViewController</code> 方法弹出内容。</li>
+</ul>
+<p>如果用 Swift 写，看起来大概是这个样子的：</p>
+<pre><code><span class="annotation">@IBAction</span> func showAlert() {
+    let alertController = UIAlertController(<span class="string">title:</span> <span class="string">"Hey AppCoda"</span>, <span class="string">message:</span> <span class="string">"What do you want to do?"</span>, <span class="string">preferredStyle:</span> .Alert)
+
+    let defaultAction = UIAlertAction(<span class="string">title:</span> <span class="string">"OK"</span>, <span class="string">style:</span> .Default, <span class="string">handler:</span> nil)
+    alertController.addAction(defaultAction)
+
+    presentViewController(alertController, <span class="string">animated:</span> <span class="literal">true</span>, <span class="string">completion:</span> nil)
+}
+</code></pre><p>很简单，不是吗？我们只需要设定 <code>Style</code> 值就可以选择弹出的是消息还是表单。如果是 <code>.Alert</code> 则是弹出消息，<code>.ActionSheet</code> 则对应表单。</p>
+<p>默认情况下， <code>AlertController</code> 并没有和任何 <code>Action</code> 关联起来。如果你没有添加任何 <code>Action</code> 会导致无法关闭弹出的内容。在上面的代码中，我们创建了一个 <code>UIAlertAction</code> 的实例，并且通过 <code>addAction</code> 方法把它和 <code>AlertController</code> 关联起来。在初始化 <code>UIAlertAction</code> 的时候，你需要指定标题 (Title)，样式 (Style) 和处理器 (Handler) 。<code>Handler</code> 是一个代码块，会在按钮被点击的时候执行。我们只需要把 Handler 设置成 nil 就可以关闭弹出的窗口。在后面的内容里会有详细的讲解。</p>
+<p>最后，我们调用 <code>presentViewController</code> 方法弹出页面，如果你运行一下示例程序，点击按钮你会得到一个弹出的消息 (取决于你设定的样式) ：</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-style.png" alt=""></p>
+<h2 id="简要的谈谈_Swift_中的枚举">简要的谈谈 Swift 中的枚举</h2><p>如果你是第一次编写 Swift 的代码，你可能不太熟悉在设定样式时使用的 <code>.</code> 语法。你可以这样重写一下前面的代码：</p>
+<pre><code>let alertController = UIAlertController(<span class="string">title:</span> <span class="string">"Hey AppCoda"</span>, <span class="string">message:</span> <span class="string">"What do you want to do?"</span>, <span class="string">preferredStyle:</span> UIAlertControllerStyle.Alert)
+</code></pre><p>代码是完全一样的，我们只是准确的指定了枚举类型， <code>UIAlertControllerStyle</code> 实际上是一个枚举类：</p>
+<pre><code><span class="class"><span class="keyword">enum</span> <span class="title">UIAlertControllerStyle</span> : <span class="title">Int</span> { </span>
+     <span class="keyword">case</span> <span class="constant">ActionSheet</span> 
+     <span class="keyword">case</span> <span class="constant">Alert</span> 
+}
+</code></pre><p>Swift 中的枚举类型可以让你把相关的值放到一个组里，枚举中定义的值 (例如： <code>AlertSheet</code> 和 <code>Alert</code>) 就是成员的值。 Objective-C 里，成员在创建的时候会指定一个常量值，比如0和1，而 Swift 中则不是这样。以 <code>UIAlertControllerStyle</code> 为例， <code>ActionSheet</code> 和 <code>Alert</code> 并没有定义为0和1，每个成员在枚举中都是完整的值。</p>
+<p>你可以通过枚举类型 (比如 <code>UIAlertControllerStyle</code>) 加上点和成员值的方式来指定枚举值。 <code>UIAlertControllerStyle.Alert</code> 就是一个典型的例子。得益于 [Swift 的类型推导特性]，我们在指定枚举值的时候可以去掉前面的枚举类型，这也就是为什么可以写作 <code>.Alert</code> 和 <code>.ActionSheet</code> 的原因。</p>
+<pre><code>let alertController = UIAlertController(<span class="string">title:</span> <span class="string">"Hey AppCoda"</span>, <span class="string">message:</span> <span class="string">"What do you want to do?"</span>, <span class="string">preferredStyle:</span> .Alert)
+</code></pre><p>这种缩略形式的<code>点语法</code>可以让你少写代码并且让你的代码更具有可读性。</p>
+<h2 id="Handler_和闭包">Handler 和闭包</h2><p>让我们回到 UIAlertController 里，我们还没有讨论 UIAlertAction 中的 handler 。当我们创建一个 UIAlertAction 的时候，我们可以把一个代码块指定为 handler 。当用户触发了 Action 事件的时候便会执行这段代码。我们可以在 <code>showAlert</code> 方法里插入如下代码添加一个新的 action ：</p>
+<pre><code>let callActionHandler = { (<span class="string">action:</span>UIAlertAction!) -&gt; Void <span class="keyword">in</span>
+    let alertMessage = UIAlertController(<span class="string">title:</span> <span class="string">"Service Unavailable"</span>, <span class="string">message:</span> <span class="string">"Sorry, the call feature is not available yet. Please retry later."</span>, <span class="string">preferredStyle:</span> .Alert)
+    alertMessage.addAction(UIAlertAction(<span class="string">title:</span> <span class="string">"OK"</span>, <span class="string">style:</span> .Default, <span class="string">handler:</span> nil))
+    self.presentViewController(alertMessage, <span class="string">animated:</span> <span class="literal">true</span>, <span class="string">completion:</span> nil)
+}
+let callAction = UIAlertAction(<span class="string">title:</span> <span class="string">"Call"</span>, <span class="string">style:</span> .Default, <span class="string">handler:</span> callActionHandler)
+alertController.addAction(callAction)
+</code></pre><p>在这里我们添加了一个 callAction 用来弹出提示。在 Swift 里，这样的代码块叫做闭包 (Closure) 。闭包是可传递的功能代码块，很像 Objective-C 中的 block 。正如上面的例子那样，如果想要声明某个 action 的闭包，方法之一是把这个代码块声明成一个常量或者变量。第一个部分定义了 handler 的参数为 UIAlertAction 类型，关键词 <code>in</code> 表明前面的参数和返回类型都已经定义完毕，后面便是闭包的内容：</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2014/08/closure-in-swift.png" alt=""></p>
+<p>其实我们并没有必要声明一个单独的变量来存储闭包的内容，我们可以直接把闭包作为一个参数传过去。 Swfit 可以推测参数的类型，所以我们可以这样简化代码：</p>
+<pre><code>let callAction = UIAlertAction(<span class="string">title:</span> <span class="string">"Call"</span>, <span class="string">style:</span> .Default, <span class="string">handler:</span> {
+    action <span class="keyword">in</span>
+        let alertMessage = UIAlertController(<span class="string">title:</span> <span class="string">"Service Unavailable"</span>, <span class="string">message:</span> <span class="string">"Sorry, the call feature is not available yet. Please retry later."</span>, <span class="string">preferredStyle:</span> .Alert)
+        alertMessage.addAction(UIAlertAction(<span class="string">title:</span> <span class="string">"OK"</span>, <span class="string">style:</span> .Default, <span class="string">handler:</span> nil))
+        self.presentViewController(alertMessage, <span class="string">animated:</span> <span class="literal">true</span>, <span class="string">completion:</span> nil)
+        }
+)
+alertController.addAction(callAction)
+</code></pre><h2 id="总结">总结</h2><p>通过这篇教程，我希望你能理解 UIAlertController 的基本使用方法。希望你喜欢这个 iOS8 里的新伙计！</p>
+<p>你可以在<a href="https://www.dropbox.com/s/x9nhs1ps899qkn3/UIAlertDemo.zip" target="_blank" rel="external">这里</a>下载源码。</p>
+<hr>
+<p>原文地址：</p>
+<ul>
+<li><a href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/" target="_blank" rel="external">Introduction to UIAlertController, Swift Closures and Enumeration</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UIAlertController/" rel="tag">#UIAlertController</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/09/23/beginners-guide-optionals-swift/" rel="next" title="Swift 初学手册：可选类型 (Optionals)">
+                <i class="fa fa-chevron-left"></i> Swift 初学手册：可选类型 (Optionals)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/12/a-hamburger-button-transition/" rel="prev" title="如何用Swift做一个不错的按钮变换动画">
+                如何用Swift做一个不错的按钮变换动画 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/10/08/uialertcontroller-swift-closures-enum/"
+           data-title="UIAlertController 以及 Swift 中的闭包和枚举" data-url="http://blog.callmewhy.com/2014/10/08/uialertcontroller-swift-closures-enum/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建_Xcode_项目"><span class="nav-number">1.</span> <span class="nav-text">创建 Xcode 项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加_Action_方法"><span class="nav-number">2.</span> <span class="nav-text">添加 Action 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用_UIAlertViewController_弹框"><span class="nav-number">3.</span> <span class="nav-text">使用 UIAlertViewController 弹框</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简要的谈谈_Swift_中的枚举"><span class="nav-number">4.</span> <span class="nav-text">简要的谈谈 Swift 中的枚举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handler_和闭包"><span class="nav-number">5.</span> <span class="nav-text">Handler 和闭包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

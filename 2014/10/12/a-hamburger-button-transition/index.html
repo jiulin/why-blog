@@ -1,0 +1,875 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="酷炫的动画效果，带你装逼带你飞！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何用Swift做一个不错的按钮变换动画">
+<meta property="og:url" content="http://blog.callmewhy.com/2014/10/12/a-hamburger-button-transition/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="酷炫的动画效果，带你装逼带你飞！">
+<meta property="og:image" content="https://d13yacurqjgara.cloudfront.net/users/107759/screenshots/1623679/menu.gif">
+<meta property="og:image" content="http://robb.is/img/outline.png">
+<meta property="og:image" content="http://robb.is/img/hamburger-button.gif">
+<meta property="og:updated_time" content="2015-04-25T10:03:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何用Swift做一个不错的按钮变换动画">
+<meta name="twitter:description" content="酷炫的动画效果，带你装逼带你飞！">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 如何用Swift做一个不错的按钮变换动画 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何用Swift做一个不错的按钮变换动画
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-10-12T18:02:33+08:00" content="2014-10-12">
+              2014-10-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/翻译笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">翻译笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/10/12/a-hamburger-button-transition/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/12/a-hamburger-button-transition/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>汉堡按钮在 UI 设计中早已不是什么新鲜玩意儿了，但是某天我突然在 dribbble 上看到了这个<a href="https://dribbble.com/shots/1623679-Open-Close" target="_blank" rel="external">酷炫的动画效果</a>，效果真是棒棒哒！于是我决定把它在代码里实现一下。</p>
+<p>先来看下 <a href="https://dribbble.com/Creativedash" target="_blank" rel="external">CreativeDash</a>  团队做出来的原始动画效果：</p>
+<p><img src="https://d13yacurqjgara.cloudfront.net/users/107759/screenshots/1623679/menu.gif" alt=""></p>
+<p>我们可以看到 (看得我眼睛都花了)，汉堡按钮 (也就是三条横线的那个)的上下两条线分别绕着自身最优的端点旋转了45°，变成了按钮里的 X ，中间的那个线则摇身一变，成了外面的圈圈。这个效果可以用 <code>CAShapeLayer</code> 实现，但是首先，我需要为这三条直线分别创建一个 <code>CGPath</code> 。</p>
+<p>我们可以这样手动创建一个短短的直线：</p>
+<pre><code>let shortStroke: <span class="built_in">CGPath</span> = {
+    let path = <span class="built_in">CGPathCreateMutable</span>()
+    <span class="built_in">CGPathMoveToPoint</span>(path, <span class="literal">nil</span>, <span class="number">2</span>, <span class="number">2</span>)
+    <span class="built_in">CGPathAddLineToPoint</span>(path, <span class="literal">nil</span>, <span class="number">28</span>, <span class="number">2</span>)
+
+    <span class="keyword">return</span> path
+}()
+</code></pre><p>不过对于中间那个线，因为它有比较复杂的运动轨迹，所以我用 <a href="http://www.bohemiancoding.com/sketch/" target="_blank" rel="external">Sketch</a> 创建了一条路径，把动画融入了线条中：</p>
+<p><img src="http://robb.is/img/outline.png" alt=""></p>
+<p>接下来我把图片导出成了 SVG 格式，然后通过 <a href="http://www.paintcodeapp.com/" target="_blank" rel="external">PaintCode</a> 1 把图片转换成代码片段，导入项目中。接下来我重写了导入的代码片段，并且创建了想要的 CGPath 对象：</p>
+<pre><code>let outline: CGPath = {
+    let path = CGPathCreateMutable()
+    CGPathMoveToPoint(path, nil, <span class="number">10</span>, <span class="number">27</span>)
+    CGPathAddCurveToPoint(path, nil, <span class="number">12.00</span>, <span class="number">27.00</span>, <span class="number">28.02</span>, <span class="number">27.00</span>, <span class="number">40</span>, <span class="number">27</span>)
+    CGPathAddCurveToPoint(path, nil, <span class="number">55.92</span>, <span class="number">27.00</span>, <span class="number">50.47</span>,  <span class="number">2.00</span>, <span class="number">27</span>,  <span class="number">2</span>)
+    CGPathAddCurveToPoint(path, nil, <span class="number">13.16</span>,  <span class="number">2.00</span>,  <span class="number">2.00</span>, <span class="number">13.16</span>,  <span class="number">2</span>, <span class="number">27</span>)
+    CGPathAddCurveToPoint(path, nil,  <span class="number">2.00</span>, <span class="number">40.84</span>, <span class="number">13.16</span>, <span class="number">52.00</span>, <span class="number">27</span>, <span class="number">52</span>)
+    CGPathAddCurveToPoint(path, nil, <span class="number">40.84</span>, <span class="number">52.00</span>, <span class="number">52.00</span>, <span class="number">40.84</span>, <span class="number">52</span>, <span class="number">27</span>)
+    CGPathAddCurveToPoint(path, nil, <span class="number">52.00</span>, <span class="number">13.16</span>, <span class="number">42.39</span>,  <span class="number">2.00</span>, <span class="number">27</span>,  <span class="number">2</span>)
+    CGPathAddCurveToPoint(path, nil, <span class="number">13.16</span>,  <span class="number">2.00</span>,  <span class="number">2.00</span>, <span class="number">13.16</span>,  <span class="number">2</span>, <span class="number">27</span>)
+
+    <span class="keyword">return</span> path
+}()
+</code></pre><p>可能有第三方的类库可以让你直接把 SVG 转换成 CGPath，但是对于这种简单的图像，没必要杀鸡用牛刀。</p>
+<p>在我自定义的 <code>UIButton</code> 的子类里，我添加了三个 <code>CAShapeLayer</code> 属性并且把他们和前面定义的路径关联了起来：</p>
+<pre><code>self<span class="class">.top</span><span class="class">.path</span> = shortStroke
+self<span class="class">.middle</span><span class="class">.path</span> = <span class="attribute">outline</span>
+self<span class="class">.bottom</span><span class="class">.path</span> = shortStroke
+</code></pre><p>然后设置一下相关的属性：</p>
+<pre><code>layer<span class="class">.fillColor</span> = nil
+layer<span class="class">.strokeColor</span> = UIColor.<span class="function"><span class="title">whiteColor</span><span class="params">()</span></span><span class="class">.CGColor</span>
+layer<span class="class">.lineWidth</span> = <span class="number">4</span>
+layer<span class="class">.miterLimit</span> = <span class="number">4</span>
+layer<span class="class">.lineCap</span> = kCALineCapRound
+layer<span class="class">.masksToBounds</span> = true
+</code></pre><p>为了正确的计算出边框 (<code>bounds</code>) ，我需要对这些线条的大小进行计算。谢天谢地，用 <code>CGPathCreateCopyByStrokingPath</code> 这个函数可以创建一条和原来线条一样的路径，所以它的 <code>bounds</code> 和参数里那个 <code>CAShapeLayer</code> 类型的内容完全一致：</p>
+<pre><code>let boundingPath = <span class="function"><span class="title">CGPathCreateCopyByStrokingPath</span><span class="params">(layer.path, nil, <span class="number">4</span>, kCGLineCapRound, kCGLineJoinMiter, <span class="number">4</span>)</span></span>
+
+layer<span class="class">.bounds</span> = <span class="function"><span class="title">CGPathGetPathBoundingBox</span><span class="params">(boundingPath)</span></span>
+</code></pre><p>因为汉堡按钮的上下两个线条接下来会绕着最右点旋转，所以在布局图层的时候，我们需要相应的设置它的锚点 (<code>anchorPoint</code>)：</p>
+<pre><code>self<span class="class">.top</span><span class="class">.anchorPoint</span> = <span class="function"><span class="title">CGPointMake</span><span class="params">(<span class="number">28.0</span> / <span class="number">30.0</span>, <span class="number">0.5</span>)</span></span>
+self<span class="class">.top</span><span class="class">.position</span> = <span class="function"><span class="title">CGPointMake</span><span class="params">(<span class="number">40</span>, <span class="number">18</span>)</span></span>
+
+self<span class="class">.middle</span><span class="class">.position</span> = <span class="function"><span class="title">CGPointMake</span><span class="params">(<span class="number">27</span>, <span class="number">27</span>)</span></span>
+self<span class="class">.middle</span><span class="class">.strokeStart</span> = hamburgerStrokeStart
+self<span class="class">.middle</span><span class="class">.strokeEnd</span> = hamburgerStrokeEnd
+
+self<span class="class">.bottom</span><span class="class">.anchorPoint</span> = <span class="function"><span class="title">CGPointMake</span><span class="params">(<span class="number">28.0</span> / <span class="number">30.0</span>, <span class="number">0.5</span>)</span></span>
+self<span class="class">.bottom</span><span class="class">.position</span> = <span class="function"><span class="title">CGPointMake</span><span class="params">(<span class="number">40</span>, <span class="number">36</span>)</span></span>
+</code></pre><p>接下来就是动画的部分了。当按钮的状态改变的时候，三条直线应该会动态的移动到新的位置。对于那两个外围的直线而言，实现起来很容易。比如最上面的那条线，我先把它往里移动 4 points 让它位于中心位置，然后再逆时针旋转45度，形成了半个 X ：</p>
+<pre><code><span class="tag">var</span> <span class="attribute">transform</span> = CATransform3DIdentity
+<span class="attribute">transform</span> = <span class="function"><span class="title">CATransform3DTranslate</span><span class="params">(transform, -<span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>)</span></span>
+<span class="attribute">transform</span> = <span class="function"><span class="title">CATransform3DRotate</span><span class="params">(transform, -M_PI_4, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)</span></span>
+
+let <span class="attribute">animation</span> = <span class="function"><span class="title">CABasicAnimation</span><span class="params">(keyPath: <span class="string">"transform"</span>)</span></span>
+<span class="attribute">animation</span><span class="class">.fromValue</span> = <span class="function"><span class="title">NSValue</span><span class="params">(CATransform3D: CATransform3DIdentity)</span></span>
+<span class="attribute">animation</span><span class="class">.toValue</span> = <span class="function"><span class="title">NSValue</span><span class="params">(CATransform3D: transform)</span></span>
+<span class="attribute">animation</span><span class="class">.timingFunction</span> = <span class="function"><span class="title">CAMediaTimingFunction</span><span class="params">(controlPoints: <span class="number">0.25</span>, -<span class="number">0.8</span>, <span class="number">0.75</span>, <span class="number">1.85</span>)</span></span>
+<span class="attribute">animation</span><span class="class">.beginTime</span> = <span class="function"><span class="title">CACurrentMediaTime</span><span class="params">()</span></span> + <span class="number">0.25</span>
+
+self<span class="class">.top</span><span class="class">.addAnimation</span>(<span class="attribute">animation</span>, forKey: <span class="string">"transform"</span>)
+self<span class="class">.top</span><span class="class">.transform</span> = <span class="attribute">transform</span>
+</code></pre><p>最下面的那条线的部分交给读者朋友们作为练习。</p>
+<p>接下来，中间的那条直线似乎有点棘手。为了实现理想的效果，我们需要给 <code>CAShapeLayer</code> 的起点和终点分别设置动画效果。</p>
+<p>首先我需要知道这两个属性在两种状态下的值分别是多少。注意，就算是在汉堡状态下，直线也没有从 O 开始。路径稍微的从左边延伸，我们可以稍候应用 <code>timing</code> 函数实现一个酷炫的效果：</p>
+<pre><code><span class="built_in">let</span> menuStrokeStart: CGFloat = <span class="number">0.325</span>
+<span class="built_in">let</span> menuStrokeEnd: CGFloat = <span class="number">0.9</span>
+
+<span class="built_in">let</span> hamburgerStrokeStart: CGFloat = <span class="number">0.028</span>
+<span class="built_in">let</span> hamburgerStrokeEnd: CGFloat = <span class="number">0.111</span>
+</code></pre><p>接下来我们只需要创建动画并加到图层里即可：</p>
+<pre><code>let strokeStart = <span class="function"><span class="title">CABasicAnimation</span><span class="params">(keyPath: <span class="string">"strokeStart"</span>)</span></span>
+strokeStart<span class="class">.fromValue</span> = hamburgerStrokeStart
+strokeStart<span class="class">.toValue</span> = menuStrokeStart
+strokeStart<span class="class">.duration</span> = <span class="number">0.5</span>
+strokeStart<span class="class">.timingFunction</span> = <span class="function"><span class="title">CAMediaTimingFunction</span><span class="params">(controlPoints: <span class="number">0.25</span>, -<span class="number">0.4</span>, <span class="number">0.5</span>, <span class="number">1</span>)</span></span>
+
+self<span class="class">.middle</span><span class="class">.addAnimation</span>(strokeStart, forKey: <span class="string">"strokeStart"</span>)
+self<span class="class">.middle</span><span class="class">.strokeStart</span> = menuStrokeStart
+
+let strokeEnd = <span class="function"><span class="title">CABasicAnimation</span><span class="params">(keyPath: <span class="string">"strokeEnd"</span>)</span></span>
+strokeEnd<span class="class">.fromValue</span> = hamburgerStrokeEnd
+strokeEnd<span class="class">.toValue</span> = menuStrokeEnd
+strokeEnd<span class="class">.duration</span> = <span class="number">0.6</span>
+strokeEnd<span class="class">.timingFunction</span> = <span class="function"><span class="title">CAMediaTimingFunction</span><span class="params">(controlPoints: <span class="number">0.25</span>, -<span class="number">0.4</span>, <span class="number">0.5</span>, <span class="number">1</span>)</span></span>
+
+self<span class="class">.middle</span><span class="class">.addAnimation</span>(strokeEnd, forKey: <span class="string">"strokeEnd"</span>)
+self<span class="class">.middle</span><span class="class">.strokeEnd</span> = menuStrokeEnd
+</code></pre><p>把前面的工作整合一下，你可以看到如下的结果：</p>
+<p><img src="http://robb.is/img/hamburger-button.gif" alt=""></p>
+<p>哈哈哈哈成功实现了，洒家真是太高兴了。你可以在<a href="https://github.com/robb/hamburger-button" target="_blank" rel="external">这里</a>下载源码。当然你也可以加我的<a href="https://twitter.com/ceterum_censeo" target="_blank" rel="external">小鸟</a>。玩的开心~</p>
+<hr>
+<p>原文地址 </p>
+<ul>
+<li><a href="http://robb.is/working-on/a-hamburger-button-transition/" target="_blank" rel="external">How to build a nice Hamburger Button transition in Swift</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag">#Swift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/08/uialertcontroller-swift-closures-enum/" rel="next" title="UIAlertController 以及 Swift 中的闭包和枚举">
+                <i class="fa fa-chevron-left"></i> UIAlertController 以及 Swift 中的闭包和枚举
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/15/calayers-tutorial-for-ios-introduction-to-calayers-tutorial/" rel="prev" title="CALayers 教程：初步认识 CALayer">
+                CALayers 教程：初步认识 CALayer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/10/12/a-hamburger-button-transition/"
+           data-title="如何用Swift做一个不错的按钮变换动画" data-url="http://blog.callmewhy.com/2014/10/12/a-hamburger-button-transition/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

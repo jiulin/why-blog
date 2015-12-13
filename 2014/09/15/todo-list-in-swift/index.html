@@ -1,0 +1,929 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="TODO or not TODO, that&apos;s not a qustion.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 Swift 开发一个 TODO 应用">
+<meta property="og:url" content="http://blog.callmewhy.com/2014/09/15/todo-list-in-swift/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="TODO or not TODO, that&apos;s not a qustion.">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-1.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-1%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-2%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-3%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-4%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-5%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-6%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-7%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-8%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-9%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-10%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-11%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-12%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-13%402x.png">
+<meta property="og:image" content="http://callmewhy.qiniudn.com/QQ20140916-14%402x.png">
+<meta property="og:updated_time" content="2015-04-25T10:03:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用 Swift 开发一个 TODO 应用">
+<meta name="twitter:description" content="TODO or not TODO, that&apos;s not a qustion.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> 用 Swift 开发一个 TODO 应用 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                用 Swift 开发一个 TODO 应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-09-15T22:37:10+08:00" content="2014-09-15">
+              2014-09-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/开发笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">开发笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/09/15/todo-list-in-swift/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/15/todo-list-in-swift/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="背景">背景</h2><p>相信不少 iOS 程序员对于 Swift 依旧持以观望的态度，一来是这小家伙刚出来没几天，本身还处于完善的阶段；二来是学习的成本较高，看完官方文档怎么也要个几天的时间；三来是反正最近几年很难在工程项目里推广使用，工作又用不到，那我学个锤子呐。</p>
+<p>是的，我一开始也是这么想的。直到有一天，我遇到了它：<a href="https://www.youtube.com/watch?v=war0gHL26ns" target="_blank" rel="external">Swift Tutorial - To Do List App</a>。这是 YouTube 上的一个很好地视屏教程，手把手教你如何完成一个 TODO 的应用，功能很简单，就是添加任务和浏览任务。将视屏内容整理了一下。虽然没有什么高深的内容，但是作为一个入门的小程序还是挺适合的。</p>
+<p>适用人群：有一定 Objective-C 的开发基础但是还没怎么接触 Swift 不过装有 Xcode6 想感受一下的 iOS 开发者。</p>
+<p>客官，都看到这里了，何不打开 Xcode6 耍两把？玩一玩噻！来吧。来嘛！</p>
+<h2 id="需求">需求</h2><p>我们想做一个很简单的小东西，和官网的 Demo 一样，是一个 TODO 列表 (TODO：待办事项) ，具有以下功能：</p>
+<ul>
+<li>有一个列表显示 TODO</li>
+<li>有一个页面添加 TODO</li>
+<li>点击添加按钮，在列表显示新的 TODO 列表</li>
+</ul>
+<p>揍是这么简单，让我们开始吧！</p>
+<h2 id="新建项目">新建项目</h2><p>新建一个项目，选择 Tabbed Application 模板，项目名称为：MyTodoList。记得选中 Swift 作为开发语言。Xcode 会创建一个 Swift 的项目：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-1.png" alt=""></p>
+<h2 id="添加管理类">添加管理类</h2><p>我们需要的第一个类是一个 TodoList 的管理器，用来存储 TODO 列表的数据，进行一些增删改查的基本操作。我们将其命名为 <code>TodoManager</code> 。</p>
+<p>在左侧文件夹上右击，选择 New File，选择 Cocoa Class ，类名为 <code>TodoManager</code> ，继承自 NSObject ， Xcode 会自动为我们添加一个 TodoManager.swift 文件。</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-1%402x.png" alt=""></p>
+<p>我们在 Swift 里定义的变量和函数都是全局属性的，这样我们可以在类的外面定义一个 TodoManager 的对象 <code>todoManager</code>，简单的实现了单例模式：</p>
+<pre><code><span class="keyword">import</span> UIKit
+
+<span class="variable"><span class="keyword">var</span> todoManager</span> : TodoManager = TodoManager ()
+
+<span class="class"><span class="keyword">class</span> <span class="title">TodoManager</span>: <span class="typename">NSObject {</span></span>
+
+}
+</code></pre><p>接下来定义一个结构体 (struct) 来表示一个 TODO 项，它有两个属性，一个是任务名称，一个是任务描述：</p>
+<pre><code>struct todo {
+    <span class="variable"><span class="keyword">var</span> name</span> = <span class="string">"Un-Named"</span>
+    <span class="variable"><span class="keyword">var</span> desc</span> = <span class="string">"Un-Described"</span>
+}
+</code></pre><p>在 TodoManager 里面添加一个 todos 数组，用来存储所有的任务：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">TodoManager</span>: <span class="typename">NSObject {</span></span>
+
+    <span class="variable"><span class="keyword">var</span> todos</span> = [todo]()
+
+}
+</code></pre><p>最后定义一个方法 <code>addTask</code> ，用来添加任务：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">TodoManager</span>: <span class="title">NSObject</span> </span>{
+
+    <span class="keyword">var</span> todos = [todo]()
+
+    <span class="func"><span class="keyword">func</span> <span class="title">addTask</span><span class="params">(name: String, desc: String)</span></span> {
+        todos.append(todo(name: name, desc: desc))
+    }
+
+}
+</code></pre><p>OK，这样 <code>TodoManager</code> 就算基本完成了。</p>
+<h2 id="开发界面">开发界面</h2><p>回到 StoryBoard ，我们把页面上系统自动生成的内容 (几个Label) 删除：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-2%402x.png" alt=""></p>
+<p>然后加个 UITableView 到 FirstViewController 上：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-3%402x.png" alt=""></p>
+<p>选中 Tab Bar ，可以编辑 Tab Bar 的显示名称和图片：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-4%402x.png" alt=""></p>
+<p>接下来看下 Second View 。把第二个 Tab Bar 的 Title  改成 Add ：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-5%402x.png" alt=""></p>
+<p>这样基本的页面就算是搞定了。</p>
+<h2 id="数据显示">数据显示</h2><h3 id="First_View_Controller">First View Controller</h3><p>在第一个 Tab 下，将鼠标移到 UITableView 上，按住鼠标右键拖动到 View Controller 上，选择 DataSource 和 Delegate ：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-6%402x.png" alt=""></p>
+<p>回到代码里，打开 FirstViewController.swift 文件，添加 <code>UITableViewDelegate</code> 和 <code>UITableViewDataSource</code> 这两个协议。按住 Command 键点击协议名称可以查看协议的声明，从而知道需要实现那些方法。方法名称和 OC 中的完全相同，只需要转换成 Swift的语法即可。完成之后的 <code>FirstViewController</code> 是这个样子：</p>
+<pre><code><span class="class"><span class="keyword">class</span> <span class="title">FirstViewController</span>: <span class="title">UIViewController</span>, <span class="title">UITableViewDelegate</span>, <span class="title">UITableViewDataSource</span>
+</span>{
+
+    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> {
+        <span class="keyword">super</span>.viewDidLoad()
+        <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span>
+    }
+
+    <span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">didReceiveMemoryWarning</span><span class="params">()</span></span> {
+        <span class="keyword">super</span>.didReceiveMemoryWarning()
+        <span class="comment">// Dispose of any resources that can be recreated.</span>
+    }
+
+
+    <span class="comment">// UITableView DataSource</span>
+    <span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, numberOfRowsInSection section: Int)</span></span> -&gt; <span class="type">Int</span> {
+        <span class="keyword">return</span> todoManager.todos.<span class="built_in">count</span>;
+    }
+
+
+    <span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> {
+        <span class="keyword">let</span> cell: <span class="type">UITableViewCell</span> = <span class="type">UITableViewCell</span>(style: <span class="type">UITableViewCellStyle</span>.<span class="type">Subtitle</span>, reuseIdentifier: <span class="string">"Default"</span>)
+
+        cell.textLabel?.text = todoManager.todos[indexPath.row].name
+        cell.detailTextLabel?.text = todoManager.todos[indexPath.row].desc
+
+        <span class="keyword">return</span> cell
+    }
+
+
+}
+</code></pre><h3 id="Second_View_Controller">Second View Controller</h3><p>拖拽一些控件搭建下基本的框架，一个 Label 作为标题，两个 TextField 分别填写 TODO 的名称和描述，然后再加上添加按钮，基本的框架时候是这个样子的：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-7%402x.png" alt=""></p>
+<p>然后我们把这两个 TextField 的 Delegate 都指向 View Controller ，因为我们希望在我们输入完成点击 Return 之后，键盘会自动弹回去。在 <code>SecondViewController.swift</code> 里面添加 <code>UITextFieldDelegate</code> 并实现 <code>textFieldShouldReturn</code> 委托方法，在方法里，通过 <code>resignFirstResponder</code> 把键盘弹回去：</p>
+<pre><code><span class="comment">// UITextField Delegate</span>
+<span class="func"><span class="keyword">func</span> <span class="title">textFieldShouldReturn</span><span class="params">(textField: UITextField)</span></span> -&gt; <span class="type">Bool</span> {
+    textField.resignFirstResponder()
+    <span class="keyword">return</span> <span class="literal">true</span>
+}
+</code></pre><p>我们希望用户在点击背景图片的时候就可以把键盘收回来，我们可以重写 <code>touchsBegan</code> 方法，在里面加上 <code>endEditing</code> 方法：</p>
+<pre><code><span class="keyword">override</span> <span class="func"><span class="keyword">func</span> <span class="title">touchesBegan</span><span class="params">(touches: NSSet, withEvent event: UIEvent)</span></span> {
+    <span class="keyword">self</span>.view.endEditing(<span class="literal">true</span>)
+}
+</code></pre><p>定义两个属性来获取文本框中的值，切换到 Assistant 视图，通过鼠标右键拖拽新建两个变量：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-8%402x.png" alt=""></p>
+<p>然后我们再新建一个 IBAction ，用来处理 Add 按钮的点击事件：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-9%402x.png" alt=""></p>
+<p>在点击事件里，我们希望完成以下任务：</p>
+<ul>
+<li>在 todoManager 里面添加一个 TODO 项</li>
+<li>把键盘收起</li>
+<li>清空 TextField 中的内容</li>
+<li>TabBar 切换到 TODO 那个标签下，即时查看结果</li>
+</ul>
+<p>OK完成之后的 <code>addBtnClick</code> 方法如下：</p>
+<pre><code><span class="preprocessor">@IBAction</span> <span class="func"><span class="keyword">func</span> <span class="title">addBtnClick</span><span class="params">(sender: AnyObject)</span></span> {
+    todoManager.addTask(todoText.text, desc: descText.text)
+    <span class="keyword">self</span>.view.endEditing(<span class="literal">true</span>)
+    todoText.text = <span class="string">""</span>
+    descText.text = <span class="string">""</span>
+    <span class="keyword">self</span>.tabBarController?.selectedIndex = <span class="number">0</span>
+}
+</code></pre><p>这样，添加 TODO 的任务就完成了。</p>
+<h2 id="删除数据">删除数据</h2><p>删除数据和 Objective-C 版本的接口是完全一样的，通过 <code>commitEditingStyle</code> 方法实现。打开 FirstViewController.swift 文件，先在代码中添加一个 TableView 的属性，方便我们刷新数据：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-10%402x.png" alt=""></p>
+<p>删除其实也就是删除掉 <code>todoManager</code> 的 <code>todos</code> 数组里面的对应数据而已，我们可以用 <code>removeAtIndex</code> 实现，记得 <code>reloadData</code> 刷新 TableView：</p>
+<pre><code><span class="func"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)</span></span> {
+    <span class="keyword">if</span>(editingStyle == <span class="type">UITableViewCellEditingStyle</span>.<span class="type">Delete</span>) {
+        todoManager.todos.removeAtIndex(indexPath.row)
+    }
+
+    todoTableView.reloadData()
+}
+</code></pre><h2 id="测试">测试</h2><p>基本的开发工作到此就结束啦，我们可以运行应用跑跑看。</p>
+<p>首先添加一个 TODO：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-11%402x.png" alt=""></p>
+<p>点击 Add 之后可以看到 TableView 里已经有了添加的 TODO 项：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-12%402x.png" alt=""></p>
+<p>滑动可以看到删除按钮：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-13%402x.png" alt=""></p>
+<p>点击删除，删除成功：</p>
+<p><img src="http://callmewhy.qiniudn.com/QQ20140916-14%402x.png" alt=""></p>
+<h2 id="小结">小结</h2><p>不知道各位看到这里感觉如何，反正我感觉：水爆了！也没什么深奥的技术点，也没什么创新的东西，就是一个中规中矩的小应用而已。</p>
+<p>是的，确实这样。不过希望通过这样一个简单的例子可以和大家一起熟悉一下 Swift ，熟悉一下这个新来的小伙伴^_^</p>
+<p>完整的项目源码可以点击<a href="https://github.com/callmewhy/learn-swift/tree/todo-list" target="_blank" rel="external">这里</a>下载。玩的开心。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag">#iOS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/09/12/learn-ios8-size-class/" rel="next" title="初探 iOS8 中的 Size Class">
+                <i class="fa fa-chevron-left"></i> 初探 iOS8 中的 Size Class
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/09/23/beginners-guide-optionals-swift/" rel="prev" title="Swift 初学手册：可选类型 (Optionals)">
+                Swift 初学手册：可选类型 (Optionals) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/09/15/todo-list-in-swift/"
+           data-title="用 Swift 开发一个 TODO 应用" data-url="http://blog.callmewhy.com/2014/09/15/todo-list-in-swift/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">2.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建项目"><span class="nav-number">3.</span> <span class="nav-text">新建项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加管理类"><span class="nav-number">4.</span> <span class="nav-text">添加管理类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发界面"><span class="nav-number">5.</span> <span class="nav-text">开发界面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据显示"><span class="nav-number">6.</span> <span class="nav-text">数据显示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#First_View_Controller"><span class="nav-number">6.1.</span> <span class="nav-text">First View Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Second_View_Controller"><span class="nav-number">6.2.</span> <span class="nav-text">Second View Controller</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除数据"><span class="nav-number">7.</span> <span class="nav-text">删除数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">8.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">9.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>

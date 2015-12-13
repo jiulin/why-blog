@@ -1,0 +1,1554 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+    <link href='//fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RxSwift," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Why's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="滚滚长江都是水，万事万物皆是流。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxSwift 入坑手册 Part0 - 基础概念">
+<meta property="og:url" content="http://blog.callmewhy.com/2015/09/21/rxswift-getting-started-0/index.html">
+<meta property="og:site_name" content="Why's Blog">
+<meta property="og:description" content="滚滚长江都是水，万事万物皆是流。">
+<meta property="og:updated_time" content="2015-10-02T06:28:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxSwift 入坑手册 Part0 - 基础概念">
+<meta name="twitter:description" content="滚滚长江都是水，万事万物皆是流。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'post',
+    motion: true
+  };
+</script>
+
+  <title> RxSwift 入坑手册 Part0 - 基础概念 | Why's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?d4761ad5a08d996a2d7b90d5b1a79395";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Why's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">从明天起，做一个幸福的人。面朝汪海，春暖花开。</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        
+          <li class="menu-item menu-item-home">
+            <a href="/" rel="section">
+              
+                <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+              
+              首页
+            </a>
+          </li>
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+          <li class="menu-item menu-item-archives">
+            <a href="/archives" rel="section">
+              
+                <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+              
+              归档
+            </a>
+          </li>
+        
+      
+        
+        
+          <li class="menu-item menu-item-about">
+            <a href="/about" rel="section">
+              
+                <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+              
+              关于
+            </a>
+          </li>
+        
+      
+
+      
+      
+        <li class="menu-item menu-item-search">
+          <a href="#" class="st-search-show-outputs">
+            
+              <i class="menu-item-icon fa fa-search icon-next-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'J2QQHPVLVpZZmkmZhBSf','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RxSwift 入坑手册 Part0 - 基础概念
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-09-21T09:53:10+08:00" content="2015-09-21">
+              2015-09-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/开发笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">开发笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/09/21/rxswift-getting-started-0/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/21/rxswift-getting-started-0/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>（前面的坑还没填完，我又来开坑了。。。Part 0 走起！）</p>
+<p><a href="https://github.com/ReactiveX/RxSwift" target="_blank" rel="external">RxSwift</a> 是我在 Github 上关注已久的一个项目，今天花点时间过了一下它的示例代码，感觉很有意思。</p>
+<p>我主要是通过项目里的 <a href="https://github.com/ReactiveX/RxSwift/tree/master/Rx.playground" target="_blank" rel="external">Rx.playground</a> 进行学习和了解的，这种方式确实便捷高效。只需要把文档用 <code>/*: */</code> 注释即可，直接用 Markdown 编写，简单方便。不过 Xcode7 中这种方式现在还不是很稳定，会有大量的空行，而且有个最大的问题就是阅读到中间然后切到其他文件再切回来的时候，阅读的进度条是从头开始的，并不能记录上次阅读的位置。心累。</p>
+<p>下面是我的简单笔记，只是把学习过程中的收获记录下来，大部分内容来自于项目内的 playground 。注意！是<strong>很大部分</strong>！而且操场里图文并茂，很容易理解。所以，各位如果感兴趣，建议 clone 官方项目，跑个操场玩玩。</p>
+<p>参考文献中罗列了我在学习过程中查阅的相关资料，可以作为补充阅读。</p>
+<h2 id="SupportCode">SupportCode</h2><p>在进入正题之前，先看下项目里的 <code>SupportCode.swift</code> ，主要为 playground 提供了两个便利函数。</p>
+<p>一个是 <code>example</code> 函数，专门用来写示例代码的，统一输出 log 便于标记浏览，同时还能保持变量不污染全局：</p>
+<pre><code><span class="keyword">public</span> <span class="func"><span class="keyword">func</span> <span class="title">example</span><span class="params">(description: String, action: <span class="params">()</span></span></span> -&gt; ()) {
+    <span class="built_in">print</span>(<span class="string">"\n--- <span class="subst">\(description)</span> example ---"</span>)
+    action()
+}
+</code></pre><p>另一个是 <code>delay</code> 函数，通过 <code>dispatch_after</code> 用来演示延时的：</p>
+<pre><code>public func delay<span class="function"><span class="params">(delay:Double, closure:()-&gt;())</span> {
+    <span class="title">dispatch_after</span><span class="params">(
+        dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(delay * Double(NSEC_PER_SEC))
+        ),
+        dispatch_get_main_queue(), closure)</span>
+}</span>
+</code></pre><h2 id="Introduction">Introduction</h2><p>主要介绍了 Rx 的基础： <code>Observable</code> 。 <code>Observable&lt;Element&gt;</code> 是观察者模式中被观察的对象，相当于一个事件序列 (<code>GeneratorType</code>) ，会向订阅者发送新产生的事件信息。事件信息分为三种： </p>
+<ul>
+<li><code>.Next(value)</code> 表示新的事件数据。</li>
+<li><code>.Completed</code> 表示事件序列的完结。</li>
+<li><code>.Error</code> 同样表示完结，但是代表异常导致的完结。</li>
+</ul>
+<p>（打个岔：协议命名，想起来上午汤哥在<a href="http://weibo.com/1747002695/CBH3I4a1X?from=page_1005051747002695_profile&amp;wvr=6&amp;mod=weibotime&amp;type=comment" target="_blank" rel="external">微博</a>说的一段话：</p>
+<blockquote>
+<p>另外，我觉得 protocol 名字用形容词会更加语义分明，比如 Swift : Flyable, Killable, Visible。全用名词的话显得比较生硬，比如 Swift : Head, Wings, Ass。</p>
+</blockquote>
+<h3 id="empty">empty</h3><p><code>empty</code> 是一个空的序列，它只发送 <code>.Completed</code> 消息。</p>
+<pre><code>example(<span class="string">"empty"</span>) {
+    <span class="keyword">let</span> emptySequence: Observable&lt;<span class="built_in">Int</span>&gt; = <span class="literal">empty</span>()
+
+    <span class="keyword">let</span> subscription = emptySequence
+        .subscribe { event <span class="keyword">in</span>
+            print(event)
+        }
+}
+
+--- <span class="literal">empty</span> example ---
+Completed
+</code></pre><h3 id="never">never</h3><p><code>never</code> 是没有任何元素、也不会发送任何事件的空序列。</p>
+<pre><code>example(<span class="string">"never"</span>) {
+    <span class="keyword">let</span> neverSequence: <span class="typename">Observable</span>&lt;String&gt; = never()
+
+    <span class="keyword">let</span> subscription = neverSequence
+        .subscribe { _ <span class="keyword">in</span>
+            <span class="keyword">print</span>(<span class="string">"This block is never called."</span>)
+        }
+}
+
+--- never example ---
+</code></pre><h3 id="just">just</h3><p><code>just</code> 是只包含一个元素的序列，它会先发送 <code>.Next(value)</code> ，然后发送 <code>.Completed</code> 。</p>
+<pre><code>example(<span class="string">"just"</span>) {
+    <span class="keyword">let</span> singleElementSequence = just(<span class="number">32</span>)
+
+    <span class="keyword">let</span> subscription = singleElementSequence
+        .subscribe { <span class="function"><span class="keyword">event</span> <span class="keyword">in</span>
+            <span class="title">print</span>(<span class="params"><span class="keyword">event</span></span>)
+        }
+}
+
+--- just example ---
+<span class="title">Next</span>(<span class="params"><span class="number">32</span></span>)
+Completed</span>
+</code></pre><h3 id="sequenceOf">sequenceOf</h3><p><code>sequenceOf</code> 可以把一系列元素转换成事件序列。</p>
+<pre><code>example(<span class="string">"sequenceOf"</span>) {
+    <span class="keyword">let</span> sequenceOfElements/* : Observable&lt;<span class="built_in">Int</span>&gt; */ = sequenceOf(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)
+
+    <span class="keyword">let</span> subscription = sequenceOfElements
+        .subscribe { event <span class="keyword">in</span>
+            print(event)
+        }
+}
+
+--- sequenceOf example ---
+<span class="keyword">Next</span>(<span class="number">0</span>)
+<span class="keyword">Next</span>(<span class="number">1</span>)
+<span class="keyword">Next</span>(<span class="number">2</span>)
+<span class="keyword">Next</span>(<span class="number">3</span>)
+Completed
+</code></pre><h3 id="form">form</h3><p><code>form</code> 是通过 <code>asObservable()</code> 方法把 Swift 中的序列 (<code>SequenceType</code>) 转换成事件序列。 </p>
+<pre><code><span class="function"><span class="title">example</span><span class="params">(<span class="string">"from"</span>)</span> {
+    <span class="title">let</span> <span class="title">sequenceFromArray</span> = [1, 2, 3, 4, 5].<span class="title">asObservable</span><span class="params">()</span>
+
+    <span class="title">let</span> <span class="title">subscription</span> = <span class="title">sequenceFromArray</span>
+        .<span class="title">subscribe</span> { <span class="title">event</span> <span class="title">in</span>
+            <span class="title">print</span><span class="params">(event)</span>
+        }
+}
+
+--- <span class="title">from</span> <span class="title">example</span> ---
+N<span class="title">ext</span><span class="params">(<span class="number">1</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="number">2</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="number">3</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="number">4</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="number">5</span>)</span>
+C<span class="title">ompleted</span></span>
+</code></pre><h3 id="create">create</h3><p><code>create</code> 可以通过闭包创建序列，通过 <code>.on(e: Event)</code> 添加事件。</p>
+<pre><code>example(<span class="string">"create"</span>) {
+    <span class="keyword">let</span> myJust = { <span class="function"><span class="params">(singleElement: Int)</span> -&gt;</span> Observable&lt;Int&gt; <span class="keyword">in</span>
+        <span class="keyword">return</span> create { observer <span class="keyword">in</span>
+            observer.<span class="literal">on</span>(.Next(singleElement))
+            observer.<span class="literal">on</span>(.Completed)
+
+            <span class="keyword">return</span> NopDisposable.instance
+        }
+    }
+
+    <span class="keyword">let</span> subscription = myJust(<span class="number">5</span>)
+        .subscribe { event <span class="keyword">in</span>
+            <span class="built_in">print</span>(event)
+        }
+}
+
+--- create example ---
+Next(<span class="number">5</span>)
+Completed
+</code></pre><h3 id="failWith">failWith</h3><p><code>failWith</code> 创建一个没有元素的序列，只会发送失败 (<code>.Error</code>) 事件。</p>
+<pre><code>example(<span class="string">"failWith"</span>) {
+    <span class="keyword">let</span> <span class="keyword">error</span> = NSError(domain: <span class="string">"Test"</span>, code: -<span class="number">1</span>, userInfo: nil)
+
+    <span class="keyword">let</span> erroredSequence: Observable&lt;<span class="built_in">Int</span>&gt; = failWith(<span class="keyword">error</span>)
+
+    <span class="keyword">let</span> subscription = erroredSequence
+        .subscribe { event <span class="keyword">in</span>
+            print(event)
+        }
+}
+
+--- failWith example ---
+<span class="keyword">Error</span>(<span class="keyword">Error</span> Domain=Test Code=-<span class="number">1</span> <span class="string">"The operation couldn’t be completed. (Test error -1.)"</span>)
+</code></pre><h3 id="deferred">deferred</h3><p><code>deferred</code> 会等到有订阅者的时候再通过工厂方法创建 <code>Observable</code> 对象，每个订阅者订阅的对象都是内容相同而完全独立的序列。</p>
+<pre><code>example(<span class="string">"deferred"</span>) {
+    let deferredSequence: Observable&lt;<span class="keyword">Int</span>&gt; = deferred {
+        <span class="keyword">print</span>(<span class="string">"creating"</span>)
+        <span class="keyword">return</span> create { observer in
+            <span class="keyword">print</span>(<span class="string">"emmiting"</span>)
+            observer.on(.<span class="keyword">Next</span>(<span class="number">0</span>))
+            observer.on(.<span class="keyword">Next</span>(<span class="number">1</span>))
+            observer.on(.<span class="keyword">Next</span>(<span class="number">2</span>))
+
+            <span class="keyword">return</span> NopDisposable.instance
+        }
+    }
+
+    <span class="keyword">print</span>(<span class="string">"go"</span>)
+
+    deferredSequence
+        .subscribe { event in
+            <span class="keyword">print</span>(event)
+    }
+
+    deferredSequence
+        .subscribe { event in
+            <span class="keyword">print</span>(event)
+        }
+}
+
+--- deferred example ---
+go
+creating
+emmiting
+<span class="keyword">Next</span>(<span class="number">0</span>)
+<span class="keyword">Next</span>(<span class="number">1</span>)
+<span class="keyword">Next</span>(<span class="number">2</span>)
+creating
+emmiting
+<span class="keyword">Next</span>(<span class="number">0</span>)
+<span class="keyword">Next</span>(<span class="number">1</span>)
+<span class="keyword">Next</span>(<span class="number">2</span>)
+</code></pre><p>为什么需要 <code>defferd</code> 这样一个奇怪的家伙呢？其实这相当于是一种延时加载，因为在添加监听的时候数据未必加载完毕，例如下面这个例子：</p>
+<pre><code>example(<span class="string">"TestDeferred"</span>) {
+    <span class="keyword">var</span> <span class="keyword">value</span>: String? = nil
+    <span class="keyword">var</span> subscription: Observable&lt;String?&gt; = just(<span class="keyword">value</span>)
+
+    <span class="comment">// got value</span>
+    <span class="keyword">value</span> = <span class="string">"Hello!"</span>
+
+    subscription.subscribe { <span class="function"><span class="keyword">event</span> <span class="keyword">in</span>
+        <span class="title">print</span>(<span class="params"><span class="keyword">event</span></span>)
+    }
+}
+
+--- TestDeferred example ---
+<span class="title">Next</span>(<span class="params">nil</span>)
+Completed</span>
+</code></pre><p>如果使用 <code>deffered</code> 则可以正常显示想要的数据：</p>
+<pre><code>example(<span class="string">"TestDeferred"</span>) {
+    <span class="keyword">var</span> <span class="keyword">value</span>: String? = nil
+    <span class="keyword">var</span> subscription: Observable&lt;String?&gt; = deferred {
+        <span class="keyword">return</span> just(<span class="keyword">value</span>)
+    }
+
+    <span class="comment">// got value</span>
+    <span class="keyword">value</span> = <span class="string">"Hello!"</span>
+
+    subscription.subscribe { <span class="function"><span class="keyword">event</span> <span class="keyword">in</span>
+        <span class="title">print</span>(<span class="params"><span class="keyword">event</span></span>)
+    }
+
+}
+
+--- TestDeferred example ---
+<span class="title">Next</span>(<span class="params">Optional(<span class="string">"Hello!"</span></span>))
+Completed</span>
+</code></pre><h2 id="Subjects">Subjects</h2><p>接下来是关于 <code>Subject</code> 的内容。 <code>Subject</code> 可以看做是一种代理和桥梁。它既是订阅者又是订阅源，这意味着它既可以订阅其他 <code>Observable</code> 对象，同时又可以对它的订阅者们发送事件。</p>
+<p>如果把 <code>Observable</code> 理解成不断输出事件的水管，那 <code>Subject</code> 就是套在上面的水龙头。它既怼着一根不断出水的水管，同时也向外面输送着新鲜水源。如果你直接用水杯接着水管的水，那可能导出来什么王水胶水完全把持不住；如果你在水龙头下面接着水，那你可以随心所欲的调成你想要的水速和水温。</p>
+<p>（好吧上面一段文档里没有，是我瞎掰的，如果理解错了还望打脸(￣ε(#￣)☆╰╮(￣▽￣///))</p>
+<p>在开始下面的代码之前，先定义一个辅助函数用于输出数据： </p>
+<pre><code><span class="func"><span class="keyword">func</span> <span class="title">writeSequenceToConsole</span><span class="generics">&lt;O: ObservableType&gt;</span><span class="params">(name: String, sequence: O)</span></span> {
+    sequence
+        .subscribe { e <span class="keyword">in</span>
+            <span class="built_in">print</span>(<span class="string">"Subscription: <span class="subst">\(name)</span>, event: <span class="subst">\(e)</span>"</span>)
+        }
+}
+</code></pre><h3 id="PublishSubject">PublishSubject</h3><p><code>PublishSubject</code> 会发送订阅者从订阅之后的事件序列。</p>
+<pre><code>example(<span class="string">"PublishSubject"</span>) {
+    <span class="keyword">let</span> subject = PublishSubject&lt;<span class="built_in">String</span>&gt;()
+    writeSequenceToConsole(<span class="string">"1"</span>, sequence: subject)
+    subject.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"a"</span>))
+    subject.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"b"</span>))
+    writeSequenceToConsole(<span class="string">"2"</span>, sequence: subject)
+    subject.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"c"</span>))
+    subject.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"d"</span>))
+}
+
+
+--- PublishSubject example ---
+Subscription: <span class="number">1</span>, event: <span class="keyword">Next</span>(a)
+Subscription: <span class="number">1</span>, event: <span class="keyword">Next</span>(b)
+Subscription: <span class="number">1</span>, event: <span class="keyword">Next</span>(c)
+Subscription: <span class="number">2</span>, event: <span class="keyword">Next</span>(c)
+Subscription: <span class="number">1</span>, event: <span class="keyword">Next</span>(d)
+Subscription: <span class="number">2</span>, event: <span class="keyword">Next</span>(d)
+</code></pre><h3 id="ReplaySubject">ReplaySubject</h3><p><code>ReplaySubject</code> 在新的订阅对象订阅的时候会补发所有已经发送过的数据队列， <code>bufferSize</code> 是缓冲区的大小，决定了补发队列的最大值。如果 <code>bufferSize</code> 是1，那么新的订阅者出现的时候就会补发上一个事件，如果是2，则补两个，以此类推。</p>
+<pre><code>example(<span class="string">"ReplaySubject"</span>) {
+    let subject = ReplaySubject&lt;String&gt;.create(<span class="string">bufferSize:</span> <span class="number">1</span>)
+
+    writeSequenceToConsole(<span class="string">"1"</span>, <span class="string">sequence:</span> subject)
+    subject.on(.Next(<span class="string">"a"</span>))
+    subject.on(.Next(<span class="string">"b"</span>))
+    writeSequenceToConsole(<span class="string">"2"</span>, <span class="string">sequence:</span> subject)
+    subject.on(.Next(<span class="string">"c"</span>))
+    subject.on(.Next(<span class="string">"d"</span>))
+}
+
+--- ReplaySubject example ---
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(a)
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(b)
+<span class="string">Subscription:</span> <span class="number">2</span>, <span class="string">event:</span> Next(b) <span class="comment">// 补了一个 b</span>
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(c)
+<span class="string">Subscription:</span> <span class="number">2</span>, <span class="string">event:</span> Next(c)
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(d)
+<span class="string">Subscription:</span> <span class="number">2</span>, <span class="string">event:</span> Next(d)
+</code></pre><h3 id="BehaviorSubject">BehaviorSubject</h3><p><code>BehaviorSubject</code> 在新的订阅对象订阅的时候会发送最近发送的事件，如果没有则发送一个默认值。</p>
+<pre><code>example(<span class="string">"BehaviorSubject"</span>) {
+    let subject = BehaviorSubject(<span class="string">value:</span> <span class="string">"z"</span>)
+    writeSequenceToConsole(<span class="string">"1"</span>, <span class="string">sequence:</span> subject)
+    subject.on(.Next(<span class="string">"a"</span>))
+    subject.on(.Next(<span class="string">"b"</span>))
+    writeSequenceToConsole(<span class="string">"2"</span>, <span class="string">sequence:</span> subject)
+    subject.on(.Next(<span class="string">"c"</span>))
+    subject.on(.Completed)
+}
+
+--- BehaviorSubject example ---
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(z)
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(a)
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(b)
+<span class="string">Subscription:</span> <span class="number">2</span>, <span class="string">event:</span> Next(b)
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Next(c)
+<span class="string">Subscription:</span> <span class="number">2</span>, <span class="string">event:</span> Next(c)
+<span class="string">Subscription:</span> <span class="number">1</span>, <span class="string">event:</span> Completed
+<span class="string">Subscription:</span> <span class="number">2</span>, <span class="string">event:</span> Completed
+</code></pre><h3 id="Variable">Variable</h3><p><code>Variable</code> 是基于 <code>BehaviorSubject</code> 的一层封装，它的优势是：不会被显式终结。即：不会收到 <code>.Completed</code> 和 <code>.Error</code> 这类的终结事件，它会主动在析构的时候发送 <code>.Complete</code> 。</p>
+<pre><code>example(<span class="string">"Variable"</span>) {
+    <span class="keyword">let</span> <span class="annotation">variable</span> = Variable(<span class="string">"z"</span>)
+    writeSequenceToConsole(<span class="string">"1"</span>, sequence: <span class="annotation">variable</span>)
+    <span class="annotation">variable</span>.<span class="keyword">value</span> = <span class="string">"a"</span>
+    <span class="annotation">variable</span>.<span class="keyword">value</span> = <span class="string">"b
+    writeSequenceToConsole("</span><span class="number">2</span><span class="string">", sequence: variable)
+    variable.value = "</span>c<span class="string">"
+}
+
+--- Variable example ---
+Subscription: 1, event: Next(z)
+Subscription: 1, event: Next(a)
+Subscription: 1, event: Next(b)
+Subscription: 2, event: Next(b)
+Subscription: 1, event: Next(c)
+Subscription: 2, event: Next(c)
+Subscription: 1, event: Completed
+Subscription: 2, event: Completed</span>
+</code></pre><h2 id="Transform">Transform</h2><p>我们可以对序列做一些转换，类似于 Swift 中 <code>CollectionType</code> 的各种转换。在以前的坑中曾经提到过，可以参考：<a href="http://blog.callmewhy.com/2015/05/11/functional-reactive-programming-1/#函数式的函数/">函数式的函数</a>。</p>
+<h3 id="map">map</h3><p><code>map</code> 就是对每个元素都用函数做一次转换，挨个映射一遍。</p>
+<pre><code>example(<span class="string">"map"</span>) {
+    let originalSequence = sequenceOf(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)
+
+    originalSequence
+        .map { <span class="variable">$0</span> * <span class="number">2</span> }
+        .subscribe { print(<span class="variable">$0</span>) }
+}
+
+--- <span class="keyword">map</span> example ---
+Next(<span class="number">2</span>)
+Next(<span class="number">4</span>)
+Next(<span class="number">6</span>)
+Completed
+</code></pre><h3 id="flatMap">flatMap</h3><p><code>map</code> 在做转换的时候很容易出现『升维』的情况，即：转变之后，从一个序列变成了一个序列的序列。</p>
+<p>什么是『升维』？在集合中我们可以举这样一个例子，我有一个好友列表 <code>[p1, p2, p3]</code>，那么如果要获取我好友的好友的列表，可以这样做：</p>
+<pre><code>myFriends.<span class="keyword">map</span> { <span class="variable">$0</span>.getFriends() }
+</code></pre><p>结果就成了 <code>[[p1-1, p1-2, p1-3], [p2-1], [p3-1, p3-2]]</code> ，这就成了好友的好友列表的列表了。这就是一个『升维』的例子。</p>
+<p>（以上内容文档中依旧没有，依旧是我瞎掰的，依旧欢迎有错误当面打脸(￣ε(#￣)☆╰╮(￣▽￣///))</p>
+<p>在 Swift 中，我们可以用 <code>flatMap</code> 过滤掉 <code>map</code> 之后的 <code>nil</code> 结果。在 Rx 中， <code>flatMap</code> 可以把一个序列转换成一组序列，然后再把这一组序列『拍扁』成一个序列。</p>
+<pre><code><span class="function"><span class="title">example</span><span class="params">(<span class="string">"flatMap"</span>)</span> {
+    <span class="title">let</span> <span class="title">sequenceInt</span> = <span class="title">sequenceOf</span><span class="params">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span>
+    <span class="title">let</span> <span class="title">sequenceString</span> = <span class="title">sequenceOf</span><span class="params">(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"--"</span>)</span>
+
+    <span class="title">sequenceInt</span>
+        .<span class="title">flatMap</span> { <span class="title">int</span> <span class="title">in</span>
+            <span class="title">sequenceString</span>
+        }
+        .<span class="title">subscribe</span> {
+            <span class="title">print</span><span class="params">($<span class="number">0</span>)</span>
+        }
+}
+
+--- <span class="title">flatMap</span> <span class="title">example</span> ---
+N<span class="title">ext</span><span class="params">(<span class="variable">A</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="variable">B</span>)</span>
+N<span class="title">ext</span><span class="params">(--)</span>
+N<span class="title">ext</span><span class="params">(<span class="variable">A</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="variable">B</span>)</span>
+N<span class="title">ext</span><span class="params">(--)</span>
+N<span class="title">ext</span><span class="params">(<span class="variable">A</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="variable">B</span>)</span>
+N<span class="title">ext</span><span class="params">(--)</span>
+C<span class="title">ompleted</span></span>
+</code></pre><h3 id="scan">scan</h3><p><code>scan</code> 有点像 <code>reduce</code> ，它会把每次的运算结果累积起来，作为下一次运算的输入值。</p>
+<pre><code>example(<span class="string">"scan"</span>) {
+    let sequenceToSum = sequenceOf(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)
+
+    sequenceToSum
+        .scan(<span class="number">0</span>) { acum, elem in
+            acum + elem
+        }
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+}
+
+--- scan example ---
+Next(<span class="number">0</span>)
+Next(<span class="number">1</span>)
+Next(<span class="number">3</span>)
+Next(<span class="number">6</span>)
+Next(<span class="number">10</span>)
+Next(<span class="number">15</span>)
+Completed
+</code></pre><h2 id="Filtering">Filtering</h2><p>除了上面的各种转换，我们还可以对序列进行过滤。</p>
+<h3 id="filter">filter</h3><p><code>filter</code> 只会让符合条件的元素通过。</p>
+<pre><code>example(<span class="string">"filter"</span>) {
+    let subscription = sequenceOf(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>)
+        .filter {
+            $<span class="number">0</span> % <span class="number">2</span> == <span class="number">0</span>
+        }
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+}
+
+--- filter example ---
+Next(<span class="number">0</span>)
+Next(<span class="number">2</span>)
+Next(<span class="number">4</span>)
+Next(<span class="number">6</span>)
+Next(<span class="number">8</span>)
+Completed
+</code></pre><h3 id="distinctUntilChanged">distinctUntilChanged</h3><p><code>distinctUntilChanged</code> 会废弃掉重复的事件。</p>
+<pre><code>example(<span class="string">"distinctUntilChanged"</span>) {
+    let subscription = sequenceOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>)
+        .distinctUntilChanged()
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+}
+
+--- distinctUntilChanged example ---
+Next(<span class="number">1</span>)
+Next(<span class="number">2</span>)
+Next(<span class="number">3</span>)
+Next(<span class="number">1</span>)
+Next(<span class="number">4</span>)
+Completed
+</code></pre><h3 id="take">take</h3><p><code>take</code> 只获取序列中的前 n 个事件，在满足数量之后会自动 <code>.Completed</code> 。</p>
+<pre><code>example(<span class="string">"take"</span>) {
+    let subscription = sequenceOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)
+        .take(<span class="number">3</span>)
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+}
+
+--- take example ---
+Next(<span class="number">1</span>)
+Next(<span class="number">2</span>)
+Next(<span class="number">3</span>)
+Completed
+</code></pre><h2 id="Combining">Combining</h2><p>这部分是关于序列的运算，可以将多个序列源进行组合拼装成一个新的事件序列。</p>
+<h3 id="startWith">startWith</h3><p><code>startWith</code> 会在队列开始之前插入一个事件元素。</p>
+<pre><code>example(<span class="string">"startWith"</span>) {
+    let subscription = sequenceOf(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)
+        .startWith(<span class="number">3</span>)
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+}
+
+--- startWith example ---
+Next(<span class="number">3</span>)
+Next(<span class="number">4</span>)
+Next(<span class="number">5</span>)
+Next(<span class="number">6</span>)
+Completed
+</code></pre><h3 id="combineLatest">combineLatest</h3><p>如果存在两条事件队列，需要同时监听，那么每当有新的事件发生的时候，<code>combineLatest</code> 会将每个队列的最新的一个元素进行合并。</p>
+<pre><code>example(<span class="string">"combineLatest 1"</span>) {
+    <span class="keyword">let</span> intOb1 = PublishSubject&lt;<span class="built_in">String</span>&gt;()
+    <span class="keyword">let</span> intOb2 = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+
+    combineLatest(intOb1, intOb2) {
+        <span class="string">"\($0) \($1)"</span>
+        }
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+
+    intOb1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"A"</span>))
+    intOb2.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+    intOb1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"B"</span>))
+    intOb2.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">2</span>))
+}
+
+--- combineLatest <span class="number">1</span> example ---
+<span class="keyword">Next</span>(A <span class="number">1</span>)
+<span class="keyword">Next</span>(B <span class="number">1</span>)
+<span class="keyword">Next</span>(B <span class="number">2</span>)
+</code></pre><h3 id="zip">zip</h3><p><code>zip</code> 人如其名，就是合并两条队列用的，不过它会等到两个队列的元素一一对应地凑齐了之后再合并，正如<a href="http://weibo.com/mrgreenhand" target="_blank" rel="external">百折不撓的米斯特菜</a>所提醒的， <code>zip</code> 就像是拉链一样，两根拉链拉着拉着合并到了一根上：</p>
+<pre><code>example(<span class="string">"zip 1"</span>) {
+    <span class="keyword">let</span> intOb1 = PublishSubject&lt;<span class="built_in">String</span>&gt;()
+    <span class="keyword">let</span> intOb2 = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+    zip(intOb1, intOb2) {
+        <span class="string">"\($0) \($1)"</span>
+        }
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+    intOb1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"A"</span>))
+    intOb2.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+    intOb1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"B"</span>))
+    intOb1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="string">"C"</span>))
+    intOb2.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">2</span>))
+}
+
+--- zip <span class="number">1</span> example ---
+<span class="keyword">Next</span>(A <span class="number">1</span>)
+<span class="keyword">Next</span>(B <span class="number">2</span>)
+</code></pre><h3 id="marge">marge</h3><p><code>merge</code> 就是 merge 啦，把两个队列按照顺序组合在一起。</p>
+<pre><code>example(<span class="string">"merge 1"</span>) {
+    <span class="keyword">let</span> subject1 = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+    <span class="keyword">let</span> subject2 = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+
+    sequenceOf(subject1, subject2)
+        .merge()
+        .subscribeNext { <span class="built_in">int</span> <span class="keyword">in</span>
+            print(<span class="built_in">int</span>)
+        }
+
+    subject1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+    subject1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">2</span>))
+    subject2.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">3</span>))
+    subject1.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">4</span>))
+    subject2.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">5</span>))
+}
+
+--- merge <span class="number">1</span> example ---
+<span class="number">1</span>
+<span class="number">2</span>
+<span class="number">3</span>
+<span class="number">4</span>
+<span class="number">5</span>
+</code></pre><h3 id="switch">switch</h3><p>当你的事件序列是一个事件序列的序列 (<code>Observable&lt;Observable&lt;T&gt;&gt;</code>) 的时候，（可以理解成二维序列？），可以使用 <code>switch</code> 将序列的序列平铺成一维，并且在出现新的序列的时候，自动切换到最新的那个序列上。和 <code>merge</code> 相似的是，它也是起到了将多个序列『拍平』成一条序列的作用。</p>
+<pre><code>example(<span class="string">"switchLatest"</span>) {
+    let var1 = Variable(<span class="number">0</span>)
+
+    let var2 = Variable(<span class="number">200</span>)
+
+    <span class="comment">// var3 is like an Observable&lt;Observable&lt;Int&gt;&gt;</span>
+    let var3 = Variable(var1)
+
+    let d = var3
+        .switchLatest()
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+
+    var1.value = <span class="number">1</span>
+    var1.value = <span class="number">2</span>
+    var1.value = <span class="number">3</span>
+    var1.value = <span class="number">4</span>
+
+    var3.value = var2
+    var2.value = <span class="number">201</span>
+    var1.value = <span class="number">5</span>
+
+    var3.value = var1
+    var2.value = <span class="number">202</span>
+    var1.value = <span class="number">6</span>
+}
+
+--- switchLatest example ---
+Next(<span class="number">0</span>)
+Next(<span class="number">1</span>)
+Next(<span class="number">2</span>)
+Next(<span class="number">3</span>)
+Next(<span class="number">4</span>)
+Next(<span class="number">200</span>)
+Next(<span class="number">201</span>)
+Next(<span class="number">5</span>)
+Next(<span class="number">6</span>)
+</code></pre><p>注意，虽然都是『拍平』，但是和 <code>flatmap</code> 是不同的， <code>flatmap</code> 是将一条序列变成另一条序列，而这变换过程会让维度变高，所以需要『拍平』，而 <code>switch</code> 是将本来二维的序列（序列的序列）拍平成了一维的序列。</p>
+<h2 id="Error_Handling">Error Handling</h2><p>在事件序列中，遇到异常也是很正常的事情，有以下几种处理异常的手段。</p>
+<h3 id="catchError">catchError</h3><p><code>catchError</code> 可以捕获异常事件，并且在后面无缝接上另一段事件序列，丝毫没有异常的痕迹。</p>
+<pre><code>example(<span class="string">"catchError 1"</span>) {
+    <span class="keyword">let</span> sequenceThatFails = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+    <span class="keyword">let</span> recoverySequence = sequenceOf(<span class="number">100</span>, <span class="number">200</span>)
+
+    sequenceThatFails
+        .catchError { <span class="keyword">error</span> <span class="keyword">in</span>
+            return recoverySequence
+        }
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+
+    sequenceThatFails.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+    sequenceThatFails.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">2</span>))
+    sequenceThatFails.<span class="keyword">on</span>(.<span class="keyword">Error</span>(NSError(domain: <span class="string">"Test"</span>, code: <span class="number">0</span>, userInfo: nil)))
+}
+
+--- catchError <span class="number">1</span> example ---
+<span class="keyword">Next</span>(<span class="number">1</span>)
+<span class="keyword">Next</span>(<span class="number">2</span>)
+<span class="keyword">Next</span>(<span class="number">100</span>)
+<span class="keyword">Next</span>(<span class="number">200</span>)
+Completed
+</code></pre><h3 id="retry">retry</h3><p><code>retry</code> 顾名思义，就是在出现异常的时候会再去从头订阅事件序列，妄图通过『从头再来』解决异常。</p>
+<pre><code>example(<span class="string">"retry"</span>) {
+    <span class="keyword">var</span> <span class="keyword">count</span> = 1 <span class="comment">// bad practice, only for example purposes</span>
+    let funnyLookingSequence: Observable&lt;Int&gt; = create { observer <span class="keyword">in</span>
+        let <span class="keyword">error</span> = NSError(domain: <span class="string">"Test"</span>, code: 0, userInfo: nil)
+        observer.<span class="keyword">on</span>(.Next(0))
+        observer.<span class="keyword">on</span>(.Next(1))
+        <span class="keyword">if</span> <span class="keyword">count</span> &lt; 2 {
+            observer.<span class="keyword">on</span>(.<span class="keyword">Error</span>(<span class="keyword">error</span>))
+            <span class="keyword">count</span>++
+        }
+        observer.<span class="keyword">on</span>(.Next(2))
+        observer.<span class="keyword">on</span>(.Completed)
+
+        <span class="keyword">return</span> NopDisposable.instance
+    }
+
+    funnyLookingSequence
+        .retry()
+        .subscribe {
+            <span class="keyword">print</span>(<span class="label">$0</span>)
+        }
+}
+
+--- retry example ---
+Next(0)
+Next(1)
+Next(0)
+Next(1)
+Next(2)
+Completed
+</code></pre><h2 id="Utility">Utility</h2><p>这里列举了针对事件序列的一些方法。</p>
+<h3 id="subscribe">subscribe</h3><p><code>subscribe</code> 在前面已经接触过了，有新的事件就会触发。</p>
+<pre><code>example(<span class="string">"subscribe"</span>) {
+    let sequenceOfInts = PublishSubject&lt;Int&gt;()
+
+    sequenceOfInts
+        .subscribe {
+            print(<span class="variable">$0</span>)
+        }
+
+    sequenceOfInts.on(.Next(<span class="number">1</span>))
+    sequenceOfInts.on(.Completed)
+}
+
+--- subscribe example ---
+Next(<span class="number">1</span>)
+Completed
+</code></pre><h3 id="subscribeNext">subscribeNext</h3><p><code>subscribeNext</code> 也是订阅，但是只订阅 <code>.Next</code> 事件。</p>
+<pre><code>example(<span class="string">"subscribeNext"</span>) {
+    let sequenceOfInts = PublishSubject&lt;Int&gt;()
+
+    sequenceOfInts
+        .subscribeNext {
+            print(<span class="variable">$0</span>)
+        }
+
+    sequenceOfInts.on(.Next(<span class="number">1</span>))
+    sequenceOfInts.on(.Completed)
+}
+
+--- subscribeNext example ---
+<span class="number">1</span>
+</code></pre><h3 id="subscribeCompleted">subscribeCompleted</h3><p><code>subscribeCompleted</code> 是只订阅 <code>.Completed</code> 完成事件。</p>
+<pre><code><span class="function"><span class="title">example</span><span class="params">(<span class="string">"subscribeCompleted"</span>)</span> {
+    <span class="title">let</span> <span class="title">sequenceOfInts</span> = P<span class="title">ublishSubject</span>&lt;I<span class="title">nt</span>&gt;<span class="params">()</span>
+
+    <span class="title">sequenceOfInts</span>
+        .<span class="title">subscribeCompleted</span> {
+            <span class="title">print</span><span class="params">(<span class="string">"It's completed"</span>)</span>
+        }
+
+    <span class="title">sequenceOfInts</span>.<span class="title">on</span><span class="params">(.<span class="variable">Next</span>(<span class="number">1</span>)</span>)
+    <span class="title">sequenceOfInts</span>.<span class="title">on</span><span class="params">(.<span class="variable">Completed</span>)</span>
+}
+
+--- <span class="title">subscribeCompleted</span> <span class="title">example</span> ---
+I<span class="title">t's</span> <span class="title">completed</span></span>
+</code></pre><h3 id="subscribeError">subscribeError</h3><p><code>subscribeError</code> 只订阅 <code>.Error</code> 失败事件。</p>
+<pre><code>example(<span class="string">"subscribeError"</span>) {
+    <span class="keyword">let</span> sequenceOfInts = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+
+    sequenceOfInts
+        .subscribeError { <span class="keyword">error</span> <span class="keyword">in</span>
+            print(<span class="keyword">error</span>)
+        }
+
+    sequenceOfInts.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+    sequenceOfInts.<span class="keyword">on</span>(.<span class="keyword">Error</span>(NSError(domain: <span class="string">"Examples"</span>, code: -<span class="number">1</span>, userInfo: nil)))
+}
+
+--- subscribeError example ---
+<span class="keyword">Error</span> Domain=Examples Code=-<span class="number">1</span> <span class="string">"The operation couldn’t be completed. (Examples error -1.)"</span>
+</code></pre><h3 id="doOn">doOn</h3><p><code>doOn</code> 可以监听事件，并且在事件发生之前调用。</p>
+<pre><code><span class="function"><span class="title">example</span><span class="params">(<span class="string">"doOn"</span>)</span> {
+    <span class="title">let</span> <span class="title">sequenceOfInts</span> = P<span class="title">ublishSubject</span>&lt;I<span class="title">nt</span>&gt;<span class="params">()</span>
+
+    <span class="title">sequenceOfInts</span>
+        .<span class="title">doOn</span> {
+            <span class="title">print</span><span class="params">(<span class="string">"Intercepted event \($0)"</span>)</span>
+        }
+        .<span class="title">subscribe</span> {
+            <span class="title">print</span><span class="params">($<span class="number">0</span>)</span>
+        }
+
+    <span class="title">sequenceOfInts</span>.<span class="title">on</span><span class="params">(.<span class="variable">Next</span>(<span class="number">1</span>)</span>)
+    <span class="title">sequenceOfInts</span>.<span class="title">on</span><span class="params">(.<span class="variable">Completed</span>)</span>
+}
+
+--- <span class="title">doOn</span> <span class="title">example</span> ---
+I<span class="title">ntercepted</span> <span class="title">event</span> N<span class="title">ext</span><span class="params">(<span class="number">1</span>)</span>
+N<span class="title">ext</span><span class="params">(<span class="number">1</span>)</span>
+I<span class="title">ntercepted</span> <span class="title">event</span> C<span class="title">ompleted</span>
+C<span class="title">ompleted</span></span>
+</code></pre><h2 id="Conditional">Conditional</h2><p>我们可以对多个事件序列做一些复杂的逻辑判断。</p>
+<h3 id="takeUntil">takeUntil</h3><p><code>takeUntil</code> 其实就是 <code>take</code> ，它会在终于等到那个事件之后触发 <code>.Completed</code> 事件。</p>
+<pre><code>example(<span class="string">"takeUntil"</span>) {
+    <span class="keyword">let</span> originalSequence = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+    <span class="keyword">let</span> whenThisSendsNextWorldStops = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+
+    originalSequence
+        .takeUntil(whenThisSendsNextWorldStops)
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+
+    originalSequence.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+    originalSequence.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">2</span>))
+
+    whenThisSendsNextWorldStops.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+
+    originalSequence.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">3</span>))
+}
+
+--- takeUntil example ---
+<span class="keyword">Next</span>(<span class="number">1</span>)
+<span class="keyword">Next</span>(<span class="number">2</span>)
+Completed
+</code></pre><h3 id="takeWhile">takeWhile</h3><p><code>takeWhile</code> 则是可以通过状态语句判断是否继续 <code>take</code> 。</p>
+<pre><code>example(<span class="string">"takeWhile"</span>) {
+    <span class="keyword">let</span> sequence = PublishSubject&lt;<span class="built_in">Int</span>&gt;()
+    sequence
+        .takeWhile { <span class="built_in">int</span> <span class="keyword">in</span>
+            <span class="built_in">int</span> &lt; <span class="number">2</span>
+        }
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+    sequence.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">1</span>))
+    sequence.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">2</span>))
+    sequence.<span class="keyword">on</span>(.<span class="keyword">Next</span>(<span class="number">3</span>))
+}
+
+--- takeWhile example ---
+<span class="keyword">Next</span>(<span class="number">1</span>)
+Completed
+</code></pre><h2 id="Aggregate">Aggregate</h2><p>我们可以对事件序列做一些集合运算。</p>
+<h3 id="concat">concat</h3><p><code>concat</code> 可以把多个事件序列合并起来。 </p>
+<pre><code>example(<span class="string">"concat"</span>) {
+    let var1 = BehaviorSubject(value: <span class="number">0</span>)
+    let var2 = BehaviorSubject(value: <span class="number">200</span>)
+
+    <span class="comment">// var3 is like an Observable&lt;Observable&lt;Int&gt;&gt;</span>
+    let var3 = BehaviorSubject(value: var1)
+
+    let d = var3
+        .concat()
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+
+    var1.on(.Next(<span class="number">1</span>))
+    var1.on(.Next(<span class="number">2</span>))
+
+    var3.on(.Next(var2))
+
+    var2.on(.Next(<span class="number">201</span>))
+
+    var1.on(.Next(<span class="number">3</span>))
+    var1.on(.Completed)
+
+    var2.on(.Next(<span class="number">202</span>))
+}
+
+--- concat example ---
+Next(<span class="number">0</span>)
+Next(<span class="number">1</span>)
+Next(<span class="number">2</span>)
+Next(<span class="number">3</span>)
+Next(<span class="number">201</span>)
+Next(<span class="number">202</span>)
+</code></pre><h3 id="reduce">reduce</h3><p>这里的 <code>reduce</code> 和 <code>CollectionType</code> 中的 <code>reduce</code> 是一个意思，都是指通过对一系列数据的运算最后生成一个结果。</p>
+<pre><code>example(<span class="string">"reduce"</span>) {
+    sequenceOf(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>)
+        .reduce(<span class="number">0</span>, +)
+        .subscribe {
+            print($<span class="number">0</span>)
+        }
+}
+
+--- reduce example ---
+Next(<span class="number">45</span>)
+Completed
+</code></pre><h2 id="Connectable">Connectable</h2><p>坑待填，Xcode 里这个操场跑不起来了。</p>
+<h2 id="Next">Next</h2><p>基础入门大概就是这些了，有了前面 《<a href="http://blog.callmewhy.com/2015/05/11/functional-reactive-programming-1/">Functional Reactive Programming in Swift - Part 1</a>》 的铺垫，似乎理解起来十分愉快，不过还是不够深入，在下一章会在具体项目中操练起来。</p>
+<p>操练起来！跑个操场吧少年！</p>
+<p>Run the playground in your Xcode!</p>
+<hr>
+<p>参考文献：</p>
+<ul>
+<li><a href="http://reactivex.io/intro.html" target="_blank" rel="external">ReactiveX</a></li>
+<li><a href="http://neilpa.me/rac-marbles/" target="_blank" rel="external">RAC Marbles</a></li>
+<li><a href="http://reactivex.io/documentation/operators/defer.html" target="_blank" rel="external">defer</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html" target="_blank" rel="external">jQuery 的 deferred 对象详解</a></li>
+<li><a href="http://blog.allenm.me/2012/01/jquery_deferred_promise_method/" target="_blank" rel="external">jQuery deferred 对象的 promise 方法</a></li>
+<li><a href="http://blog.danlew.net/2015/07/23/deferring-observable-code-until-subscription-in-rxjava/" target="_blank" rel="external">Deferring Observable code until subscription in RxJava</a></li>
+<li><a href="http://davesexton.com/blog/post/To-Use-Subject-Or-Not-To-Use-Subject.aspx" target="_blank" rel="external">To Use Subject Or Not To Use Subject?</a></li>
+<li><a href="http://reactivex.io/documentation/operators/flatmap.html" target="_blank" rel="external">flatmap</a></li>
+<li><a href="http://blog.danlew.net/2014/09/22/grokking-rxjava-part-2/" target="_blank" rel="external">Grokking RxJava, Part 2: Operator, Operator</a></li>
+<li><a href="http://www.introtorx.com/Content/v1.0.10621.0/08_Transformation.html#SelectMany" target="_blank" rel="external">Transformation - Select Many</a></li>
+<li><a href="http://fernandocejas.com/2015/01/11/rxjava-observable-tranformation-concatmap-vs-flatmap/" target="_blank" rel="external">RxJava Observable tranformation: concatMap() vs flatMap()</a></li>
+<li><a href="http://jschneider.io/2014/11/26/Recursive-Observables-with-RxJava.html" target="_blank" rel="external">Recursive Observables with RxJava</a></li>
+<li><a href="http://www.introtorx.com/Content/v1.0.10621.0/12_CombiningSequences.html" target="_blank" rel="external">Combining sequences</a></li>
+<li><a href="http://reactivex.io/documentation/operators/switch.html" target="_blank" rel="external">switch</a></li>
+<li><a href="https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md" target="_blank" rel="external">RxSwift Getting Started</a></li>
+</ul>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxSwift/" rel="tag">#RxSwift</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/18/use-yeoman-with-angular-and-gulp/" rel="next" title="使用 Yeoman + AngularJS + Gulp 搭建 Web 应用">
+                <i class="fa fa-chevron-left"></i> 使用 Yeoman + AngularJS + Gulp 搭建 Web 应用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/23/rxswift-getting-started-1/" rel="prev" title="RxSwift 入坑手册 Part1 - 示例实战">
+                RxSwift 入坑手册 Part1 - 示例实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/09/21/rxswift-getting-started-0/"
+           data-title="RxSwift 入坑手册 Part0 - 基础概念" data-url="http://blog.callmewhy.com/2015/09/21/rxswift-getting-started-0/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1641167047/180/5691306924/1" alt="CallMeWhy" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CallMeWhy</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">汪海的实验室</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callmewhy" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/small1030light" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/PleaseCallMeWhy" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://ios.dog/" target="_blank">
+                  <i class="fa fa-globe"></i> Boolean93
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.luckymore.wang/" target="_blank">
+                  <i class="fa fa-globe"></i> Luckymore
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://blog.zyliu.com/" target="_blank">
+                  <i class="fa fa-globe"></i> Sheep
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://satanwoo.github.io/" target="_blank">
+                  <i class="fa fa-globe"></i> Satanwoo
+                </a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SupportCode"><span class="nav-number">1.</span> <span class="nav-text">SupportCode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#empty"><span class="nav-number">2.1.</span> <span class="nav-text">empty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#never"><span class="nav-number">2.2.</span> <span class="nav-text">never</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#just"><span class="nav-number">2.3.</span> <span class="nav-text">just</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sequenceOf"><span class="nav-number">2.4.</span> <span class="nav-text">sequenceOf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#form"><span class="nav-number">2.5.</span> <span class="nav-text">form</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create"><span class="nav-number">2.6.</span> <span class="nav-text">create</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#failWith"><span class="nav-number">2.7.</span> <span class="nav-text">failWith</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deferred"><span class="nav-number">2.8.</span> <span class="nav-text">deferred</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subjects"><span class="nav-number">3.</span> <span class="nav-text">Subjects</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PublishSubject"><span class="nav-number">3.1.</span> <span class="nav-text">PublishSubject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReplaySubject"><span class="nav-number">3.2.</span> <span class="nav-text">ReplaySubject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BehaviorSubject"><span class="nav-number">3.3.</span> <span class="nav-text">BehaviorSubject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Variable"><span class="nav-number">3.4.</span> <span class="nav-text">Variable</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transform"><span class="nav-number">4.</span> <span class="nav-text">Transform</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map"><span class="nav-number">4.1.</span> <span class="nav-text">map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flatMap"><span class="nav-number">4.2.</span> <span class="nav-text">flatMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scan"><span class="nav-number">4.3.</span> <span class="nav-text">scan</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Filtering"><span class="nav-number">5.</span> <span class="nav-text">Filtering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#filter"><span class="nav-number">5.1.</span> <span class="nav-text">filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#distinctUntilChanged"><span class="nav-number">5.2.</span> <span class="nav-text">distinctUntilChanged</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#take"><span class="nav-number">5.3.</span> <span class="nav-text">take</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Combining"><span class="nav-number">6.</span> <span class="nav-text">Combining</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#startWith"><span class="nav-number">6.1.</span> <span class="nav-text">startWith</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#combineLatest"><span class="nav-number">6.2.</span> <span class="nav-text">combineLatest</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zip"><span class="nav-number">6.3.</span> <span class="nav-text">zip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#marge"><span class="nav-number">6.4.</span> <span class="nav-text">marge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#switch"><span class="nav-number">6.5.</span> <span class="nav-text">switch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Error_Handling"><span class="nav-number">7.</span> <span class="nav-text">Error Handling</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#catchError"><span class="nav-number">7.1.</span> <span class="nav-text">catchError</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#retry"><span class="nav-number">7.2.</span> <span class="nav-text">retry</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Utility"><span class="nav-number">8.</span> <span class="nav-text">Utility</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribe"><span class="nav-number">8.1.</span> <span class="nav-text">subscribe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribeNext"><span class="nav-number">8.2.</span> <span class="nav-text">subscribeNext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribeCompleted"><span class="nav-number">8.3.</span> <span class="nav-text">subscribeCompleted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribeError"><span class="nav-number">8.4.</span> <span class="nav-text">subscribeError</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doOn"><span class="nav-number">8.5.</span> <span class="nav-text">doOn</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional"><span class="nav-number">9.</span> <span class="nav-text">Conditional</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#takeUntil"><span class="nav-number">9.1.</span> <span class="nav-text">takeUntil</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#takeWhile"><span class="nav-number">9.2.</span> <span class="nav-text">takeWhile</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Aggregate"><span class="nav-number">10.</span> <span class="nav-text">Aggregate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#concat"><span class="nav-number">10.1.</span> <span class="nav-text">concat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduce"><span class="nav-number">10.2.</span> <span class="nav-text">reduce</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Connectable"><span class="nav-number">11.</span> <span class="nav-text">Connectable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next"><span class="nav-number">12.</span> <span class="nav-text">Next</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CallMeWhy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+<br/>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"CallMeWhy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+
+  
+  
+
+</body>
+</html>
